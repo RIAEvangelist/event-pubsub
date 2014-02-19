@@ -5,8 +5,12 @@ Pubsub events for Node and the browser allowing event scoping and multiple scope
 Easy for any developer level. No frills, just high speed pubsub events!
 
 ---
-### Basic Examples
+### Basic Example
 ---
+***NOTE - the only diffeence between node and browser code is how the ``events`` variable is created***  
+* node ``var events = new require('../../event-pubsub.js')();``
+* browser ``var events = new window.pubsub();``
+
 #### Node
 
     var events = new require('../../event-pubsub.js')();
@@ -36,7 +40,21 @@ Easy for any developer level. No frills, just high speed pubsub events!
 #### Browser
 ##### HTML
 
-    var events = new require('../../event-pubsub.js')();
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>PubSub Example</title>
+            <script src='../../event-pubsub-browser.js'></script>
+            <script src='yourAmazingCode.js'></script>
+        </head>
+        <body>
+            ...
+        </body>
+    </html>
+
+##### Inside Your Amazing Code
+
+    var events = new window.pubsub();
 
     events.on(
         'hello',
