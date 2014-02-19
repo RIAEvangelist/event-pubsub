@@ -4,6 +4,19 @@ Event PubSub
 Pubsub events for Node and the browser allowing event scoping and multiple scopes. 
 Easy for any developer level. No frills, just high speed pubsub events!
 
+[![alt event-pubsub npm downloads](https://nodei.co/npm-dl/event-pubsub.png "number of times the event-pubsub package has been downloaded from npm")](https://npmjs.org/package/event-pubsub)
+
+**EXAMPLE FILES**  
+
+1. [Node Pubsub Event Examples](https://github.com/RIAEvangelist/event-pubsub/tree/master/examples/node)  
+2. [Browser Pubsub Event Examples](https://github.com/RIAEvangelist/event-pubsub/tree/master/examples/browser)
+
+**Node Install**  
+``npm install event-pubsub``
+
+**Browser Install**  
+*see browser examples above or below*
+
 ---
 ### Basic Example
 ---
