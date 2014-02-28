@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Event-pubsub : Event Pubsub for Javascript will work in node js or browser" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Event-pubsub</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/RIAEvangelist/event-pubsub">View on GitHub</a>
+
+          <h1 id="project_title">Event-pubsub</h1>
+          <h2 id="project_tagline">Event Pubsub for Javascript will work in node js or browser</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/RIAEvangelist/event-pubsub/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/RIAEvangelist/event-pubsub/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="event-pubsub" class="anchor" href="#event-pubsub"><span class="octicon octicon-link"></span></a>Event PubSub</h1>
+
+<p>Pubsub events for Node and the browser allowing event scoping and multiple scopes. 
+Easy for any developer level. No frills, just high speed pubsub events!</p>
+
+<p><a href="https://npmjs.org/package/event-pubsub"><img src="https://nodei.co/npm/event-pubsub.png?stars=true" alt="alt event-pubsub npm downloads" title="event-pubsub npm package details"></a></p>
+
+<p><strong>EXAMPLE FILES</strong>  </p>
+
+<ol>
+<li>
+<a href="https://github.com/RIAEvangelist/event-pubsub/tree/master/examples/node">Node Pubsub Event Examples</a><br>
+</li>
+<li><a href="https://github.com/RIAEvangelist/event-pubsub/tree/master/examples/browser">Browser Pubsub Event Examples</a></li>
+</ol><p><strong>Node Install</strong><br><code>npm install event-pubsub</code></p>
+
+<p><strong>Browser Install</strong><br><em>see browser examples above or below</em></p>
+
+<hr><h3>
+<a name="basic-example" class="anchor" href="#basic-example"><span class="octicon octicon-link"></span></a>Basic Example</h3>
+
+<hr><p><strong><em>NOTE - the only diffeence between node and browser code is how the <code>events</code> variable is created</em></strong>  </p>
+
+<ul>
+<li>node <code>var events = new require('../../event-pubsub.js')();</code>
+</li>
+<li>browser <code>var events = new window.pubsub();</code>
+</li>
+</ul><h4>
+<a name="node" class="anchor" href="#node"><span class="octicon octicon-link"></span></a>Node</h4>
+
+<pre><code>var events = new require('../../event-pubsub.js')();
+
+events.on(
+    'hello',
+    function(data){
+        console.log('hello event recieved ', data);
+    }
+);
+
+events.on(
+    '*',
+    function(type){
+        console.log('Catch all detected event type of : ',type, '. List of all the sent arguments ',arguments);
+    }
+);
+
+/************************************\
+ * trigger events for testing
+ * **********************************/
+events.trigger(
+    'hello',
+    'world'
+);
+</code></pre>
+
+<h4>
+<a name="browser" class="anchor" href="#browser"><span class="octicon octicon-link"></span></a>Browser</h4>
+
+<h5>
+<a name="html" class="anchor" href="#html"><span class="octicon octicon-link"></span></a>HTML</h5>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;PubSub Example&lt;/title&gt;
+        &lt;script src='../../event-pubsub-browser.js'&gt;&lt;/script&gt;
+        &lt;script src='yourAmazingCode.js'&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        ...
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<h5>
+<a name="inside-your-amazing-code" class="anchor" href="#inside-your-amazing-code"><span class="octicon octicon-link"></span></a>Inside Your Amazing Code</h5>
+
+<pre><code>var events = new window.pubsub();
+
+events.on(
+    'hello',
+    function(data){
+        console.log('hello event recieved ', data);
+    }
+);
+
+events.on(
+    '*',
+    function(type){
+        console.log('Catch all detected event type of : ',type, '. List of all the sent arguments ',arguments);
+    }
+);
+
+/************************************\
+ * trigger events for testing
+ * **********************************/
+events.trigger(
+    'hello',
+    'world'
+);
+</code></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Event-pubsub maintained by <a href="https://github.com/RIAEvangelist">RIAEvangelist</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
