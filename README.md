@@ -44,6 +44,14 @@ Easy for any developer level. No frills, just high speed pubsub events!
         }
     );
     
+    events.on(
+        'removeEvents',
+        function(){
+            events.off('*');
+            console.log('Removed all events');
+        }
+    );
+    
     /************************************\
      * trigger events for testing
      * **********************************/
@@ -51,6 +59,11 @@ Easy for any developer level. No frills, just high speed pubsub events!
         'hello',
         'world'
     );
+    
+    events.trigger(
+        'removeEvents'
+    );
+    
 
 #### Browser
 ##### HTML
@@ -85,10 +98,22 @@ Easy for any developer level. No frills, just high speed pubsub events!
         }
     );
     
+    events.on(
+        'removeEvents',
+        function(){
+            events.off('*');
+            console.log('Removed all events');
+        }
+    );
+    
     /************************************\
      * trigger events for testing
      * **********************************/
     events.trigger(
         'hello',
         'world'
+    );
+    
+    events.trigger(
+        'removeEvents'
     );
