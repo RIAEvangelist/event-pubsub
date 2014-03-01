@@ -81,12 +81,24 @@ events.on(
     }
 );
 
+events.on(
+    'removeEvents',
+    function(){
+        events.off('*');
+        console.log('Removed all events');
+    }
+);
+
 /************************************\
  * trigger events for testing
  * **********************************/
 events.trigger(
     'hello',
     'world'
+);
+
+events.trigger(
+    'removeEvents'
 );
 </code></pre>
 
@@ -128,12 +140,24 @@ events.on(
     }
 );
 
+events.on(
+    'removeEvents',
+    function(){
+        events.off('*');
+        console.log('Removed all events');
+    }
+);
+
 /************************************\
  * trigger events for testing
  * **********************************/
 events.trigger(
     'hello',
     'world'
+);
+
+events.trigger(
+    'removeEvents'
 );
 </code></pre>
       </section>
