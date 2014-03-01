@@ -11,7 +11,6 @@ function unsub(type,handler){
     checkScope.apply(this);
     
     if(type=='*'){
-        delete this._events_['*'];
         for(
             var keys    = Object.keys(this._events_),
                 count   = keys.length,
@@ -31,13 +30,18 @@ function unsub(type,handler){
         return;
     }
     
+    if(this._events_[type].length<2){
+        delete this._events_[type];
+        return;
+    }
+    
     for(var i=0, 
             count=this._events_[type].length;
         i<count;
         i++
     ){
         if(this._events_[type][i]==handler)
-            delete this._events_[type][i];
+            this._events_[type].splice(i,1);
         return;
     }
 }

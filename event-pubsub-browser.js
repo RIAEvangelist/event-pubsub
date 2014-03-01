@@ -34,13 +34,18 @@ window.pubsub=(
                 return;
             }
             
+            if(this._events_[type].length<2){
+                delete this._events_[type];
+                return;
+            }
+            
             for(var i=0, 
-                count=this._events_[type].length;
+                    count=this._events_[type].length;
                 i<count;
-                i++){
-                    
-                    if(this._events_[type][i]==handler)
-                        delete this._events_[type][i];
+                i++
+            ){
+                if(this._events_[type][i]==handler)
+                    this._events_[type].splice(i,1);
                 return;
             }
         }
