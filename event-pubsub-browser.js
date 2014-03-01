@@ -12,9 +12,9 @@ window.pubsub=(
         
         function unsub(type,handler){
             checkScope.apply(this);
-            
+    
             if(type=='*'){
-                delete this._events_['*'];
+                var params=Array.prototype.slice.call(arguments,1);
                 for(
                     var keys    = Object.keys(this._events_),
                         count   = keys.length,
@@ -22,10 +22,11 @@ window.pubsub=(
                     i<count;
                     i++
                 ){
-                    this.off(keys[i]);
+                    var args=params.unshift(keys[i]);
+                    this.off.call(args);
                 }
             }
-            
+                
             if(!this._events_[type])
                 return;
             

@@ -11,6 +11,7 @@ function unsub(type,handler){
     checkScope.apply(this);
     
     if(type=='*'){
+        var params=Array.prototype.slice.call(arguments,1);
         for(
             var keys    = Object.keys(this._events_),
                 count   = keys.length,
@@ -18,7 +19,8 @@ function unsub(type,handler){
             i<count;
             i++
         ){
-            this.off(keys[i]);
+            var args=params.unshift(keys[i]);
+            this.off.call(args);
         }
     }
         
