@@ -8,6 +8,8 @@ Easy for any developer level. No frills, just high speed pubsub events!
 
 [![alt event-pubsub npm details](https://nodei.co/npm/event-pubsub.png?stars=true "event-pubsub npm package details")](https://npmjs.org/package/event-pubsub)
 
+[See NPM stats for event-pubsub](http://npm-stat.com/charts.html?package=event-pubsub&author=&from=&to=)
+
 **EXAMPLE FILES**  
 
 1. [Node Pubsub Event Examples](https://github.com/RIAEvangelist/event-pubsub/tree/master/examples/node)  
