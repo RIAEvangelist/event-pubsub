@@ -13,6 +13,10 @@ function sub(type,handler){
 }
 
 function unsub(type,handler){
+    if(!handler){
+        var err=new ReferenceError('handler not defined. if you wish to remove all handlers from the event please pass "*" as the handler');
+        throw err;
+    }
     checkScope.apply(this);
 
     if(type=='*'){
@@ -32,7 +36,7 @@ function unsub(type,handler){
     if(!this._events_[type])
         return;
 
-    if(!handler){
+    if(handler=='*'){
         delete this._events_[type];
         return;
     }
