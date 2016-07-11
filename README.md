@@ -1,12 +1,15 @@
 Event PubSub
 ============
+npm info :  
+![event-pubsub npm version](https://img.shields.io/npm/v/event-pubsub.svg) ![total npm downloads for event-pubsub](https://img.shields.io/npm/dt/event-pubsub.svg) ![monthly npm downloads for event-pubsub](https://img.shields.io/npm/dm/event-pubsub.svg) 
+
+GitHub info :  
+![event-pubsub GitHub Release](https://img.shields.io/github/release/RIAEvangelist/event-pubsub.svg) ![GitHub license event-pubsub license](https://img.shields.io/github/license/RIAEvangelist/event-pubsub.svg) ![open issues for event-pubsub on GitHub](https://img.shields.io/github/issues/RIAEvangelist/event-pubsub.svg) 
 
 Pubsub events for Node and the browser allowing event scoping and multiple scopes. 
 Easy for any developer level. No frills, just high speed pubsub events!
 
 [Pretty GitHub.io site](http://riaevangelist.github.io/event-pubsub/)  
-
-[![alt event-pubsub npm details](https://nodei.co/npm/event-pubsub.png?stars=true "event-pubsub npm package details")](https://npmjs.org/package/event-pubsub)
 
 [See NPM stats for event-pubsub](http://npm-stat.com/charts.html?package=event-pubsub&author=&from=&to=)
 
