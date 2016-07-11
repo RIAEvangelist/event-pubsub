@@ -2,6 +2,11 @@ window.pubsub=(
     function(){
 
         function sub(type,handler){
+            if(!handler){
+                var err=new ReferenceError('handler not defined');
+                throw(err);
+            }
+            
             checkScope.apply(this);
 
             if(!this._events_[type])

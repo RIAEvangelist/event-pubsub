@@ -1,6 +1,6 @@
 {
   "name": "event-pubsub",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Pubsub events for Node and the browser allowing event scoping and multiple scopes. Easy for any developer level. No frills, just high speed pubsub events!",
   "main": "event-pubsub.js",
   "directories": {
