@@ -44,4 +44,4 @@ type	package.json	/^    "type": "git",$/;"	f
 unsub	event-pubsub.js	/^function unsub(type,handler){$/;"	f
 url	package.json	/^    "url": "https:\/\/github.com\/RIAEvangelist\/event-pubsub.git"$/;"	f
 url	package.json	/^    "url": "https:\/\/github.com\/RIAEvangelist\/event-pubsub\/issues"$/;"	f
-version	package.json	/^  "version": "1.0.3",$/;"	f
+version	package.json	/^  "version": "1.0.5",$/;"	f
