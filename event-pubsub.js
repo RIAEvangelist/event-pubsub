@@ -13,7 +13,7 @@ function sub(type,handler){
 }
 
 function unsub(type,handler){
-    if(!handler && type !== '*'){
+    if(!handler){
         var err=new ReferenceError('handler not defined. if you wish to remove all handlers from the event please pass "*" as the handler');
         throw err;
     }
@@ -28,7 +28,7 @@ function unsub(type,handler){
             i<count;
             i++
         ){
-            this.off(keys[i], '*');
+            unsub.call(this, keys[i], handler);
         }
     }
 
