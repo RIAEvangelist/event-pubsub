@@ -13,14 +13,14 @@ function sub(type,handler){
 }
 
 function unsub(type,handler){
-    if(!handler){
+    if(!handler && type !== '*'){
         var err=new ReferenceError('handler not defined. if you wish to remove all handlers from the event please pass "*" as the handler');
         throw err;
     }
     checkScope.apply(this);
 
     if(type=='*'){
-        var params=Array.prototype.slice.call(arguments,1);
+        delete this._events_['*'];
         for(
             var keys    = Object.keys(this._events_),
                 count   = keys.length,
@@ -28,8 +28,7 @@ function unsub(type,handler){
             i<count;
             i++
         ){
-            var args=params.unshift(keys[i]);
-            this.off.call(args);
+            this.off(keys[i], '*');
         }
     }
 
