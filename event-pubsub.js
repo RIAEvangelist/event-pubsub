@@ -29,7 +29,7 @@ function unsub(type,handler){
             i++
         ){
             params.unshift(keys[i]);
-            this.off.call(args);
+            this.off.call(params);
         }
     }
 
