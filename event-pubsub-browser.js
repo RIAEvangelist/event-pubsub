@@ -31,7 +31,7 @@ window.pubsub=(
                     i<count;
                     i++
                 ){
-                    var args=params.unshift(keys[i]);
+                    params.unshift(keys[i]);
                     this.off.call(args);
                 }
             }
