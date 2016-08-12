@@ -32,7 +32,7 @@ window.pubsub=(
                     i++
                 ){
                     params.unshift(keys[i]);
-                    this.off.call(params);
+                    this.off.apply(this,params);
                 }
             }
 
