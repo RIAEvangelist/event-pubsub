@@ -19,27 +19,12 @@ function unsub(type,handler){
     }
     checkScope.apply(this);
 
-    if(type=='*'){
-        var params=Array.prototype.slice.call(arguments,1);
-        for(
-            var keys    = Object.keys(this._events_),
-                count   = keys.length,
-                i=0;
-            i<count;
-            i++
-        ){
-            params.unshift(keys[i]);
-            this.off.apply(this,params);
-        }
+    if(handler=='*'){
+        delete this._events_[type];
     }
 
     if(!this._events_[type])
         return;
-
-    if(handler=='*'){
-        delete this._events_[type];
-        return;
-    }
 
     for(var i=0,
             count=this._events_[type].length;
