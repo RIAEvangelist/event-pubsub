@@ -21,6 +21,7 @@ function unsub(type,handler){
 
     if(handler=='*'){
         delete this._events_[type];
+        return;
     }
 
     if(!this._events_[type])
