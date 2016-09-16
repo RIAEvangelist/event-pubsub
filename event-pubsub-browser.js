@@ -22,25 +22,33 @@ window.pubsub=(
             }
             checkScope.apply(this);
 
-            if(handler=='*'){
-                delete this._events_[type];
-                return;
-            }
 
-            if(!this._events_[type])
-                return;
-
-            for(var i=0,
-                    count=this._events_[type].length;
-                i<count;
-                i++
-            ){
-                if(this._events_[type][i]==handler){
-                    this._events_[type].splice(i,1);
+            if(type=='*'){
+                if(handler=='*'){
+                    delete this._events_;
+                }
+                else{
+                    for(var t in this._events_){
+                        removeHandlers.apply(this, [t, handler]);
+                    }
                 }
             }
+            else{
+                if(handler=='*')
+                    delete this._events_[type];
+                else
+                    removeHandlers.apply(this, [type, handler]);
+            }
+        }
 
-            if(this._events_[type].length<1){
+        function removeHandlers(type, handler){
+            var events = this._events_[type],
+                i = events.length-1;
+            while (i >= 0){
+                if(events[i]==handler) events.splice(i,1);
+                else i--;
+            }
+            if(events.length<1){
                 delete this._events_[type];
             }
         }
