@@ -1,6 +1,6 @@
 {
   "name": "event-pubsub",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Super light and fast Extensible PubSub events and EventEmitters for Node and the browser with support for ES6 by default, and ES5 versions for older verions of node and older IE/Safari versions. Easy for any developer level. No frills, just high speed pubsub events!",
   "main": "event-pubsub.js",
   "directories": {
