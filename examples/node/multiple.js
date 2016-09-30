@@ -1,12 +1,14 @@
+const Events = require('../../event-pubsub.js');
+
 /************************************\
  * instantiating myEvents scope
  * **********************************/
-var myEvents=new window.pubsub();
+const myEvents=new EventPubSub();
 
 /************************************\
  * instantiating myEvents2 scope
  * **********************************/
-var myEvents2=new window.pubsub();
+const myEvents2=new EventPubSub();
 
 
 /************************************\
@@ -15,20 +17,20 @@ var myEvents2=new window.pubsub();
 myEvents.on(
     'hello',
     function(data){
-        eventLog.log('myEvents hello event recieved ', data);
+        console.log('myEvents hello event recieved ', data);
     }
 );
 
 myEvents.on(
     'hello',
     function(data){
-        eventLog.log('Second handler listening to myEvents hello event got',data);
-        myEvents.trigger(
+        console.log('Second handler listening to myEvents hello event got',data);
+        myEvents.emit(
             'world',
             {
                 type:'myObject',
                 data:{
-                    x:'YAY, Objects!'   
+                    x:'YAY, Objects!'
                 }
             }
         )
@@ -38,21 +40,21 @@ myEvents.on(
 myEvents.on(
     'world',
     function(data){
-        eventLog.log('myEvents World event got',data);
+        console.log('myEvents World event got',data);
     }
 );
 
 /**********************************\
- * 
+ *
  * Demonstrate * event (on all events)
  * remove this for less verbose
  * example
- * 
+ *
  * ********************************/
 myEvents.on(
     '*',
     function(type){
-        eventLog.log('myEvents Catch all detected event type of : ',type, '. List of all the sent arguments ',arguments);
+        console.log('myEvents Catch all detected event type of : ',type, '. List of all the sent arguments ',arguments);
     }
 );
 
@@ -62,42 +64,27 @@ myEvents.on(
 myEvents2.on(
     'hello',
     function(data){
-        eventLog.log('myEvents2 Hello event should never be called ', data);
+        console.log('myEvents2 Hello event should never be called ', data);
     }
 );
 
 myEvents2.on(
     'world',
     function(data){
-        eventLog.log('myEvents2 World event ',data);
+        console.log('myEvents2 World event ',data);
     }
 );
 
-/*******************************\
- * 
- * Prep HTML for logging
- * 
- * *****************************/
-var eventLog=document.getElementById('events');
-//not using console.log incase it doesn't work in some browser. *TLDT (Too lazy didn't test)*
-eventLog.log=_log_;
-function _log_ (){
-    var events=Array.prototype.slice.call(arguments),
-        newEvent=document.createElement('li');
-    
-    newEvent.innerHTML=events.join(' ');
-    this.appendChild(newEvent);
-}
 
 /************************************\
- * trigger events for testing
+ * emit events for testing
  * **********************************/
-myEvents.trigger(
+myEvents.emit(
     'hello',
     'world'
 );
 
-myEvents2.trigger(
+myEvents2.emit(
     'world',
     'is round'
 );

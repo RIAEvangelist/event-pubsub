@@ -1,11 +1,6 @@
-var events = new require('../../event-pubsub.js')();
+const Events = new require('../../event-pubsub.js');
 
-/************************************\
- *
- * The events var was instantiated
- * as it's own scope
- *
- * **********************************/
+const events=new Events;
 
 events.on(
     'hello',
@@ -18,7 +13,7 @@ events.on(
     'hello',
     function(data){
         console.log('Second handler listening to hello event got',data);
-        events.trigger(
+        events.emit(
             'world',
             {
                 type:'myObject',
@@ -54,9 +49,9 @@ events.on(
 );
 
 /************************************\
- * trigger events for testing
+ * emit events for testing
  * **********************************/
-events.trigger(
+events.emit(
     'hello',
     'world'
 );

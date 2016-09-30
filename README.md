@@ -1,13 +1,14 @@
-Event PubSub
-============
+# Event PubSub
+
 npm info :  
 ![event-pubsub npm version](https://img.shields.io/npm/v/event-pubsub.svg) ![total npm downloads for event-pubsub](https://img.shields.io/npm/dt/event-pubsub.svg) ![monthly npm downloads for event-pubsub](https://img.shields.io/npm/dm/event-pubsub.svg)
 
 GitHub info :  
 ![event-pubsub GitHub Release](https://img.shields.io/github/release/RIAEvangelist/event-pubsub.svg) ![GitHub license event-pubsub license](https://img.shields.io/github/license/RIAEvangelist/event-pubsub.svg) ![open issues for event-pubsub on GitHub](https://img.shields.io/github/issues/RIAEvangelist/event-pubsub.svg)
 
-Pubsub events for Node and the browser allowing event scoping and multiple scopes.
-Easy for any developer level. No frills, just high speed pubsub events!
+***Super light and fast*** Extensible PubSub events and EventEmitters for Node and the browser with support for ES6 by default, and ES5 versions for older verions of node and older IE/Safari versions.
+
+Easy for any developer level. No frills, just high speed events following the publisher subscriber pattern!
 
 [Pretty GitHub.io site](http://riaevangelist.github.io/event-pubsub/)  
 
@@ -15,69 +16,130 @@ Easy for any developer level. No frills, just high speed pubsub events!
 
 **EXAMPLE FILES**  
 
-1. [Node Pubsub Event Examples](https://github.com/RIAEvangelist/event-pubsub/tree/master/examples/node)  
-2. [Browser Pubsub Event Examples](https://github.com/RIAEvangelist/event-pubsub/tree/master/examples/browser)
+1. [Node Event PubSub Examples](https://github.com/RIAEvangelist/event-pubsub/tree/master/examples/node)  
+2. [Browser Event PubSub Examples](https://github.com/RIAEvangelist/event-pubsub/tree/master/examples/browser)
 
 **Node Install**  
-``npm install event-pubsub``
+`npm i --save event-pubsub`  
+By default the ES6 version will be used. you can use the es5 version for older versions of node by requiring `event-pubsub/es5.js`.
 
 **Browser Install**  
-*see browser examples above or below*
+*see browser examples above or below*  
 
----
-### Basic Example
----
-***NOTE - the only diffeence between node and browser code is how the ``events`` variable is created***  
-* node ``var events = new require('../../event-pubsub.js')();``
-* browser ``var events = new window.pubsub();``
+```html
+
+<script src='path/to/event-pubsub-browser.js'></script>
+<!-- OR ES5 for older browser support
+    <script src='path/to/event-pubsub-browser-es5.js'></script>
+-->
+
+```
+
+# Methods
+
+|Method|Arguments|Description|
+|------|---------|-----------|
+|subscribe|type (string), handler(function)|will bind the `handler` function to the the `type` event. Just like `addEventListener` in the browser|
+|on|same as above|same as above|
+|unSubscribe|type (string), handler(function or *)|will ***un***bind the `handler` function from the the `type` event. If the `handler` is `*`, all handlers for the event type will be removed.   Just like `removeEventListener` in the browser, but also can remove all event handlers for the type.|
+|off|same as above|same as above|
+|publish|type (string), ...data arguments|will call all `handler` functions bound to the event `type` and pass all `...data arguments` to those handlers|
+|emit|same as above|same as above|
+|trigger|same as above|same as above|
+
+While `publish`, `subscribe`, and `unSubscribe` are the proper method names for the publisher/subscriber model, we have included `on`, `off`, and `emit` as well because these are the most common event method names, and shorter. We have also kept the `trigger` method as an alias for `publish` and `emit` for backwards compatability with earlier versions of `event-pubsub`.
+
+# The ` * ` type
+
+The ` * ` type is a special event type that will be triggered by ***any publish or emit*** the handlers for these should expect the first argument to be the type and all arguments after to be data arguments.
+
+
+## Basic Examples
+
+***NOTE - the only difference between node and browser code is how the `events` variable is created***  
+* node ` const events = new Events `
+* browser `const events = new window.EventPubSub;`
 
 #### Node
 
-    var events = new require('../../event-pubsub.js')();
+```javascript
 
-    events.on(
-        'hello',
-        function(data){
-            console.log('hello event recieved ', data);
-        }
-    );
+const Events = new require('event-pubsub');
+const events=new Events;
 
-    events.on(
-        '*',
-        function(type){
-            console.log('Catch all detected event type of : ',type, '. List of all the sent arguments ',arguments);
-        }
-    );
+events.on(
+    'hello',
+    function(data){
+        console.log('hello event recieved ', data);
+        events.emit(
+            'world',
+            {
+                type:'myObject',
+                data:{
+                    x:'YAY, Objects!'
+                }
+            }
+        )
+    }
+);
 
-    events.on(
-        'removeEvents',
-        function(){
-            events.off('*','*');
-            console.log('Removed all events');
-        }
-    );
+events.on(
+    'world',
+    function(data){
+        console.log('World event got',data);
+        events.off('*','*');
+        console.log('Removed all events');
+    }
+);
 
-    /************************************\
-     * trigger events for testing
-     * **********************************/
-    events.trigger(
-        'hello',
-        'world'
-    );
-    
-    events.trigger(
-        'removeEvents'
-    );
+events.emit(
+    'hello',
+    'world'
+);
 
+
+
+```
+
+#### Basic Chaining
+
+```javascript
+
+events.on(
+    'hello',
+    someFunction
+).on(
+    'goodbye',
+    anotherFunction
+).emit(
+    'hello',
+    'world'
+);
+
+events.emit(
+    'goodbye',
+    'complexity'
+).off(
+    'hello',
+    '*'
+);
+
+```
 
 #### Browser
 ##### HTML
+
+```html
+
 
     <!DOCTYPE html>
     <html>
         <head>
             <title>PubSub Example</title>
             <script src='../../event-pubsub-browser.js'></script>
+            <!-- OR ES5 for older browser support
+                <script src='../../event-pubsub-browser-es5.js'></script>
+            -->
             <script src='yourAmazingCode.js'></script>
         </head>
         <body>
@@ -85,40 +147,145 @@ Easy for any developer level. No frills, just high speed pubsub events!
         </body>
     </html>
 
+
+```
+
+
 ##### Inside Your Amazing Code
 
-    var events = new window.pubsub();
 
-    events.on(
-        'hello',
-        function(data){
-            console.log('hello event recieved ', data);
-        }
-    );
+```javascript
 
-    events.on(
-        '*',
-        function(type){
-            console.log('Catch all detected event type of : ',type, '. List of all the sent arguments ',arguments);
-        }
-    );
+var events = new window.EventPubSub();
 
-    events.on(
-        'removeEvents',
-        function(){
-            events.off('*','*');
-            console.log('Removed all events');
-        }
-    );
+events.on(
+    'hello',
+    function(data){
+        console.log('hello event recieved ', data);
+        events.emit(
+            'world',
+            {
+                type:'myObject',
+                data:{
+                    x:'YAY, Objects!'
+                }
+            }
+        )
+    }
+);
 
-    /************************************\
-     * trigger events for testing
-     * **********************************/
-    events.trigger(
-        'hello',
-        'world'
-    );
+ events.emit(
+     'hello',
+     'world'
+ );
 
-    events.trigger(
-        'removeEvents'
-    );
+ events.emit(
+     'hello',
+     'again','and again'
+ );
+
+
+```
+
+
+### Basic Event Emitter and/or Extending Event PubSub
+
+```javascript
+
+const Events = require('event-pubsub');
+
+class Book extends Events{
+    constructor(){
+        super();
+        //now Book has .on, .off, and .emit
+
+        this.words=[];
+    }
+
+    add(...words){
+        this.words.push(...words);
+        this.emit(
+            'added',
+            ...words
+        );
+    }
+
+    read(){
+        this.emit(
+            'reading'
+        );
+        console.log(this.words.join(' '));
+    }
+}
+
+const book=new Book;
+
+book.on(
+    'added',
+    function(...words){
+        console.log('words added : ',words);
+        this.read();
+    }
+);
+
+book.add(
+    'once','upon','a','time','in','a','cubicle'
+);
+
+
+```
+
+##### ES5 extention example
+
+```javascript
+
+const Events = require('event-pubsub/es5.js');
+
+function Book(){
+    //extend happens below
+    Object.assign(this,new Events);
+    //now Book has .on, .off, and .emit
+
+    this.words=[];
+    this.add=add;
+    this.erase=erase;
+    this.read=read;
+
+    function add(){
+        arguments.slice=Array.prototype.slice;
+
+        this.words=this.words.concat(
+            arguments.slice()
+        );
+        this.emit(
+            'added',
+            arguments.slice()
+        );
+    }
+
+    function read(){
+        this.emit(
+            'reading'
+        );
+        console.log(this.words.join(' '));
+    }
+
+    return this;
+};
+
+const book=new Book;
+
+book.on(
+    'added',
+    function(...words){
+        console.log('words added : ',words);
+        this.read();
+    }
+);
+
+book.add(
+    'once','upon','a','time','in','a','cubicle'
+);
+
+
+```

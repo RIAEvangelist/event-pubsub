@@ -1,14 +1,12 @@
 'use strict';
 
-window.EventPubSub=class EventPubSub {
-    constructor(scope){
-        this._events_={};
-        this.publish=this.trigger=this.emit;
-        this.subscribe=this.on;
-        this.unSubscribe=this.off;
-    }
+function EventPubSub() {
+    this._events_={};
+    this.publish=this.trigger=this.emit=emit;
+    this.subscribe=this.on=on;
+    this.unSubscribe=this.off=off;
 
-    on(type,handler){
+    function on(type,handler){
         if(!handler){
             const err=new ReferenceError('handler not defined.');
             throw(err);
@@ -22,7 +20,7 @@ window.EventPubSub=class EventPubSub {
         return this;
     }
 
-    off(type,handler){
+    function off(type,handler){
         if(!this._events_[type]){
             return this;
         }
@@ -53,15 +51,18 @@ window.EventPubSub=class EventPubSub {
         return this;
     }
 
-    emit(type,...args){
+    function emit(type){
         if(!this._events_[type]){
             return;
         }
 
+        arguments.splice=Array.prototype.splice;
+        arguments.splice(0,1);
+
         const handlers=this._events_[type];
 
         for(let handler of handlers){
-            handler.apply(this, args);
+            handler.apply(this, arguments);
         }
 
         if(!this._events_['*']){
@@ -71,11 +72,13 @@ window.EventPubSub=class EventPubSub {
         const catchAll=this._events_['*'];
 
         for(let handler of catchAll){
-            handler.apply(this, args);
+            handler.apply(this, arguments);
         }
 
         return this;
     }
+
+    return this;
 }
 
 if (!Array.prototype.includes) {
@@ -110,3 +113,5 @@ if (!Array.prototype.includes) {
     return false;
   };
 }
+
+module.exports=EventPubSub;

@@ -1,19 +1,6 @@
-var pubsub = require('../../event-pubsub.js');
+const myEvents=new window.EventPubSub;
+const myEvents2=new window.EventPubSub;
 
-/************************************\
- * instantiating myEvents scope
- * **********************************/
-var myEvents=new pubsub();
-
-/************************************\
- * instantiating myEvents2 scope
- * **********************************/
-var myEvents2=new pubsub();
-
-
-/************************************\
- * binding myEvents events
- * **********************************/
 myEvents.on(
     'hello',
     function(data){
@@ -25,12 +12,12 @@ myEvents.on(
     'hello',
     function(data){
         console.log('Second handler listening to myEvents hello event got',data);
-        myEvents.trigger(
+        myEvents.emit(
             'world',
             {
                 type:'myObject',
                 data:{
-                    x:'YAY, Objects!'   
+                    x:'YAY, Objects!'
                 }
             }
         )
@@ -45,11 +32,11 @@ myEvents.on(
 );
 
 /**********************************\
- * 
+ *
  * Demonstrate * event (on all events)
  * remove this for less verbose
  * example
- * 
+ *
  * ********************************/
 myEvents.on(
     '*',
@@ -76,15 +63,13 @@ myEvents2.on(
 );
 
 
-/************************************\
- * trigger events for testing
- * **********************************/
-myEvents.trigger(
+//emiting
+myEvents.emit(
     'hello',
     'world'
 );
 
-myEvents2.trigger(
+myEvents2.emit(
     'world',
-    'is round'
+    'is','round'
 );

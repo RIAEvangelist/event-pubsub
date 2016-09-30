@@ -1,4 +1,5 @@
-var events = new window.EventPubSub;
+const Events = require('../../es5.js');
+const events = new Events;
 
 events.on(
     'hello',
