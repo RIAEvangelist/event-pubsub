@@ -1,8 +1,8 @@
 'use strict';
 
-let EventPubSub = require('./es6');
-if(process.version[1]<5){
-    EventPubSub = require('./es5');
+let EventPubSub = require('./es5');
+if(process.version[1]>4){
+    EventPubSub = require('./es6');
 }
 
 module.exports=EventPubSub;
