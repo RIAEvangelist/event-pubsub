@@ -60,24 +60,11 @@ The ` * ` type is a special event type that will be triggered by ***any publish 
 * node ` const events = new Events `
 * browser `const events = new window.EventPubSub;`
 
-### Automatically choosing ES6 || ES5
-
-```javascript
-
-//use es6 by default
-let Events = require('event-pubsub');
-//if not using atleast node v5.0.0
-if(process.version[1]<5){
-    //downgrade to ES5
-    Events = require('event-pubsub/es5');
-}
-
-```
-
 #### Node
 
 ```javascript
 
+// ES5/ES6 now automatically chosen based on node version
 const Events = new require('event-pubsub');
 const events=new Events;
 
@@ -206,7 +193,10 @@ events.on(
 
 ```javascript
 
+// ES5/ES6 now automatically chosen based on node version
 const Events = require('event-pubsub');
+// manually include es6
+// const Events = require('event-pubsub/es6');
 
 class Book extends Events{
     constructor(){
@@ -253,6 +243,7 @@ book.add(
 
 ```javascript
 
+// manually include es5
 const Events = require('event-pubsub/es5.js');
 
 function Book(){
