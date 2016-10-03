@@ -21,7 +21,7 @@ Easy for any developer level. No frills, just high speed events following the pu
 
 **Node Install**  
 `npm i --save event-pubsub`  
-By default the ES6 version will be used. you can use the es5 version for older versions of node by requiring `event-pubsub/es5.js`.
+By default the correct version (ES5/ES6) will be included. You can force the es5/6 version by requiring `event-pubsub/es5` or `event-pubsub/es6`.
 
 **Browser Install**  
 *see browser examples above or below*  
