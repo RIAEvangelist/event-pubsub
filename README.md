@@ -60,6 +60,20 @@ The ` * ` type is a special event type that will be triggered by ***any publish 
 * node ` const events = new Events `
 * browser `const events = new window.EventPubSub;`
 
+### Automatically choosing ES6 || ES5
+
+```javascript
+
+//use es6 by default
+let Events = require('event-pubsub');
+//if not using atleast node v5.0.0
+if(process.version[1]<5){
+    //downgrade to ES5
+    Events = require('event-pubsub/es5');
+}
+
+```
+
 #### Node
 
 ```javascript
