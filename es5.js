@@ -76,8 +76,11 @@ function EventPubSub() {
 
         const catchAll=this._events_['*'];
 
+        args.shift=Array.prototype.shift;
+        args.shift(type);
+
         for(let handler of catchAll){
-            handler.apply(this, arguments);
+            handler.apply(this, args);
         }
 
         return this;
