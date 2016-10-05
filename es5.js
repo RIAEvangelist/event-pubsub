@@ -5,6 +5,7 @@ function EventPubSub() {
     this.publish=this.trigger=this.emit=emit;
     this.subscribe=this.on=on;
     this.unSubscribe=this.off=off;
+    this.emit$=emit$;
 
     function on(type,handler){
         if(!handler){
@@ -52,12 +53,12 @@ function EventPubSub() {
     }
 
     function emit(type){
-        if(!this._events_[type]){
-            return;
-        }
-
         arguments.splice=Array.prototype.splice;
         arguments.splice(0,1);
+
+        if(!this._events_[type]){
+            return this.emit$.apply(this, type, arguments);
+        }
 
         const handlers=this._events_[type];
 
@@ -65,6 +66,10 @@ function EventPubSub() {
             handler.apply(this, arguments);
         }
 
+        return this.emit$.apply(this, type, arguments);
+    }
+
+    function emit$(type, args){
         if(!this._events_['*']){
             return this;
         }

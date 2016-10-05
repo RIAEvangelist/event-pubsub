@@ -55,7 +55,7 @@ window.EventPubSub=class EventPubSub {
 
     emit(type,...args){
         if(!this._events_[type]){
-            return;
+            return this.emit$(type,...args);
         }
 
         const handlers=this._events_[type];
@@ -64,6 +64,10 @@ window.EventPubSub=class EventPubSub {
             handler.apply(this, args);
         }
 
+        return this.emit$(type,...args);
+    }
+
+    emit$(type,...args){
         if(!this._events_['*']){
             return this;
         }
