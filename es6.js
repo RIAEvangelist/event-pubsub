@@ -75,7 +75,7 @@ class EventPubSub {
         const catchAll=this._events_['*'];
 
         for(let handler of catchAll){
-            handler.apply(this, type, args);
+            handler.call(this, type, ...args);
         }
 
         return this;

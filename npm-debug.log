@@ -1,0 +1,109 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'publish' ]
+2 info using npm@3.10.8
+3 info using node@v6.7.0
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   escapedName: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/home/ssmp/git/event-pubsub',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /home/ssmp/.npm/event-pubsub/4.2.2/package.tgz not in flight; packing
+9 verbose correctMkdir /home/ssmp/.npm correctMkdir not in flight; initializing
+10 info lifecycle event-pubsub@4.2.2~prepublish: event-pubsub@4.2.2
+11 silly lifecycle event-pubsub@4.2.2~prepublish: no script for prepublish, continuing
+12 verbose tar pack [ '/home/ssmp/.npm/event-pubsub/4.2.2/package.tgz',
+12 verbose tar pack   '/home/ssmp/git/event-pubsub' ]
+13 verbose tarball /home/ssmp/.npm/event-pubsub/4.2.2/package.tgz
+14 verbose folder /home/ssmp/git/event-pubsub
+15 verbose addLocalTarball adding from inside cache /home/ssmp/.npm/event-pubsub/4.2.2/package.tgz
+16 verbose correctMkdir /home/ssmp/.npm correctMkdir not in flight; initializing
+17 silly cache afterAdd event-pubsub@4.2.2
+18 verbose afterAdd /home/ssmp/.npm/event-pubsub/4.2.2/package/package.json not in flight; writing
+19 verbose correctMkdir /home/ssmp/.npm correctMkdir not in flight; initializing
+20 verbose afterAdd /home/ssmp/.npm/event-pubsub/4.2.2/package/package.json written
+21 silly publish { name: 'event-pubsub',
+21 silly publish   version: '4.2.2',
+21 silly publish   description: 'Super light and fast Extensible PubSub events and EventEmitters for Node and the browser with support for ES6 by default, and ES5 versions for older verions of node and older IE/Safari versions. Easy for any developer level. No frills, just high speed pubsub events!',
+21 silly publish   main: 'event-pubsub.js',
+21 silly publish   directories: { example: 'examples' },
+21 silly publish   engines: { node: '>=4.0.0' },
+21 silly publish   scripts: { test: 'echo "Error: no test specified" && exit 1' },
+21 silly publish   repository:
+21 silly publish    { type: 'git',
+21 silly publish      url: 'git+https://github.com/RIAEvangelist/event-pubsub.git' },
+21 silly publish   keywords: [ 'event', 'events', 'pubsub', 'node', 'browser' ],
+21 silly publish   author: { name: 'Brandon Nozaki Miller' },
+21 silly publish   license: 'Unlicense',
+21 silly publish   bugs: { url: 'https://github.com/RIAEvangelist/event-pubsub/issues' },
+21 silly publish   homepage: 'https://github.com/RIAEvangelist/event-pubsub',
+21 silly publish   readme: '# Event PubSub\n\nnpm info :  \n![event-pubsub npm version](https://img.shields.io/npm/v/event-pubsub.svg) ![total npm downloads for event-pubsub](https://img.shields.io/npm/dt/event-pubsub.svg) ![monthly npm downloads for event-pubsub](https://img.shields.io/npm/dm/event-pubsub.svg)\n\nGitHub info :  \n![event-pubsub GitHub Release](https://img.shields.io/github/release/RIAEvangelist/event-pubsub.svg) ![GitHub license event-pubsub license](https://img.shields.io/github/license/RIAEvangelist/event-pubsub.svg) ![open issues for event-pubsub on GitHub](https://img.shields.io/github/issues/RIAEvangelist/event-pubsub.svg)\n\n***Super light and fast*** Extensible PubSub events and EventEmitters for Node and the browser with support for ES6 by default, and ES5 versions for older verions of node and older IE/Safari versions.\n\nFor older versions of node and io.js the latest versions of `event-pubsub` may work with the --harmony flag. Officially though, we support node v4 and newer with es5 and es6\n\nEasy for any developer level. No frills, just high speed events following the publisher subscriber pattern!\n\n[Pretty GitHub.io site](http://riaevangelist.github.io/event-pubsub/)  \n\n[See NPM stats for event-pubsub](http://npm-stat.com/charts.html?package=event-pubsub&author=&from=&to=)\n\n**EXAMPLE FILES**  \n\n1. [Node Event PubSub Examples](https://github.com/RIAEvangelist/event-pubsub/tree/master/examples/node)  \n2. [Browser Event PubSub Examples](https://github.com/RIAEvangelist/event-pubsub/tree/master/examples/browser)\n\n**Node Install**  \n`npm i --save event-pubsub`  \nBy default the correct version (ES5/ES6) will be included. You can force the es5/6 version by requiring `event-pubsub/es5` or `event-pubsub/es6`.\n\n**Browser Install**  \n*see browser examples above or below*  \n\n```html\n\n<script src=\'path/to/event-pubsub-browser.js\'></script>\n<!-- OR ES5 for older browser support\n    <script src=\'path/to/event-pubsub-browser-es5.js\'></script>\n-->\n\n```\n\n# Methods\n\n|Method|Arguments|Description|\n|------|---------|-----------|\n|subscribe|type (string), handler(function)|will bind the `handler` function to the the `type` event. Just like `addEventListener` in the browser|\n|on|same as above|same as above|\n|unSubscribe|type (string), handler(function or *)|will ***un***bind the `handler` function from the the `type` event. If the `handler` is `*`, all handlers for the event type will be removed.   Just like `removeEventListener` in the browser, but also can remove all event handlers for the type.|\n|off|same as above|same as above|\n|publish|type (string), ...data arguments|will call all `handler` functions bound to the event `type` and pass all `...data arguments` to those handlers|\n|emit|same as above|same as above|\n|trigger|same as above|same as above|\n\nWhile `publish`, `subscribe`, and `unSubscribe` are the proper method names for the publisher/subscriber model, we have included `on`, `off`, and `emit` as well because these are the most common event method names, and shorter. We have also kept the `trigger` method as an alias for `publish` and `emit` for backwards compatability with earlier versions of `event-pubsub`.\n\n# The ` * ` type\n\nThe ` * ` type is a special event type that will be triggered by ***any publish or emit*** the handlers for these should expect the first argument to be the type and all arguments after to be data arguments.\n\n\n## Basic Examples\n\n***NOTE - the only difference between node and browser code is how the `events` variable is created***  \n* node ` const events = new Events `\n* browser `const events = new window.EventPubSub;`\n\n#### Node\n\n```javascript\n\n// ES5/ES6 now automatically chosen based on node version\nconst Events = new require(\'event-pubsub\');\nconst events=new Events;\n\nevents.on(\n    \'hello\',\n    function(data){\n        console.log(\'hello event recieved \', data);\n        events.emit(\n            \'world\',\n            {\n                type:\'myObject\',\n                data:{\n                    x:\'YAY, Objects!\'\n                }\n            }\n        )\n    }\n);\n\nevents.on(\n    \'world\',\n    function(data){\n        console.log(\'World event got\',data);\n        events.off(\'*\',\'*\');\n        console.log(\'Removed all events\');\n    }\n);\n\nevents.emit(\n    \'hello\',\n    \'world\'\n);\n\n\n\n```\n\n#### Basic Chaining\n\n```javascript\n\nevents.on(\n    \'hello\',\n    someFunction\n).on(\n    \'goodbye\',\n    anotherFunction\n).emit(\n    \'hello\',\n    \'world\'\n);\n\nevents.emit(\n    \'goodbye\',\n    \'complexity\'\n).off(\n    \'hello\',\n    \'*\'\n);\n\n```\n\n#### Browser\n##### HTML\n\n```html\n\n\n    <!DOCTYPE html>\n    <html>\n        <head>\n            <title>PubSub Example</title>\n            <script src=\'../../event-pubsub-browser.js\'></script>\n            <!-- OR ES5 for older browser support\n                <script src=\'../../event-pubsub-browser-es5.js\'></script>\n            -->\n            <script src=\'yourAmazingCode.js\'></script>\n        </head>\n        <body>\n            ...\n        </body>\n    </html>\n\n\n```\n\n\n##### Inside Your Amazing Code\n\n\n```javascript\n\nvar events = new window.EventPubSub();\n\nevents.on(\n    \'hello\',\n    function(data){\n        console.log(\'hello event recieved \', data);\n        events.emit(\n            \'world\',\n            {\n                type:\'myObject\',\n                data:{\n                    x:\'YAY, Objects!\'\n                }\n            }\n        )\n    }\n);\n\n events.emit(\n     \'hello\',\n     \'world\'\n );\n\n events.emit(\n     \'hello\',\n     \'again\',\'and again\'\n );\n\n\n```\n\n\n### Basic Event Emitter and/or Extending Event PubSub\n\n```javascript\n\n// ES5/ES6 now automatically chosen based on node version\nconst Events = require(\'event-pubsub\');\n// manually include es6\n// const Events = require(\'event-pubsub/es6\');\n\nclass Book extends Events{\n    constructor(){\n        super();\n        //now Book has .on, .off, and .emit\n\n        this.words=[];\n    }\n\n    add(...words){\n        this.words.push(...words);\n        this.emit(\n            \'added\',\n            ...words\n        );\n    }\n\n    read(){\n        this.emit(\n            \'reading\'\n        );\n        console.log(this.words.join(\' \'));\n    }\n}\n\nconst book=new Book;\n\nbook.on(\n    \'added\',\n    function(...words){\n        console.log(\'words added : \',words);\n        this.read();\n    }\n);\n\nbook.add(\n    \'once\',\'upon\',\'a\',\'time\',\'in\',\'a\',\'cubicle\'\n);\n\n\n```\n\n##### ES5 extention example\n\n```javascript\n\n// manually include es5\nconst Events = require(\'event-pubsub/es5.js\');\n\nfunction Book(){\n    //extend happens below\n    Object.assign(this,new Events);\n    //now Book has .on, .off, and .emit\n\n    this.words=[];\n    this.add=add;\n    this.erase=erase;\n    this.read=read;\n\n    function add(){\n        arguments.slice=Array.prototype.slice;\n\n        this.words=this.words.concat(\n            arguments.slice()\n        );\n        this.emit(\n            \'added\',\n            arguments.slice()\n        );\n    }\n\n    function read(){\n        this.emit(\n            \'reading\'\n        );\n        console.log(this.words.join(\' \'));\n    }\n\n    return this;\n};\n\nconst book=new Book;\n\nbook.on(\n    \'added\',\n    function(...words){\n        console.log(\'words added : \',words);\n        this.read();\n    }\n);\n\nbook.add(\n    \'once\',\'upon\',\'a\',\'time\',\'in\',\'a\',\'cubicle\'\n);\n\n\n```\n',
+21 silly publish   readmeFilename: 'README.md',
+21 silly publish   gitHead: 'd1acdd5bd5a383c515d6cc881da3bac709762d60',
+21 silly publish   _id: 'event-pubsub@4.2.2',
+21 silly publish   _shasum: 'ac9a1a8f77450c76591e68ad014d01ea3f30a818',
+21 silly publish   _from: '.' }
+22 verbose getPublishConfig undefined
+23 silly mapToRegistry name event-pubsub
+24 silly mapToRegistry using default registry
+25 silly mapToRegistry registry https://registry.npmjs.org/
+26 silly mapToRegistry data Result {
+26 silly mapToRegistry   raw: 'event-pubsub',
+26 silly mapToRegistry   scope: null,
+26 silly mapToRegistry   escapedName: 'event-pubsub',
+26 silly mapToRegistry   name: 'event-pubsub',
+26 silly mapToRegistry   rawSpec: '',
+26 silly mapToRegistry   spec: 'latest',
+26 silly mapToRegistry   type: 'tag' }
+27 silly mapToRegistry uri https://registry.npmjs.org/event-pubsub
+28 verbose publish registryBase https://registry.npmjs.org/
+29 silly publish uploading /home/ssmp/.npm/event-pubsub/4.2.2/package.tgz
+30 verbose request uri https://registry.npmjs.org/event-pubsub
+31 verbose request sending authorization for write operation
+32 info attempt registry request try #1 at 2:54:54 PM
+33 verbose request using bearer token for auth
+34 verbose request id d652b04cd6a3e4d7
+35 http request PUT https://registry.npmjs.org/event-pubsub
+36 http 403 https://registry.npmjs.org/event-pubsub
+37 verbose headers { 'content-type': 'application/json',
+37 verbose headers   'cache-control': 'max-age=300',
+37 verbose headers   'content-length': '95',
+37 verbose headers   'accept-ranges': 'bytes',
+37 verbose headers   date: 'Thu, 06 Oct 2016 21:54:54 GMT',
+37 verbose headers   via: '1.1 varnish',
+37 verbose headers   connection: 'keep-alive',
+37 verbose headers   'x-served-by': 'cache-lax8636-LAX',
+37 verbose headers   'x-cache': 'MISS',
+37 verbose headers   'x-cache-hits': '0',
+37 verbose headers   'x-timer': 'S1475790894.383625,VS0,VE204',
+37 verbose headers   vary: 'Accept-Encoding' }
+38 verbose request invalidating /home/ssmp/.npm/registry.npmjs.org/event-pubsub on PUT
+39 error publish Failed PUT 403
+40 verbose stack Error: "You cannot publish over the previously published version 4.2.2." : event-pubsub
+40 verbose stack     at makeError (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:302:12)
+40 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:290:14)
+40 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:210:14)
+40 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:187:22)
+40 verbose stack     at emitTwo (events.js:106:13)
+40 verbose stack     at Request.emit (events.js:191:7)
+40 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1044:10)
+40 verbose stack     at emitOne (events.js:96:13)
+40 verbose stack     at Request.emit (events.js:188:7)
+40 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:965:12)
+41 verbose statusCode 403
+42 verbose pkgid event-pubsub
+43 verbose cwd /home/ssmp/git/event-pubsub
+44 error Linux 4.4.0-38-generic
+45 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "publish"
+46 error node v6.7.0
+47 error npm  v3.10.8
+48 error code E403
+49 error "You cannot publish over the previously published version 4.2.2." : event-pubsub
+50 error If you need help, you may report this error at:
+50 error     <https://github.com/npm/npm/issues>
+51 verbose exit [ 1, true ]
