@@ -8,6 +8,8 @@ GitHub info :
 
 ***Super light and fast*** Extensible PubSub events and EventEmitters for Node and the browser with support for ES6 by default, and ES5 versions for older verions of node and older IE/Safari versions.
 
+For older versions of node and io.js the latest versions of `event-pubsub` may work with the --harmony flag. Officially though, we support node v4 and newer with es5 and es6
+
 Easy for any developer level. No frills, just high speed events following the publisher subscriber pattern!
 
 [Pretty GitHub.io site](http://riaevangelist.github.io/event-pubsub/)  
