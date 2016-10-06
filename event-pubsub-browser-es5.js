@@ -53,12 +53,13 @@ window.EventPubSub=function EventPubSub() {
     }
 
     function emit(type){
+        this.emit$.apply(this, arguments);
+        if(!this._events_[type]){
+            return this;
+        }
+
         arguments.splice=Array.prototype.splice;
         arguments.splice(0,1);
-
-        if(!this._events_[type]){
-            return emit$.apply(this, type, arguments);
-        }
 
         const handlers=this._events_[type];
 
@@ -66,7 +67,7 @@ window.EventPubSub=function EventPubSub() {
             handler.apply(this, arguments);
         }
 
-        return emit$.apply(this, type, arguments);
+        return this;
     }
 
     function emit$(type, args){
