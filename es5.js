@@ -9,8 +9,7 @@ function EventPubSub() {
 
     function on(type,handler){
         if(!handler){
-            const err=new ReferenceError('handler not defined.');
-            throw(err);
+            throw new ReferenceError('handler not defined.');
         }
 
         if(!this._events_[type]){
@@ -27,8 +26,7 @@ function EventPubSub() {
         }
 
         if(!handler){
-            var err=new ReferenceError('handler not defined. if you wish to remove all handlers from the event please pass "*" as the handler');
-            throw err;
+            throw new ReferenceError('handler not defined. if you wish to remove all handlers from the event please pass "*" as the handler');
         }
 
         if(handler=='*'){
