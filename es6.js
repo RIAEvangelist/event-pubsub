@@ -21,6 +21,11 @@ class EventPubSub {
         return this;
     }
 
+    once( type, handler ) {
+	handler.once = true;
+	this.on( type, handler );
+    }
+
     off( type, handler ) {
         if ( !this._events_[ type ] ) {
             return this;
@@ -58,8 +63,10 @@ class EventPubSub {
 
         const handlers = this._events_[ type ];
 
-        for ( let handler of handlers ) {
-            handler.apply( this, args );
+        for ( let handler in handlers ) {
+            handlers[handler].apply( this, args );
+	    if(handlers[handler].once)
+		handlers.splice(handler,1);
         }
 
         return this.emit$( type, ...args );

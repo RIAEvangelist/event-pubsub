@@ -7,7 +7,8 @@ function EventPubSub() {
     this.unSubscribe=this.off=off;
     this.emit$=emit$;
 
-    function on(type,handler){
+    function on(type,handler,once){
+	console.log("hi");
         if(!handler){
             throw new ReferenceError('handler not defined.');
         }
@@ -16,6 +17,7 @@ function EventPubSub() {
             this._events_[type]=[];
         }
 
+	handler.once = once;
         this._events_[type].push(handler);
         return this;
     }
@@ -60,8 +62,10 @@ function EventPubSub() {
 
         const handlers=this._events_[type];
 
-        for(let handler of handlers){
-            handler.apply(this, arguments);
+        for(let handler in handlers){
+            handlers[handler].apply(this, arguments);
+	    if(hanlers[handler].once)
+		handlers.splice(handler,handler);
         }
 
         return this;
