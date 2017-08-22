@@ -65,8 +65,9 @@ class EventPubSub {
 
         for ( let handler in handlers ) {
             handlers[handler].apply( this, args );
-	    if(handlers[handler].once)
+	    if(handlers[handler].once) {
 		handlers.splice(handler,1);
+            }
         }
 
         return this.emit$( type, ...args );

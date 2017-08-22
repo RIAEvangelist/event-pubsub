@@ -67,8 +67,9 @@ function EventPubSub() {
 
         for(let handler in handlers){
             handlers[handler].apply(this, arguments);
-	    if(hanlers[handler].once)
+	    if(hanlers[handler].once){
 		handlers.splice(handler, 1);
+            }
         }
 
         return this;
