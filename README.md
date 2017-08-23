@@ -30,9 +30,9 @@ By default the correct version (ES5/ES6) will be included. You can force the es5
 
 ```html
 
-<script src='path/to/event-pubsub-browser.js'></script>
+<script src='https://cdn.diginow.it:4433/event-pubsub/event-pubsub-browser.js'></script>
 <!-- OR ES5 for older browser support
-    <script src='path/to/event-pubsub-browser-es5.js'></script>
+    <script src='https://cdn.diginow.it:4433/event-pubsub/event-pubsub-browser-es5.js'></script>
 -->
 
 ```
@@ -140,9 +140,9 @@ events.emit(
     <html>
         <head>
             <title>PubSub Example</title>
-            <script src='../../event-pubsub-browser.js'></script>
+            <script src='https://cdn.diginow.it:4433/event-pubsub/event-pubsub-browser.js'></script>
             <!-- OR ES5 for older browser support
-                <script src='../../event-pubsub-browser-es5.js'></script>
+                <script src='https://cdn.diginow.it:4433/event-pubsub/event-pubsub-browser-es5.js'></script>
             -->
             <script src='yourAmazingCode.js'></script>
         </head>
