@@ -70,7 +70,9 @@ function EventPubSub() {
         for(let handler in handlers){
             const handler=handlers[handler];
             handler.apply(this, arguments);
-            this.off(type,handler);
+            if(handler._once_){
+              this.off(type,handler);
+            }
         }
 
         return this;
