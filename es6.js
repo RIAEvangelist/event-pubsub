@@ -20,13 +20,13 @@ class EventPubSub {
          if(once){
             handler._once_ = once;
         }
-        
+
         this._events_[ type ].push( handler );
         return this;
     }
 
     once( type, handler ) {
-	return this.on( type, handler, true );
+        return this.on( type, handler, true );
     }
 
     off( type, handler ) {
@@ -69,7 +69,9 @@ class EventPubSub {
         for ( let handler in handlers ) {
             const handler=handlers[handler];
             handler.apply( this, args );
-            this.off(type,handler);
+            if(handler._once_){
+              this.off(type,handler);
+            }
         }
 
         return this.emit$( type, ...args );
