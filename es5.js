@@ -4,21 +4,28 @@ function EventPubSub() {
     this._events_={};
     this.publish=this.trigger=this.emit=emit;
     this.subscribe=this.on=on;
+    this.once=once;
     this.unSubscribe=this.off=off;
     this.emit$=emit$;
 
-    function on(type,handler){
+    function on(type,handler,once){
         if(!handler){
-            const err=new ReferenceError('handler not defined.');
-            throw(err);
+            throw new ReferenceError('handler not defined.');
         }
 
         if(!this._events_[type]){
             this._events_[type]=[];
         }
 
+        if(once){
+            handler._once_ = once;
+        }
         this._events_[type].push(handler);
         return this;
+    }
+
+    function once(type,handler){
+        return this.on(type, handler, true);
     }
 
     function off(type,handler){
@@ -27,8 +34,7 @@ function EventPubSub() {
         }
 
         if(!handler){
-            var err=new ReferenceError('handler not defined. if you wish to remove all handlers from the event please pass "*" as the handler');
-            throw err;
+            throw new ReferenceError('handler not defined. if you wish to remove all handlers from the event please pass "*" as the handler');
         }
 
         if(handler=='*'){
@@ -36,7 +42,7 @@ function EventPubSub() {
             return this;
         }
 
-        const handlers=this._events_[type];
+        var handlers=this._events_[type];
 
         while(handlers.includes(handler)){
             handlers.splice(
@@ -60,10 +66,22 @@ function EventPubSub() {
         arguments.splice=Array.prototype.splice;
         arguments.splice(0,1);
 
-        const handlers=this._events_[type];
+        var handlers=this._events_[type];
+        var onceHandled=[];
 
-        for(let handler of handlers){
+        for(var i in handlers){
+            var handler=handlers[i];
             handler.apply(this, arguments);
+            if(handler._once_){
+              onceHandled.push(handler);
+            }
+        }
+
+        for(var i in onceHandled){
+            this.off(
+              type,
+              onceHandled[i]
+            );
         }
 
         return this;
@@ -74,12 +92,12 @@ function EventPubSub() {
             return this;
         }
 
-        const catchAll=this._events_['*'];
+        var catchAll=this._events_['*'];
 
         args.shift=Array.prototype.shift;
         args.shift(type);
 
-        for(let handler of catchAll){
+        for(var handler of catchAll){
             handler.apply(this, args);
         }
 

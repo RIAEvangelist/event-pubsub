@@ -1,93 +1,110 @@
 'use strict';
 
 window.EventPubSub=function EventPubSub() {
-    this._events_={};
-    this.publish=this.trigger=this.emit=emit;
-    this.subscribe=this.on=on;
-    this.unSubscribe=this.off=off;
-    this.emit$=emit$;
+  this._events_={};
+  this.publish=this.trigger=this.emit=emit;
+  this.subscribe=this.on=on;
+  this.once=once;
+  this.unSubscribe=this.off=off;
+  this.emit$=emit$;
 
-    function on(type,handler){
-        if(!handler){
-            const err=new ReferenceError('handler not defined.');
-            throw(err);
-        }
+  function on(type,handler,once){
+      if(!handler){
+          throw new ReferenceError('handler not defined.');
+      }
 
-        if(!this._events_[type]){
-            this._events_[type]=[];
-        }
+      if(!this._events_[type]){
+          this._events_[type]=[];
+      }
 
-        this._events_[type].push(handler);
-        return this;
-    }
+      if(once){
+          handler._once_ = once;
+      }
+      this._events_[type].push(handler);
+      return this;
+  }
 
-    function off(type,handler){
-        if(!this._events_[type]){
-            return this;
-        }
+  function once(type,handler){
+      return this.on(type, handler, true);
+  }
 
-        if(!handler){
-            var err=new ReferenceError('handler not defined. if you wish to remove all handlers from the event please pass "*" as the handler');
-            throw err;
-        }
+  function off(type,handler){
+      if(!this._events_[type]){
+          return this;
+      }
 
-        if(handler=='*'){
-            delete this._events_[type];
-            return this;
-        }
+      if(!handler){
+          throw new ReferenceError('handler not defined. if you wish to remove all handlers from the event please pass "*" as the handler');
+      }
 
-        const handlers=this._events_[type];
+      if(handler=='*'){
+          delete this._events_[type];
+          return this;
+      }
 
-        while(handlers.includes(handler)){
-            handlers.splice(
-                handlers.indexOf(handler),
-                1
-            );
-        }
+      var handlers=this._events_[type];
 
-        if(handlers.length<1){
-            delete this._events_[type];
-        }
+      while(handlers.includes(handler)){
+          handlers.splice(
+              handlers.indexOf(handler),
+              1
+          );
+      }
 
-        return this;
-    }
+      if(handlers.length<1){
+          delete this._events_[type];
+      }
 
-    function emit(type){
-        this.emit$.apply(this, arguments);
-        if(!this._events_[type]){
-            return this;
-        }
+      return this;
+  }
 
-        arguments.splice=Array.prototype.splice;
-        arguments.splice(0,1);
+  function emit(type){
+      this.emit$.apply(this, arguments);
+      if(!this._events_[type]){
+          return this;
+      }
+      arguments.splice=Array.prototype.splice;
+      arguments.splice(0,1);
 
-        const handlers=this._events_[type];
+      var handlers=this._events_[type];
+      var onceHandled=[];
 
-        for(let handler of handlers){
-            handler.apply(this, arguments);
-        }
+      for(var i in handlers){
+          var handler=handlers[i];
+          handler.apply(this, arguments);
+          if(handler._once_){
+            onceHandled.push(handler);
+          }
+      }
 
-        return this;
-    }
+      for(var i in onceHandled){
+          this.off(
+            type,
+            onceHandled[i]
+          );
+      }
 
-    function emit$(type, args){
-        if(!this._events_['*']){
-            return this;
-        }
+      return this;
+  }
 
-        const catchAll=this._events_['*'];
+  function emit$(type, args){
+      if(!this._events_['*']){
+          return this;
+      }
 
-        args.shift=Array.prototype.shift;
-        args.shift(type);
+      var catchAll=this._events_['*'];
 
-        for(let handler of catchAll){
-            handler.apply(this, args);
-        }
+      args.shift=Array.prototype.shift;
+      args.shift(type);
 
-        return this;
-    }
+      for(var handler of catchAll){
+          handler.apply(this, args);
+      }
 
-    return this;
+      return this;
+  }
+
+  return this;
 }
 
 if (!Array.prototype.includes) {

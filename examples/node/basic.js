@@ -1,4 +1,5 @@
-const Events = new require('../../event-pubsub.js');
+'use strict';
+const Events = require('../../event-pubsub.js');
 
 const events=new Events;
 
