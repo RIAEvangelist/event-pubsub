@@ -18,7 +18,8 @@ const events=new Events;
      'test.once',
      (data)=>{
        console.log(`got data ${data} from .on with true`)
-     }
+     },
+     true
  );
 
 /************************************\
@@ -27,4 +28,9 @@ const events=new Events;
 events.emit(
     'test.once',
     '-TESTING-'
+);
+
+events.emit(
+    'test.once',
+    '-NEVER SEE THIS-'
 );

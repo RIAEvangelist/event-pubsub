@@ -66,13 +66,21 @@ function EventPubSub() {
         arguments.splice(0,1);
 
         var handlers=this._events_[type];
+        var onceHandled=[];
 
         for(var i in handlers){
             var handler=handlers[i];
             handler.apply(this, arguments);
             if(handler._once_){
-              this.off(type,handler);
+              onceHandled.push(handler);
             }
+        }
+
+        for(var i in onceHandled){
+            this.off(
+              type,
+              onceHandled[i]
+            );
         }
 
         return this;
