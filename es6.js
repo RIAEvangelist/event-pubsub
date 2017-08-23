@@ -17,7 +17,10 @@ class EventPubSub {
             this._events_[ type ] = [];
         }
 
-        handler.once = once;
+         if(once){
+            handler._once_ = once;
+        }
+        
         this._events_[ type ].push( handler );
         return this;
     }
@@ -64,10 +67,9 @@ class EventPubSub {
         const handlers = this._events_[ type ];
 
         for ( let handler in handlers ) {
-            handlers[handler].apply( this, args );
-	    if(handlers[handler].once) {
-                handlers.splice(handler,1);
-            }
+            const handler=handlers[handler];
+            handler.apply( this, args );
+            this.off(type,handler);
         }
 
         return this.emit$( type, ...args );
