@@ -67,7 +67,7 @@ function EventPubSub() {
 
         var handlers=this._events_[type];
 
-        for(let handler in handlers){
+        for(var handler in handlers){
             const handler=handlers[handler];
             handler.apply(this, arguments);
             if(handler._once_){
@@ -88,7 +88,7 @@ function EventPubSub() {
         args.shift=Array.prototype.shift;
         args.shift(type);
 
-        for(let handler of catchAll){
+        for(var handler of catchAll){
             handler.apply(this, args);
         }
 

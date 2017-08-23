@@ -66,8 +66,7 @@ class EventPubSub {
 
         const handlers = this._events_[ type ];
 
-        for ( let handler in handlers ) {
-            const handler=handlers[handler];
+        for ( let handler of handlers ) {
             handler.apply( this, args );
             if(handler._once_){
               this.off(type,handler);
