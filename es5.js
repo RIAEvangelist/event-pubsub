@@ -15,7 +15,7 @@ function EventPubSub() {
         if(!this._events_[type]){
             this._events_[type]=[];
         }
-        
+
         if(once){
             handler._once_ = once;
         }
@@ -41,7 +41,7 @@ function EventPubSub() {
             return this;
         }
 
-        const handlers=this._events_[type];
+        var handlers=this._events_[type];
 
         while(handlers.includes(handler)){
             handlers.splice(
@@ -65,17 +65,12 @@ function EventPubSub() {
         arguments.splice=Array.prototype.splice;
         arguments.splice(0,1);
 
-        const handlers=this._events_[type];
+        var handlers=this._events_[type];
 
         for(let handler in handlers){
             const handler=handlers[handler];
             handler.apply(this, arguments);
-            if(handler._once_){
-                handlers.splice(
-                    handlers.indexOf(handler),
-                    1
-                );
-            }
+            this.off(type,handler);
         }
 
         return this;
@@ -86,7 +81,7 @@ function EventPubSub() {
             return this;
         }
 
-        const catchAll=this._events_['*'];
+        var catchAll=this._events_['*'];
 
         args.shift=Array.prototype.shift;
         args.shift(type);
