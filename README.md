@@ -41,8 +41,9 @@ By default the correct version (ES5/ES6) will be included. You can force the es5
 
 |Method|Arguments|Description|
 |------|---------|-----------|
-|subscribe|type (string), handler(function)|will bind the `handler` function to the the `type` event. Just like `addEventListener` in the browser|
+|subscribe|type (string), handler(function), once (bool|optional)|will bind the `handler` function to the the `type` event. Just like `addEventListener` in the browser. If once is set to true the hander will be removed after being called once.|
 |on|same as above|same as above|
+|once|type (string), handler(function)| will bind the `handler` function to the the `type` event and unbind it after ***one*** execution. Just like `addEventListener` in the browser withe the `once` option set|
 |unSubscribe|type (string), handler(function or *)|will ***un***bind the `handler` function from the the `type` event. If the `handler` is `*`, all handlers for the event type will be removed.   Just like `removeEventListener` in the browser, but also can remove all event handlers for the type.|
 |off|same as above|same as above|
 |publish|type (string), ...data arguments|will call all `handler` functions bound to the event `type` and pass all `...data arguments` to those handlers|

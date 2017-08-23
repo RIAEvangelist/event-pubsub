@@ -1,3 +1,4 @@
+'use strict';
 const Events = require('../../event-pubsub.js');
 
 class Book extends Events{
