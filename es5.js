@@ -4,6 +4,7 @@ function EventPubSub() {
     this._events_={};
     this.publish=this.trigger=this.emit=emit;
     this.subscribe=this.on=on;
+    this.once=once;
     this.unSubscribe=this.off=off;
     this.emit$=emit$;
 

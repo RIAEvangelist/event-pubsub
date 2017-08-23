@@ -1,7 +1,11 @@
 'use strict';
-const Events = require('../../event-pubsub.js');
+// requireing 'event-pubsub' module will auto detect ES6/ES5 support
+// so we will force it here incase you support ES6
+// for example sake
+var Events = require('../../es5.js');
 
-const events=new Events;
+var events=new Events;
+
 
 /**********************************\
  *
@@ -26,12 +30,13 @@ events.on(
 /************************************\
  * emit events for testing
  * **********************************/
+
 events.emit(
     'test.once',
-    '-TESTING-'
+    '-5 TESTING-'
 );
 
 events.emit(
     'test.once',
-    '-NEVER SEE THIS-'
+    '-5 NEVER SEE THIS-'
 );

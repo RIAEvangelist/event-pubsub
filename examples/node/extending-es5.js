@@ -1,4 +1,8 @@
-const Events = require('../../es5.js');
+'use strict';
+// requireing 'event-pubsub' module will auto detect ES6/ES5 support
+// so we will force it here incase you support ES6
+// for example sake
+var Events = require('../../es5.js');
 
 function Book(){
     //extend happens below
@@ -24,7 +28,7 @@ function Book(){
     }
 
     function erase(count){
-        const words=this.words.splice(
+        var words=this.words.splice(
             -count
         );
         this.trigger(
@@ -43,7 +47,7 @@ function Book(){
     return this;
 };
 
-const book=new Book;
+var book=new Book;
 
 book.on(
     'added',
