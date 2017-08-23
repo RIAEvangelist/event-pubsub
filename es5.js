@@ -67,8 +67,8 @@ function EventPubSub() {
 
         var handlers=this._events_[type];
 
-        for(var handler in handlers){
-            const handler=handlers[handler];
+        for(var i in handlers){
+            var handler=handlers[i];
             handler.apply(this, arguments);
             if(handler._once_){
               this.off(type,handler);
