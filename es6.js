@@ -65,12 +65,18 @@ class EventPubSub {
         }
 
         const handlers = this._events_[ type ];
+        const onceHandled=[];
 
         for ( let handler of handlers ) {
+            console.log(handler)
             handler.apply( this, args );
             if(handler._once_){
-              this.off(type,handler);
+              onceHandled.push(handler);
             }
+        }
+
+        for(let handler of onceHandled){
+          this.off(type,handler);
         }
 
         return this.emit$( type, ...args );

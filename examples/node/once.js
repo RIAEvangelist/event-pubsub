@@ -18,8 +18,7 @@ const events=new Events;
      'test.once',
      (data)=>{
        console.log(`got data ${data} from .on with true`)
-     },
-     true //this sets once to true
+     }
  );
 
 /************************************\
