@@ -15,14 +15,16 @@ function EventPubSub() {
         if(!this._events_[type]){
             this._events_[type]=[];
         }
-
-	handler.once = once;
+        
+        if(once){
+            handler._once_ = once;
+        }
         this._events_[type].push(handler);
         return this;
     }
 
     function once(type,handler){
-        return on(type, handler, true);
+        return this.on(type, handler, true);
     }
 
     function off(type,handler){
@@ -66,9 +68,13 @@ function EventPubSub() {
         const handlers=this._events_[type];
 
         for(let handler in handlers){
-            handlers[handler].apply(this, arguments);
-	    if(hanlers[handler].once){
-		handlers.splice(handler, 1);
+            const handler=handlers[handler];
+            handler.apply(this, arguments);
+            if(handler._once_){
+                handlers.splice(
+                    handlers.indexOf(handler),
+                    1
+                );
             }
         }
 
