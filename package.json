@@ -28,5 +28,8 @@
   "bugs": {
     "url": "https://github.com/RIAEvangelist/event-pubsub/issues"
   },
-  "homepage": "https://github.com/RIAEvangelist/event-pubsub"
+  "homepage": "https://github.com/RIAEvangelist/event-pubsub",
+  "dependencies": {
+    "semver": "^6.3.0"
+  }
 }
