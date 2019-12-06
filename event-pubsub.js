@@ -14,17 +14,20 @@ class EventPubSub {
             throw new ReferenceError( 'handler not defined.' );
         }
 
-        console.log(this);
-
         if ( !this.#events[ type ] ) {
             this.#events[ type ] = [];
         }
 
-        if(once){
-            handler._once_ = once;
-        }
+        const handlers=this.#events[ type ];
+        const handlerPosition=handlers.length;
 
-        this.#events[ type ].push( handler );
+        this.#events[ type ].push( 
+            handler.bind(this)
+        );
+
+        handlers[handlerPosition]._once_ = once||false;
+
+        return this;
     }
 
     once( type, handler ) {
@@ -41,8 +44,7 @@ class EventPubSub {
         }
 
         if ( handler == '*' ) {
-            delete this.#events[ type ];
-            return;
+            return delete this.#events[ type ];
         }
 
         const handlers = this.#events[ type ];
@@ -57,18 +59,22 @@ class EventPubSub {
         if ( handlers.length < 1 ) {
             delete this.#events[ type ];
         }
+
+        return this;
     }
 
     emit( type, ...args ) {
         if ( !this.#events[ type ] ) {
-            return this.emit$( type, ...args );
+            return this.#emit$( type, ...args );
         }
 
         const handlers = this.#events[ type ];
         const onceHandled=[];
 
         for ( let handler of handlers ) {
+            
             handler(...args);
+            
             if(handler._once_){
               onceHandled.push(handler);
             }
@@ -83,7 +89,7 @@ class EventPubSub {
 
     #emit$=( type, ...args )=>{
         if ( !this.#events[ '*' ] ) {
-            return this;
+            return;
         }
     
         const catchAll = this.#events[ '*' ];
@@ -91,6 +97,8 @@ class EventPubSub {
         for ( let handler of catchAll ) {
             handler(type, ...args);
         }
+
+        return this;
     }
 }
 

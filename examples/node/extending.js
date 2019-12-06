@@ -2,11 +2,11 @@
 const Events = require('../../event-pubsub.js');
 
 class Book extends Events{
+    words=[];
+
     constructor(){
         super();
-        //now Book has .on, .off, and .emit
-
-        this.words=[];
+        //now Book has full event pubsub functionality like .on, .off, .emit etc.
     }
 
     add(...words){
@@ -41,6 +41,7 @@ book.on(
     'added',
     function(...words){
         console.log('words added : ',words);
+        console.log(this);
         this.read();
     }
 );

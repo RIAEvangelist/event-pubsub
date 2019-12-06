@@ -11,13 +11,13 @@ const events=new Events;
 events.once(
    'test.once',
    (data)=>{
-     console.log(`got data ${data} from .once`)
+     console.log(`got data ${data} from .once`);
    }
 );
 
 events.on(
    'test.once',
-   (data)=>{
+   function(data){
      console.log(`got data ${data} from .on with true`)
    },
    true
