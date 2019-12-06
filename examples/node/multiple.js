@@ -4,12 +4,12 @@ const Events = require('../../event-pubsub.js');
 /************************************\
  * instantiating myEvents scope
  * **********************************/
-const myEvents=new EventPubSub();
+const myEvents=new Events();
 
 /************************************\
  * instantiating myEvents2 scope
  * **********************************/
-const myEvents2=new EventPubSub();
+const myEvents2=new Events();
 
 
 /************************************\
