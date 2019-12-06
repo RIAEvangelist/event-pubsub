@@ -7,21 +7,6 @@ const emit=require('./members/#emit.js'),
     once=require('./members/#once.js');
 
 class EventPubSub {
-    //locking down the interface for extension
-    //making things protected vs private (hack 4 now)
-    
-    get publish(){return this.#emit};
-    get trigger(){return this.#emit};
-    get emit(){return this.#emit};
-
-    get subscribe(){return this.#on};
-    get on(){return this.#on};
-
-    get unSubscribe(){return this.#off}; 
-    get off(){return this.#off};
-
-    get events(){return this.events};
-
     #events = {};
     
     #on = on;
@@ -29,7 +14,27 @@ class EventPubSub {
 
     #off = off;    
 
-    #emit$=emit;
+    #emit=emit;
+    #emit$=emit$;
+
+    //locking down the interface for extension
+    //making things protected vs private (hack 4 now)
+    
+    get publish(){return this.#emit};
+    get trigger(){return this.#emit};
+    get emit(){return this.#emit};
+
+    get emit$(){return this.#emit$};
+
+    get subscribe(){return this.#on};
+    get on(){return this.#on};
+    
+    get once(){return this.#once};
+
+    get unSubscribe(){return this.#off}; 
+    get off(){return this.#off};
+
+    get events(){return this.#events};
 }
 
 module.exports = EventPubSub;
