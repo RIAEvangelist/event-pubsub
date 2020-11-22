@@ -11,9 +11,9 @@
     "node": ">=13.0.0"
   },
   "scripts": {
-    "test": "node ./test/CI.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node-http-server port=8000 verbose=true",
-    "emulate": "\necho COPY AND RUN THESE:\n\ncp ./* ./example/node_modules/event-pubsub/ -Force\n\ncp ./node_modules/strong-type/* ./example/node_modules/strong-type/ -Force\n\n"
+    "emulate": "\necho COPY AND RUN THESE:\n\ncp ./* ./example/fake_modules/event-pubsub/ -Force\n\ncp ./node_modules/strong-type/* ./example/fake_modules/strong-type/ -Force\n\n"
   },
   "repository": {
     "type": "git",
@@ -33,9 +33,7 @@
   },
   "homepage": "https://github.com/RIAEvangelist/event-pubsub",
   "devDependencies": {
-    "ansi-colors": "^4.1.1",
-    "node-http-server": "^8.1.3",
-    "vanilla-test": "^1.4.0"
+    "node-http-server": "^8.1.3"
   },
   "dependencies": {
     "strong-type": "^0.1.3"

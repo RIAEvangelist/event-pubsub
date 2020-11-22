@@ -41,20 +41,20 @@ By default the correct version (ES5/ES6) will be included. You can force the es5
 
 |Method|Arguments|Description|
 |------|---------|-----------|
-|on|type (string), handler(function), once (bool/optional)|will bind the `handler` function to the the `type` event. Just like `addEventListener` in the browser. If once is set to true the hander will be removed after being called once.|
+|subscribe|type (string), handler(function), once (bool/optional)|will bind the `handler` function to the the `type` event. Just like `addEventListener` in the browser. If once is set to true the hander will be removed after being called once.|
+|on|same as above|same as above|
 |once|type (string), handler(function)| will bind the `handler` function to the the `type` event and unbind it after ***one*** execution. Just like `addEventListener` in the browser withe the `once` option set|
-|off|type (string), handler(function or *)|will ***un***bind the `handler` function from the the `type` event. If the `handler` is `*`, all handlers for the event type will be removed.   Just like `removeEventListener` in the browser, but also can remove all event handlers for the type.|
-|emit|type (string), ...data arguments|will call all `handler` functions bound to the event `type` and pass all `...data arguments` to those handlers|
+|unSubscribe|type (string), handler(function or *)|will ***un***bind the `handler` function from the the `type` event. If the `handler` is `*`, all handlers for the event type will be removed.   Just like `removeEventListener` in the browser, but also can remove all event handlers for the type.|
+|off|same as above|same as above|
+|publish|type (string), ...data arguments|will call all `handler` functions bound to the event `type` and pass all `...data arguments` to those handlers|
+|emit|same as above|same as above|
+|trigger|same as above|same as above|
 
-# Members
-
-|Member|Type|Description|
-|------|----|-----------|
-|.list |Object|List representation of all the bound events, primarily used for visibility. |
+While `publish`, `subscribe`, and `unSubscribe` are the proper method names for the publisher/subscriber model, we have included `on`, `off`, and `emit` as well because these are the most common event method names, and shorter. We have also kept the `trigger` method as an alias for `publish` and `emit` for backwards compatability with earlier versions of `event-pubsub`.
 
 # The ` * ` type
 
-The ` * ` type is a special event type that will be triggered by ***any `emit`*** the handlers for these should expect the first argument to be the type and all arguments after to be data arguments.
+The ` * ` type is a special event type that will be triggered by ***any publish or emit*** the handlers for these should expect the first argument to be the type and all arguments after to be data arguments.
 
 
 ## Basic Examples
