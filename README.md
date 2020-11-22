@@ -9,6 +9,9 @@ npm info :  [See npm trends and stats for event-pubsub](http://npm-stat.com/char
 GitHub info :  
 ![event-pubsub GitHub Release](https://img.shields.io/github/release/RIAEvangelist/event-pubsub.svg) ![GitHub license event-pubsub license](https://img.shields.io/github/license/RIAEvangelist/event-pubsub.svg) ![open issues for event-pubsub on GitHub](https://img.shields.io/github/issues/RIAEvangelist/event-pubsub.svg)
 
+Build Info :  
+Travis CI (linux,windows & Mac) : [![Build Status](https://travis-ci.org/RIAEvangelist/event-pubsub.svg?branch=main)](https://travis-ci.org/RIAEvangelist/event-pubsub)
+
 ***Super light and fast*** Extensible ES6+ event system for Node and the browser the same files that work in node will work in the browser without any modifications. If you must support old browsers you can transpile the module.
 
 **EXAMPLE FILES**  
