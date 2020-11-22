@@ -34,7 +34,6 @@
   },
   "homepage": "https://github.com/RIAEvangelist/event-pubsub",
   "devDependencies": {
-    "ansi-colors": "^4.1.1",
     "node-http-server": "^8.1.3",
     "vanilla-test": "^1.4.0"
   },
