@@ -101,7 +101,7 @@ class EventPubSub {
         return Object.assign({},this.#events);
     }
 
-    #handleOnce(type, handlers, ...args){
+    #handleOnce=(type, handlers, ...args)=>{
         is.string(type);
         is.array(handlers);
         
