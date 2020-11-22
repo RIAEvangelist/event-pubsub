@@ -1,5 +1,5 @@
 import VanillaTest from '../node_modules/vanilla-test/index.js';
-import EventPubSub  from '../example/node_modules/strong-type/index.js';
+import EventPubSub  from '../example/node_modules/event-pubsub/index.js';
 
 const test=new VanillaTest;
 const e=new EventPubSub;

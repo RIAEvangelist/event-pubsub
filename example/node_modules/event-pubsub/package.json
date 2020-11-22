@@ -13,7 +13,7 @@
   "scripts": {
     "test": "node ./test/CI.js",
     "start": "node-http-server port=8000 verbose=true",
-    "emulate": "\necho COPY AND RUN THESE:\n\ncp ./* ./example/node_modules/event-pubsub/ -Force\n\ncp ./node_modules/strong-type/* ./example/node_modules/strong-type/ -Force\n\n"
+    "emulate": "\necho COPY AND RUN THESE:\n\ncp ./*.j* ./example/node_modules/event-pubsub/ -Force\n\ncp ./node_modules/strong-type/*.j* ./example/node_modules/strong-type/ -Force\n\n"
   },
   "repository": {
     "type": "git",
