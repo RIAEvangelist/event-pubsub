@@ -20,7 +20,7 @@ GitHub info :
 `node ./example/node/extending.js`  
 `node ./example/node/once.js`  
 
-![node event-pubsub basic example](./example/img/node-event-pubsub-es6.PNG)
+![node event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/node-event-pubsub-es6.PNG)
 
 
 2. [Browser Event PubSub Examples](https://github.com/RIAEvangelist/event-pubsub/tree/master/examples/browser)
@@ -30,15 +30,15 @@ You will notice in the browser console that we are running the exact same files 
 To run the browser tests, first start the example `node-http-server` by running `npm start`. Then go to the [example page](http://localhost:8000/example/web/index.html): http://localhost:8000/example/web/index.html and check out the console. Provided your router and firewall are not blocking your IP/ports, you can go to `http://[your-ip-here]:8000/example/web/index.html` on your mobile device to check the page out as well provided it is on the same network.
 
 #### Chrome
-![Chrome event-pubsub basic example](./example/img/Chrome-event-pubsub-es6.PNG)
+![Chrome event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/chrome-event-pubsub-es6.PNG)
 
 #### Edge
-![Edge event-pubsub basic example](./example/img/Edge-event-pubsub-es6.PNG)
+![Edge event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/edge-event-pubsub-es6.PNG)
 
 #### FireFox Nightly
 As of 11/21/2020 you need to set the javascript private fields and methods flags to `true`. 
 
-![FireFox-nightly event-pubsub basic example](./example/img/FireFox-nightly-event-pubsub-es6.PNG)
+![FireFox-nightly event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/FireFox-nightly-event-pubsub-es6.PNG)
  
 
 ### Browser Script 
