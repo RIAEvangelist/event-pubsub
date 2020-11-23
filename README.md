@@ -14,57 +14,6 @@ Travis CI (linux,windows & Mac) : [![Build Status](https://travis-ci.org/RIAEvan
 
 ***Super light and fast*** Extensible ES6+ event system for Node and the browser the same files that work in node will work in the browser without any modifications. If you must support old browsers you can transpile the module.
 
-**EXAMPLE FILES**  
-
-1. [Node Event PubSub Examples](https://github.com/RIAEvangelist/event-pubsub/tree/master/examples/node)  
-
-`node ./example/node/basic.js`  
-`node ./example/node/miltiple.js`  
-`node ./example/node/extending.js`  
-`node ./example/node/once.js`  
-
-![node event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/node-event-pubsub-es6.PNG)
-
-
-2. [Browser Event PubSub Examples](https://github.com/RIAEvangelist/event-pubsub/tree/master/examples/browser)
-
-You will notice in the browser console that we are running the exact same files from node above, in the browser!
-
-To run the browser tests, first start the example `node-http-server` by running `npm start`. Then go to the [example page](http://localhost:8000/example/web/index.html): http://localhost:8000/example/web/index.html and check out the console. Provided your router and firewall are not blocking your IP/ports, you can go to `http://[your-ip-here]:8000/example/web/index.html` on your mobile device to check the page out as well provided it is on the same network.
-
-#### Chrome
-![Chrome event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/chrome-event-pubsub-es6.PNG)
-
-#### Edge
-![Edge event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/edge-event-pubsub-es6.PNG)
-
-#### FireFox Nightly
-As of 11/21/2020 you need to set the javascript private fields and methods flags to `true`. 
-
-![FireFox-nightly event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/FireFox-nightly-event-pubsub-es6.PNG)
- 
-
-### Browser Script 
-
-
-```html
-
-<script type="module" src='./node_modules/event-pubsub/index.js'></script>
-
-```
-
-### Node & Browser import
-
-Importing with relative paths will make sure your code will work both with node and the browser without transpiling where supported.
-
-```js
-
-import EventPubSub from './node_modules/event-pubsub/index.js';
-
-events=new EventPubSub
-
-```
-
 # Methods
 
 |Method|Arguments|Description|
@@ -85,13 +34,16 @@ events=new EventPubSub
 
 The ` * ` event type will be triggered by ***any `emit`***. These also run first. The handlers for `*` should expect the first arg to be the `type` and all args after that to be data arguments.
 
+## Local website
+
+`npm start` actually starts a [node-http-server](https://github.com/RIAEvangelist/node-http-server). So if you just want quick links to the example and test web pages, there is a page in the root of this module with links. You can access it by going to the [local homepage](http://localhost:8000) : http://localhost:8000
+
 
 ## Basic Examples
 
-
 ```javascript
 
-//relative paths will let your code work in both node and the browser!
+//relative paths will let your code work in both node and the browser without transpiling unless you want to.
 import EventPubSub from './node_modules/event-pubsub/index.js';
 
 events=new EventPubSub
@@ -183,3 +135,37 @@ book.add(
 
 ```
 
+## Strong Type Checking
+`event-pubsub` uses the `strong-type` class which provides methods to test ***all*** the built in js primatives, objects, classes, and even fancy things like async functions and generators. This should help make sure your code doesn't do unexpected things.
+
+[full strong-type documentation](https://github.com/RIAEvangelist/strong-type)
+
+
+## Example Files 
+
+1. [Node Event PubSub Examples](https://github.com/RIAEvangelist/event-pubsub/tree/master/examples/node)  
+
+`node ./example/node/basic.js`  
+`node ./example/node/miltiple.js`  
+`node ./example/node/extending.js`  
+`node ./example/node/once.js`  
+
+![node event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/node-event-pubsub-es6.PNG)
+
+
+2. [Browser Event PubSub Examples](https://github.com/RIAEvangelist/event-pubsub/tree/master/examples/browser)
+
+You will notice in the browser console that we are running the exact same files from node above, in the browser!
+
+To run the browser tests, first start the example `node-http-server` by running `npm start`. Then go to the [example page](http://localhost:8000/example/web/index.html): http://localhost:8000/example/web/index.html and check out the console. Provided your router and firewall are not blocking your IP/ports, you can go to `http://[your-ip-here]:8000/example/web/index.html` on your mobile device to check the page out as well provided it is on the same network.
+
+#### Chrome
+![Chrome event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/chrome-event-pubsub-es6.PNG)
+
+#### Edge
+![Edge event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/edge-event-pubsub-es6.PNG)
+
+#### FireFox Nightly
+As of 11/21/2020 you need to set the javascript private fields and methods flags to `true`. 
+
+![FireFox-nightly event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/FireFox-nightly-event-pubsub-es6.PNG)
