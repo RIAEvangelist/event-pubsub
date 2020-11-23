@@ -38,6 +38,8 @@ The ` * ` event type will be triggered by ***any `emit`***. These also run first
 
 `npm start` actually starts a [node-http-server](https://github.com/RIAEvangelist/node-http-server). So if you just want quick links to the example and test web pages, there is a page in the root of this module with links. You can access it by going to the [local homepage](http://localhost:8000) : http://localhost:8000
 
+Provided your router and firewall are not blocking your IP/ports, you can also go to `http://[your-ip-here]:8000/` on any device including your mobile device provided it is on the same network.
+
 
 ## Basic Examples
 
@@ -141,23 +143,25 @@ book.add(
 [full strong-type documentation](https://github.com/RIAEvangelist/strong-type)
 
 
-## Example Files 
+#### For node
+Since we use the same files for node and the browser, we need to emulate a production `npm i event-pubsub` in the example folder, so be sure to :  
 
-1. [Node Event PubSub Examples](https://github.com/RIAEvangelist/event-pubsub/tree/master/examples/node)  
+first run `npm run emulate`
 
-`node ./example/node/basic.js`  
-`node ./example/node/miltiple.js`  
-`node ./example/node/extending.js`  
-`node ./example/node/once.js`  
+then run any of the following examples
+
+`node ./example/basic.js`  
+`node ./example/miltiple.js`  
+`node ./example/extending.js`  
+`node ./example/once.js`  
 
 ![node event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/node-event-pubsub-es6.PNG)
 
 
-2. [Browser Event PubSub Examples](https://github.com/RIAEvangelist/event-pubsub/tree/master/examples/browser)
+#### For the browser
+run `npm start` this will automatically run `npm run emulate` for you as well. 
 
-You will notice in the browser console that we are running the exact same files from node above, in the browser!
-
-To run the browser tests, first start the example `node-http-server` by running `npm start`. Then go to the [example page](http://localhost:8000/example/web/index.html): http://localhost:8000/example/web/index.html and check out the console. Provided your router and firewall are not blocking your IP/ports, you can go to `http://[your-ip-here]:8000/example/web/index.html` on your mobile device to check the page out as well provided it is on the same network.
+Then just go to the [local server](http://localhost:8000) : http://localhost:8000 from here you can see both the examples and the tests. Or go directly to [the local example](http://localhost:8000/example/index.html) : http://localhost:8000/example/. It actually imports the node example into the browser and runs it, same exact file, no transpiling or custom code for the browser. If you want to transpile though, you can. 
 
 #### Chrome
 ![Chrome event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/chrome-event-pubsub-es6.PNG)
@@ -166,6 +170,6 @@ To run the browser tests, first start the example `node-http-server` by running 
 ![Edge event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/edge-event-pubsub-es6.PNG)
 
 #### FireFox Nightly
-As of 11/21/2020 you need to set the javascript private fields and methods flags to `true`. 
+As of 11/22/2020 FF still does not support private fields or methods in js classes, however, the nightly build has it included behind a flag. With the private field and method flags set to true, FireFox nightly works like a charm.
 
 ![FireFox-nightly event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/FireFox-nightly-event-pubsub-es6.PNG)

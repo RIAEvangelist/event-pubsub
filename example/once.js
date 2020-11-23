@@ -1,6 +1,6 @@
 //emulating path as if this was on a server
 //allows us to use the same files for node and web
-import EventPubSub from '../node_modules/event-pubsub/index.js';
+import EventPubSub from './node_modules/event-pubsub/index.js';
 
 const events=new EventPubSub;
 
