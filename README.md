@@ -10,7 +10,7 @@ GitHub info :
 ![event-pubsub GitHub Release](https://img.shields.io/github/release/RIAEvangelist/event-pubsub.svg) ![GitHub license event-pubsub license](https://img.shields.io/github/license/RIAEvangelist/event-pubsub.svg) ![open issues for event-pubsub on GitHub](https://img.shields.io/github/issues/RIAEvangelist/event-pubsub.svg)
 
 Build Info :  
-Travis CI (linux,windows & Mac) : [![Build Status](https://travis-ci.org/RIAEvangelist/event-pubsub.svg?branch=main)](https://travis-ci.org/RIAEvangelist/event-pubsub)
+Travis CI (linux,windows & Mac) : [![Build Status](https://travis-ci.org/RIAEvangelist/event-pubsub.svg?branch=master)](https://travis-ci.org/RIAEvangelist/event-pubsub)
 
 ***Super light and fast*** Extensible ES6+ event system for Node and the browser the same files that work in node will work in the browser without any modifications. If you must support old browsers you can transpile the module.
 
@@ -163,13 +163,38 @@ run `npm start` this will automatically run `npm run emulate` for you as well.
 
 Then just go to the [local server](http://localhost:8000) : http://localhost:8000 from here you can see both the examples and the tests. Or go directly to [the local example](http://localhost:8000/example/index.html) : http://localhost:8000/example/. It actually imports the node example into the browser and runs it, same exact file, no transpiling or custom code for the browser. If you want to transpile though, you can. 
 
-#### Chrome
+## How Did I emulate a production install for the module inside itself???
+
+I'm actually pretty pleased with how easy this was. Feel free to use the same type of scripts in your projects. You can even copy paste and just change the repo/module names if you want. Here is the code from my package.json ***using && is important*** otherwise your commands  will run in parallel, and you really need them to run atomically.
+
+This is needed because we use relative paths in our ES6+ modules to allow the same exact js to work in node and the browser. Its what we have all been waiting for!
+
+```json
+
+ "scripts": {
+    "test": "npm run emulate && node ./test/CI.js",
+    "start": "npm run emulate && node-http-server port=8000 verbose=true",
+    "emulate": "npm i && copyfiles -V \"./!(node_modules)/*\" \"./**!(node_modules)\"  \"./example/node_modules/event-pubsub/\" && copyfiles -V \"./node_modules/**/*\" \"./example/\" && copyfiles -V \"./!(node_modules)/*\" \"./**!(node_modules)\"  \"./test/node_modules/event-pubsub/\" && copyfiles -V \"./node_modules/**/*\" \"./test/\""
+},
+
+```
+
+## Testing done with vanilla-test
+[vanilla-test](https://github.com/RIAEvangelist/vanilla-test) is a pretty sweet, And minimalist ES6+ testing suite for both the browser and node. You can run the tests with `npm test`
+
+Also, the tests can be run in the browser if you run `npm start` and then go to the [local server](http://localhost:8000) : http://localhost:8000 and click the test link. Also, remember, you should be able to access them via http://[your-ip]:8000 provided your firwall and router are not blocking your ip or ports.
+
+## Node vanilla-test screenshot
+
+![node event-pubsub vanilla-test report](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/node-vanilla-test-event-pubsub-es6.PNG)
+
+## Chrome Example Screenshot
 ![Chrome event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/chrome-event-pubsub-es6.PNG)
 
-#### Edge
+## Edge Example Screenshot
 ![Edge event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/edge-event-pubsub-es6.PNG)
 
-#### FireFox Nightly
+## FireFox Nightly Example Screenshot
 As of 11/22/2020 FF still does not support private fields or methods in js classes, however, the nightly build has it included behind a flag. With the private field and method flags set to true, FireFox nightly works like a charm.
 
 ![FireFox-nightly event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/FireFox-nightly-event-pubsub-es6.PNG)
