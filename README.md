@@ -185,8 +185,10 @@ This is needed because we use relative paths in our ES6+ modules to allow the sa
 Also, the tests can be run in the browser if you run `npm start` and then go to the [local server](http://localhost:8000) : http://localhost:8000 and click the test link. Also, remember, you should be able to access them via http://[your-ip]:8000 provided your firwall and router are not blocking your ip or ports.
 
 ## Node vanilla-test screenshot
-
 ![node event-pubsub vanilla-test report](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/node-vanilla-test-event-pubsub-es6.PNG)
+
+## Chrome vanilla-test screenshot
+![Chrome event-pubsub vanilla-test report](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/chrome-vanilla-test-event-pubsub-es6.PNG)
 
 ## Chrome Example Screenshot
 ![Chrome event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/chrome-event-pubsub-es6.PNG)
