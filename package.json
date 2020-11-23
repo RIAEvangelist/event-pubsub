@@ -1,6 +1,6 @@
 {
   "name": "event-pubsub",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Super light and fast Extensible ES6+ events and EventEmitters for Node and the browser. Easy for any developer level, use the same exact code in node and the browser. No frills, just high speed events!",
   "main": "index.js",
   "type": "module",
