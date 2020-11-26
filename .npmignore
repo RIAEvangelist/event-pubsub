@@ -3,3 +3,4 @@ example/
 test/
 travis.yml
 .gitignore
+index.html
