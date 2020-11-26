@@ -40,19 +40,10 @@ The ` * ` event type will be triggered by ***any `emit`***. These also run first
 
 Provided your router and firewall are not blocking your IP/ports, you can also go to `http://[your-ip-here]:8000/` on any device including your mobile device provided it is on the same network.
 
-## Digital Ocean App & CDN
+## Digital Ocean Static App
 
-We use the free Digital Ocean Static Apps to host a version of the local server. You can also use this like a CDN as it automatically rebuilds from master each time the branch is updated. [event-pubsub CDN home](https://cdn-p939v.ondigitalocean.app/event-pubsub/) : https://cdn-p939v.ondigitalocean.app/event-pubsub/
-
-The DigitalOcean app CDN is hosting the latest release of this module on npm so the paths will be the same as in this repo for your use if you want.
-
-```javascript
-
-//Digital ocean static app CDN import if desired
-import EventPubSub from 'https://cdn-p939v.ondigitalocean.app/event-pubsub/index.js';
-
-```
-
+We use the free Digital Ocean Static Apps to host a version of the local server. It is exactly the same as if you ran npm start on your machine. You can also use this like a CDN as it automatically rebuilds from main/master each time the branch is updated. [event-pubsub CDN home](https://cdn-p939v.ondigitalocean.app/event-pubsub/) : https://cdn-p939v.ondigitalocean.app/event-pubsub/
+ 
 
 ## Basic Examples
 
