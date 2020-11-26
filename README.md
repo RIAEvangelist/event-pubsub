@@ -42,7 +42,7 @@ Provided your router and firewall are not blocking your IP/ports, you can also g
 
 ## Digital Ocean Static App
 
-We use the free Digital Ocean Static Apps to host a version of the local server. It is exactly the same as if you ran npm start on your machine. You can also use this like a CDN as it automatically rebuilds from main/master each time the branch is updated. [event-pubsub CDN home](https://cdn-p939v.ondigitalocean.app/event-pubsub/) : https://cdn-p939v.ondigitalocean.app/event-pubsub/
+We use the free Digital Ocean Static Apps to host a version of the local server. It is exactly the same as if you ran npm start on your machine. You can also use this like a CDN as it automatically rebuilds from main/master each time the branch is updated. [event-pubsub CDN home](https://event-pubsub-dkc9a.ondigitalocean.app/) : https://event-pubsub-dkc9a.ondigitalocean.app/
  
 
 ## Basic Examples
