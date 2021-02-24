@@ -12,7 +12,10 @@ GitHub info :
 Build Info :  
 Travis CI (linux,windows & Mac) : [![Build Status](https://travis-ci.org/RIAEvangelist/event-pubsub.svg?branch=master)](https://travis-ci.org/RIAEvangelist/event-pubsub)
 
+### [See the c8 & vanilla-test code coverage](https://cdn-p939v.ondigitalocean.app/event-pubsub/coverage/)
+
 ***Super light and fast*** Extensible ES6+ event system for Node and the browser the same files that work in node will work in the browser without any modifications. If you must support old browsers you can transpile the module.
+
 
 # Methods
 
@@ -187,6 +190,8 @@ This is needed because we use relative paths in our ES6+ modules to allow the sa
 [vanilla-test](https://github.com/RIAEvangelist/vanilla-test) is a pretty sweet, And minimalist ES6+ testing suite for both the browser and node. You can run the tests with `npm test`
 
 Also, the tests can be run in the browser if you run `npm start` and then go to the [local server](http://localhost:8000) : http://localhost:8000 and click the test link. Also, remember, you should be able to access them via http://[your-ip]:8000 provided your firwall and router are not blocking your ip or ports.
+
+### [See the c8 code coverage](https://cdn-p939v.ondigitalocean.app/event-pubsub/coverage/)
 
 ## Node vanilla-test screenshot
 ![node event-pubsub vanilla-test report](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/node-vanilla-test-event-pubsub-es6.PNG)
