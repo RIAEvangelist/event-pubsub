@@ -12,7 +12,7 @@ GitHub info :
 Build Info :  
 Travis CI (linux,windows & Mac) : [![Build Status](https://travis-ci.org/RIAEvangelist/event-pubsub.svg?branch=master)](https://travis-ci.org/RIAEvangelist/event-pubsub)
 
-### [See the c8 & vanilla-test code coverage](https://cdn-p939v.ondigitalocean.app/event-pubsub/coverage/)
+### [See the c8 & vanilla-test code coverage](https://cdn-avsja.ondigitalocean.app/event-pubsub/coverage/)
 
 ***Super light and fast*** Extensible ES6+ event system for Node and the browser the same files that work in node will work in the browser without any modifications. If you must support old browsers you can transpile the module.
 
@@ -45,7 +45,7 @@ Provided your router and firewall are not blocking your IP/ports, you can also g
 
 ## Digital Ocean Static App
 
-We use the free Digital Ocean Static Apps to host a version of the local server. It is exactly the same as if you ran npm start on your machine. You can also use this like a CDN as it automatically rebuilds from main/master each time the branch is updated. [event-pubsub CDN home](https://cdn-p939v.ondigitalocean.app/event-pubsub/) : https://cdn-p939v.ondigitalocean.app/event-pubsub/
+We use the free Digital Ocean Static Apps to host a version of the local server. It is exactly the same as if you ran npm start on your machine. You can also use this like a CDN as it automatically rebuilds from main/master each time the branch is updated. [event-pubsub CDN home](https://cdn-avsja.ondigitalocean.app/event-pubsub/) : https://cdn-avsja.ondigitalocean.app/event-pubsub/
  
 
 ## Basic Examples
@@ -191,7 +191,7 @@ This is needed because we use relative paths in our ES6+ modules to allow the sa
 
 Also, the tests can be run in the browser if you run `npm start` and then go to the [local server](http://localhost:8000) : http://localhost:8000 and click the test link. Also, remember, you should be able to access them via http://[your-ip]:8000 provided your firwall and router are not blocking your ip or ports.
 
-### [See the c8 code coverage](https://cdn-p939v.ondigitalocean.app/event-pubsub/coverage/)
+### [See the c8 code coverage](https://cdn-avsja.ondigitalocean.app/event-pubsub/coverage/)
 
 ## Node vanilla-test screenshot
 ![node event-pubsub vanilla-test report](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/node-vanilla-test-event-pubsub-es6.PNG)
