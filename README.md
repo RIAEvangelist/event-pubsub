@@ -1,5 +1,7 @@
 # Event PubSub
 
+[![Sponsor RIAEvangelist to help development of event-pubsub](https://img.shields.io/static/v1?label=Sponsor%20Me%20On%20Github&message=%E2%9D%A4&logo=GitHub&link=https://github.com/sponsors/RIAEvangelist)](https://github.com/sponsors/RIAEvangelist)
+
 `npm install event-pubsub`
 
 npm info :  [See npm trends and stats for event-pubsub](http://npm-stat.com/charts.html?package=event-pubsub&author=&from=&to=)   
