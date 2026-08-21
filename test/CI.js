@@ -3,8 +3,9 @@ import unit from './unit.js';
 import functional from './functional.js';
 import integration from './integration.js';
 import regression from './regression.js';
+import interfaceSuite from './interface.js';
 
-const categories = Object.freeze([unit, functional, integration, regression]);
+const categories = Object.freeze([unit, functional, integration, regression, interfaceSuite]);
 
 function selectCategories(category) {
     if (category === undefined) return categories;

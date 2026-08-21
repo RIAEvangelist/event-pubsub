@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Chart event-pubsub typed and wildcard dispatch latency in nanoseconds per emit.">
+    <meta name="theme-color" content="#050914"><link rel="canonical" href="https://riaevangelist.github.io/event-pubsub/benchmarks-dispatch.html">
+    <meta property="og:title" content="Dispatch latency · event-pubsub"><meta property="og:description" content="Typed and wildcard event dispatch time, with exact timed code and sample ranges.">
+    <meta property="og:image" content="https://riaevangelist.github.io/event-pubsub/og.png"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image">
+    <title>Dispatch latency · event-pubsub</title><link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header"><div class="shell header-row"><a class="brand" href="./index.html"><span class="brand-mark" aria-hidden="true">●</span><span>event-pubsub</span></a><nav class="site-nav" aria-label="Primary navigation"><ul>
+        <li><a href="./index.html">Overview</a></li><li><a href="./guide.html">Guide</a></li><li><a href="./api.html">API</a></li><li><a href="./examples.html">Examples</a></li><li><a href="./playground.html">Playground</a></li><li><a href="./testing.html">Tests</a></li><li><a href="./coverage.html">Coverage</a></li><li><a class="section-current" href="./benchmarks.html">Benchmarks</a></li>
+    </ul></nav></div></header>
+    <main id="main" class="shell">
+        <header class="page-hero"><div><p class="eyebrow">Dispatch chart</p><h1>Nanoseconds per <span class="accent">emit.</span></h1><p class="lede">The bar ends at the median. The bright segment marks p25–p75, and the dots are the seven raw samples. Every scenario emits one payload value into distinct minimal subscribers whose observable counters are verified after timing.</p></div></header>
+        <section class="section"><div class="chart-heading"><div><h2>Dispatch execution time</h2><p>Zero-based scale · lower is better</p></div><p data-benchmark-status role="status">Loading current CI benchmark…</p></div><div class="chart-shell" data-benchmark-group="dispatch" data-chart-title="Dispatch execution time"><p>Loading timing evidence…</p></div></section>
+        <section class="section"><div class="actions"><a class="button" href="./benchmarks.html">Benchmark overview</a><a class="button" href="./benchmarks-lifecycle.html">Lifecycle charts</a><a class="button primary" href="./benchmarks-methodology.html">How timing works</a></div></section>
+    </main>
+    <footer class="site-footer"><div class="shell footer-row"><span>Dispatch latency · exact operation boundaries</span><nav class="footer-links" aria-label="Resource navigation"><a href="./benchmarks.html">Overview</a><a href="./benchmarks-lifecycle.html">Lifecycle</a><a href="./benchmarks-methodology.html">Method</a><a href="./data/benchmark.json">JSON</a><a href="./licence">License</a></nav></div></footer>
+    <script src="./script.js"></script><script type="module" src="./benchmark-charts.js"></script>
+</body>
+</html>

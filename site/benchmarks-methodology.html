@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Exact event-pubsub benchmark timing boundaries, exclusions, environment, statistics, and reproducibility commands.">
+    <meta name="theme-color" content="#050914"><link rel="canonical" href="https://riaevangelist.github.io/event-pubsub/benchmarks-methodology.html">
+    <meta property="og:title" content="Benchmark methodology · event-pubsub"><meta property="og:description" content="See exactly what is and is not included in event-pubsub execution latency.">
+    <meta property="og:image" content="https://riaevangelist.github.io/event-pubsub/og.png"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image">
+    <title>Benchmark methodology · event-pubsub</title><link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header"><div class="shell header-row"><a class="brand" href="./index.html"><span class="brand-mark" aria-hidden="true">●</span><span>event-pubsub</span></a><nav class="site-nav" aria-label="Primary navigation"><ul>
+        <li><a href="./index.html">Overview</a></li><li><a href="./guide.html">Guide</a></li><li><a href="./api.html">API</a></li><li><a href="./examples.html">Examples</a></li><li><a href="./playground.html">Playground</a></li><li><a href="./testing.html">Tests</a></li><li><a href="./coverage.html">Coverage</a></li><li><a class="section-current" href="./benchmarks.html">Benchmarks</a></li>
+    </ul></nav></div></header>
+    <main id="main" class="shell">
+        <header class="page-hero"><div><p class="eyebrow">Timing boundary</p><h1>Only operation execution reaches the <span class="accent">charts.</span></h1><p class="lede">Each fixed-count sample takes exactly two high-resolution clock readings around <code>execute(operations)</code>. The chart divides measured nanoseconds by completed operations and summarizes seven samples.</p></div></header>
+        <section class="section"><div class="grid two"><article class="card"><h2>Excluded from every chart value</h2><ul class="check-list"><li>Emitter and handler setup</li><li>Behavior validation and assertions</li><li>Iteration calibration</li><li>JIT warmup</li><li>Post-run verification and checksum comparison</li><li>Summary calculation and formatting</li><li>JSON serialization and file I/O</li><li>Node startup and CI orchestration</li></ul></article><article class="card"><h2>Included</h2><ul class="check-list"><li>The exact public calls printed beside each bar</li><li>Minimal observable handler bodies during dispatch</li><li>Allocation required by the measured API, such as <code>list</code> snapshots</li><li>The fixed-count loop branch required to repeat an operation</li></ul><p>Timed handler effects become post-run checksums, proving every subscriber ran. No synthetic baseline is subtracted; subtraction can amplify JIT noise and create a value that was never directly observed.</p></article></div></section>
+        <section class="section"><div class="table-wrap"><table class="reference-table"><caption>Published benchmark environment</caption><tbody>
+            <tr><th scope="row">Package</th><td><span data-benchmark-meta="package.name">event-pubsub</span>@<span data-benchmark-meta="package.version">6.0.0</span></td></tr>
+            <tr><th scope="row">Source commit</th><td><code data-benchmark-meta="package.commit">loading</code></td></tr>
+            <tr><th scope="row">Node / V8</th><td><span data-benchmark-meta="environment.node">loading</span> / <span data-benchmark-meta="environment.v8">loading</span></td></tr>
+            <tr><th scope="row">Platform</th><td><span data-benchmark-meta="environment.platform">loading</span> · <span data-benchmark-meta="environment.architecture">loading</span> · <span data-benchmark-meta="environment.osRelease">loading</span></td></tr>
+            <tr><th scope="row">CPU</th><td><span data-benchmark-meta="environment.cpuModel">loading</span> · <span data-benchmark-meta="environment.logicalCpus">loading</span> logical CPUs</td></tr>
+            <tr><th scope="row">Clock</th><td><code data-benchmark-meta="methodology.clock">process.hrtime.bigint</code></td></tr>
+            <tr><th scope="row">Statistic</th><td data-benchmark-meta="methodology.statistic">median with p25 and p75</td></tr>
+            <tr><th scope="row">Samples</th><td data-benchmark-meta="methodology.sampleCount">7</td></tr>
+        </tbody></table></div><p data-benchmark-status role="status">Loading current CI environment…</p></section>
+        <section class="section"><div class="grid two"><div class="code-card"><h2>Reproduce locally</h2><pre><code>npm ci
+npm run benchmark</code></pre></div><article class="card"><h2>Inspect the evidence</h2><p>The JSON includes every sample’s operation count, elapsed nanoseconds, latency, derived throughput, and checksum.</p><div class="actions"><a class="button primary" href="./data/benchmark.json">Raw JSON</a><a class="button" href="https://github.com/RIAEvangelist/event-pubsub/blob/main/benchmark/run.js">Harness source</a></div></article></div></section>
+        <section class="section"><div class="actions"><a class="button" href="./benchmarks.html">Benchmark overview</a><a class="button" href="./benchmarks-dispatch.html">Dispatch chart</a><a class="button" href="./benchmarks-lifecycle.html">Lifecycle charts</a></div></section>
+    </main>
+    <footer class="site-footer"><div class="shell footer-row"><span>Auditable timing · no total-job-time charts</span><nav class="footer-links" aria-label="Resource navigation"><a href="./benchmarks.html">Overview</a><a href="./benchmarks-dispatch.html">Dispatch</a><a href="./benchmarks-lifecycle.html">Lifecycle</a><a href="./data/benchmark.json">JSON</a><a href="./licence">License</a></nav></div></footer>
+    <script src="./script.js"></script><script type="module" src="./benchmark-charts.js"></script>
+</body>
+</html>

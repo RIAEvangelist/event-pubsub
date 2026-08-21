@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Run focused event-pubsub mutation, reentrancy, wildcard, removal, reset, and error scenarios in the browser.">
+    <meta name="theme-color" content="#050914"><link rel="canonical" href="https://riaevangelist.github.io/event-pubsub/playground-scenarios.html">
+    <meta property="og:title" content="Playground scenarios · event-pubsub"><meta property="og:description" content="Inspect expected and actual event order for difficult synchronous dispatch cases.">
+    <meta property="og:image" content="https://riaevangelist.github.io/event-pubsub/og.png"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image">
+    <title>Playground scenarios · event-pubsub</title><link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header"><div class="shell header-row"><a class="brand" href="./index.html"><span class="brand-mark" aria-hidden="true">●</span><span>event-pubsub</span></a><nav class="site-nav" aria-label="Primary navigation"><ul>
+        <li><a href="./index.html">Overview</a></li><li><a href="./guide.html">Guide</a></li><li><a href="./api.html">API</a></li><li><a href="./examples.html">Examples</a></li><li><a class="section-current" href="./playground.html">Playground</a></li><li><a href="./testing.html">Tests</a></li><li><a href="./coverage.html">Coverage</a></li><li><a href="./benchmarks.html">Benchmarks</a></li>
+    </ul></nav></div></header>
+    <main id="main" class="shell">
+        <header class="page-hero"><div><p class="eyebrow">Mutation scenarios</p><h1>See difficult dispatch rules <span class="accent">in order.</span></h1><p class="lede">Each scenario creates a fresh emitter, runs real module code, and compares the actual sequence with the documented sequence. No editable JavaScript or evaluation is involved.</p></div></header>
+        <section class="section scenario-grid" id="scenario-grid">
+            <article class="scenario-card" data-scenario="wildcard-first"><h2>Wildcard before typed</h2><p>Wildcard subscribers receive the type and run before typed subscribers.</p><p><strong>Expected:</strong> <code>wildcard → typed</code></p><button class="button primary" type="button" data-run-scenario>Run</button><output aria-live="polite">Not run.</output></article>
+            <article class="scenario-card" data-scenario="once-reentrant"><h2>Once before reentrant emit</h2><p>The once record disappears before its handler publishes the same type again.</p><p><strong>Expected:</strong> <code>once → persistent:nested → persistent:outer</code></p><button class="button primary" type="button" data-run-scenario>Run</button><output aria-live="polite">Not run.</output></article>
+            <article class="scenario-card" data-scenario="add-during"><h2>Add during dispatch</h2><p>A newly added handler waits until the next emit.</p><p><strong>Expected:</strong> <code>first → second → first → second → late</code></p><button class="button primary" type="button" data-run-scenario>Run</button><output aria-live="polite">Not run.</output></article>
+            <article class="scenario-card" data-scenario="off-during"><h2>Remove before turn</h2><p>A handler removed by an earlier peer is skipped immediately.</p><p><strong>Expected:</strong> <code>first</code></p><button class="button primary" type="button" data-run-scenario>Run</button><output aria-live="polite">Not run.</output></article>
+            <article class="scenario-card" data-scenario="reset-during"><h2>Reset during dispatch</h2><p>Reset tombstones every remaining typed and wildcard record.</p><p><strong>Expected:</strong> <code>wildcard-reset</code></p><button class="button primary" type="button" data-run-scenario>Run</button><output aria-live="polite">Not run.</output></article>
+            <article class="scenario-card" data-scenario="sync-throw"><h2>Synchronous throw</h2><p>A synchronous handler error propagates and stops later handlers.</p><p><strong>Expected:</strong> <code>first → caught:expected</code></p><button class="button primary" type="button" data-run-scenario>Run</button><output aria-live="polite">Not run.</output></article>
+        </section>
+        <section class="section"><div class="actions"><button class="button" id="run-all-scenarios" type="button">Run every scenario</button><a class="button primary" href="./playground.html">Open event console</a><a class="button" href="./tests-regression.html">Regression inventory</a></div></section>
+    </main>
+    <footer class="site-footer"><div class="shell footer-row"><span>Fresh emitter per run · expected versus actual</span><nav class="footer-links" aria-label="Resource navigation"><a href="./playground.html">Event console</a><a href="./testing.html">Tests</a><a href="./tests-regression.html">Regression</a><a href="./coverage.html">Coverage</a><a href="./licence">License</a></nav></div></footer>
+    <script src="./script.js"></script><script type="module" src="./playground-scenarios.js"></script>
+</body>
+</html>

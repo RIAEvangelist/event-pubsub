@@ -18,7 +18,7 @@
         <section class="section"><ol class="steps">
             <li><h2>Move to Node 22.12 or newer</h2><p>Production package support now follows the vanilla-test v2 baseline and current native ESM runtimes.</p></li>
             <li><h2>Install the new major after publication</h2><pre><code>npm install event-pubsub@6</code></pre><p>Version 6 is currently verified on <code>main</code>; this command becomes available when the registry release is published.</p></li>
-            <li><h2>Keep the package import</h2><pre><code>import EventPubSub, { EventPubSub as Named } from 'event-pubsub';</code></pre></li>
+            <li><h2>Keep the package import</h2><pre><code>import EventPubSub, { EventPubSub as Named } from 'event-pubsub';</code></pre><p>The supported runtime paths are <code>event-pubsub</code> and <code>event-pubsub/index.js</code>. Other historical deep imports are no longer public and fail with <code>ERR_PACKAGE_PATH_NOT_EXPORTED</code> in Node.</p></li>
             <li><h2>Review observable edge fixes</h2><p><code>emit</code> remains fluent as it was in 5.x. One-shot state no longer mutates handler functions. New handlers wait for the next dispatch, while handlers removed before their turn are skipped.</p></li>
             <li><h2>Treat <code>list</code> as a snapshot</h2><p>Each access returns a null-prototype object with copied handler arrays. Mutating or deleting values in that snapshot no longer changes the live registry. Use <code>Object.hasOwn(snapshot, type)</code> instead of <code>snapshot.hasOwnProperty(...)</code>.</p></li>
             <li><h2>Run your own integration suite</h2><p>Pay special attention to code that depended on undocumented handler symbols, shared list arrays, or mutation during an active dispatch.</p></li>

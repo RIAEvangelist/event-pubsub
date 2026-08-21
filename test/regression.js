@@ -32,9 +32,14 @@ export default Object.freeze({
             const events = new EventPubSub().on('*', () => {});
             events.off(Symbol.for('event-pubsub-all').toString()); equal(events.list[wildcard], undefined);
         }},
-        {name: 'the legacy wildcard symbol string removes one matching handler', run() {
+        {name: 'the legacy wildcard alias prefers exact typed registrations before wildcard fallback', run() {
             const events = new EventPubSub(); const removed = () => {}; const kept = () => {};
-            events.on('*', removed).on('*', kept).off(wildcard.toString(), removed);
+            const exactType = wildcard.toString(); let typedCalls = 0;
+            const typed = () => { typedCalls += 1; };
+            events.on('*', removed).on('*', kept).on(exactType, typed);
+            events.off(exactType, typed).emit(exactType); equal(typedCalls, 0);
+            arrayEqual(events.list[wildcard], [removed, kept]);
+            events.off(exactType, removed);
             arrayEqual(events.list[wildcard], [kept]);
         }},
         {name: 'emitting the literal wildcard type invokes wildcard handlers once', run() {

@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Run event-pubsub directly in your browser with typed, wildcard, and once subscribers.">
+    <meta name="description" content="Build subscriptions, emit multiple arguments, inspect the live registry, and observe ordered event-pubsub dispatch in a browser.">
     <meta name="theme-color" content="#050914"><link rel="canonical" href="https://riaevangelist.github.io/event-pubsub/playground.html">
-    <meta property="og:title" content="Playground · event-pubsub"><meta property="og:description" content="Publish events through the real event-pubsub module in your browser.">
+    <meta property="og:title" content="Playground · event-pubsub"><meta property="og:description" content="Operate the real event-pubsub module with editable subscriptions, payloads, registry state, and logs.">
     <meta property="og:image" content="https://riaevangelist.github.io/event-pubsub/og.png"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image">
     <title>Playground · event-pubsub</title><link rel="stylesheet" href="./styles.css">
 </head>
@@ -14,22 +14,36 @@
         <li><a href="./index.html">Overview</a></li><li><a href="./guide.html">Guide</a></li><li><a href="./api.html">API</a></li><li><a href="./examples.html">Examples</a></li><li><a href="./playground.html" aria-current="page">Playground</a></li><li><a href="./testing.html">Tests</a></li><li><a href="./coverage.html">Coverage</a></li><li><a href="./benchmarks.html">Benchmarks</a></li>
     </ul></nav></div></header>
     <main id="main" class="shell">
-        <header class="page-hero"><div><p class="eyebrow">Live playground</p><h1>Publish into the <span class="accent">real module.</span></h1><p class="lede">The deployed page imports the repository source directly. Start with <code>demo.message</code> to trigger typed, wildcard, and one-shot subscribers.</p></div></header>
-        <section class="section playground">
-            <form class="card" onsubmit="return false">
-                <div class="field"><label for="event-type">Event type</label><input id="event-type" value="demo.message" autocomplete="off"></div>
-                <div class="field"><label for="event-payload">Payload (JSON or text)</label><textarea id="event-payload" rows="7">{"message":"hello"}</textarea></div>
-                <div class="actions"><button class="button primary" id="emit-event" type="button">Emit event</button><button class="button" id="reset-events" type="button">Reset registry</button></div>
-            </form>
-            <section aria-labelledby="log-heading"><h2 id="log-heading">Dispatch log</h2><ul class="event-log" id="event-log" aria-live="polite"><li><strong>ready</strong> Emit <code>demo.message</code> to begin.</li></ul></section>
+        <header class="page-hero"><div><p class="eyebrow">Live event console</p><h1>Build and inspect a <span class="accent">real registry.</span></h1><p class="lede">Add persistent, one-shot, typed, and wildcard subscribers; emit zero or many arguments; remove registrations; and watch the exact synchronous order. No user code is evaluated.</p></div></header>
+        <p class="playground-status" id="playground-status" role="status" aria-live="polite">Three starter subscriptions are ready.</p>
+        <section class="section playground-workbench">
+            <div class="playground-controls">
+                <form class="card" id="subscription-form">
+                    <p class="eyebrow">1 · Subscribe</p><h2>Add a subscriber</h2>
+                    <div class="field"><label for="subscription-kind">Subscription target</label><select id="subscription-kind"><option value="typed">Exact event type</option><option value="wildcard">Wildcard · all event types</option></select></div>
+                    <div class="field"><label for="subscription-type">Exact event type</label><input id="subscription-type" value="demo.message" autocomplete="off" aria-describedby="subscription-type-help"><small id="subscription-type-help">Whitespace, Unicode, empty strings, and prototype-like names are preserved exactly.</small></div>
+                    <div class="field"><label for="subscription-label">Handler label</label><input id="subscription-label" value="custom handler" maxlength="80" autocomplete="off"></div>
+                    <div class="field"><label for="subscription-lifetime">Lifetime</label><select id="subscription-lifetime"><option value="on">Persistent · on()</option><option value="once">One shot · once()</option></select></div>
+                    <button class="button primary" type="submit">Add subscriber</button>
+                </form>
+                <form class="card" id="emit-form">
+                    <p class="eyebrow">2 · Publish</p><h2>Emit an event</h2>
+                    <div class="field"><label for="event-type">Exact event type</label><input id="event-type" value="demo.message" autocomplete="off"></div>
+                    <div class="field"><label for="argument-mode">Arguments</label><select id="argument-mode" aria-describedby="argument-help"><option value="json-array">JSON array · spread as arguments</option><option value="text">One exact text argument</option><option value="none">No arguments</option></select><small id="argument-help">JSON must be a top-level array. Invalid JSON is reported and never silently converted to text.</small></div>
+                    <div class="field"><label for="event-arguments">Argument source</label><textarea id="event-arguments" rows="6">[{"message":"hello"}]</textarea></div>
+                    <fieldset class="preset-field"><legend>Argument presets</legend><div class="actions compact"><button class="button" type="button" data-argument-preset="none">Zero</button><button class="button" type="button" data-argument-preset="one">One</button><button class="button" type="button" data-argument-preset="two">Two</button><button class="button" type="button" data-argument-preset="many">Four</button></div></fieldset>
+                    <button class="button primary" id="emit-event" type="submit">Emit event</button>
+                </form>
+            </div>
+            <div class="playground-observers">
+                <section class="registry-panel" aria-labelledby="registry-heading"><div class="panel-heading"><div><p class="eyebrow">Live state</p><h2 id="registry-heading">Registry</h2></div><span id="registry-count">0 subscribers</span></div><div id="registry-list"><p>No subscriptions.</p></div></section>
+                <section aria-labelledby="log-heading"><div class="panel-heading"><div><p class="eyebrow">Chronological</p><h2 id="log-heading">Dispatch timeline</h2></div><span id="log-retention">0 entries</span></div><ol class="event-log" id="event-log" role="log" aria-live="polite" aria-relevant="additions text"><li class="log-placeholder">Emit <code>demo.message</code> to begin.</li></ol></section>
+            </div>
         </section>
-        <section class="section"><div class="grid three">
-            <article class="card"><h3>Wildcard</h3><p>Runs first and sees the event type plus the payload.</p></article>
-            <article class="card"><h3>Typed</h3><p>Runs only for <code>demo.message</code> and receives the payload.</p></article>
-            <article class="card"><h3>Once</h3><p>Runs on the first <code>demo.message</code>, then removes itself.</p></article>
-        </div></section>
+        <section class="section"><div class="toolbar" aria-label="Playground lifecycle actions"><button class="button" id="clear-log" type="button">Clear timeline</button><button class="button" id="reset-events" type="button">Reset registry</button><button class="button primary" id="restore-defaults" type="button">Restore starters</button><a class="button" href="./playground-scenarios.html">Run mutation scenarios</a></div></section>
+        <section class="section"><div class="callout"><strong>The playground uses the deployed module source.</strong><p>All displayed event types are quoted so empty strings and whitespace remain visible. Timeline retention is capped at 200 entries to keep long sessions responsive.</p></div></section>
     </main>
-    <footer class="site-footer"><div class="shell footer-row"><span>Native browser ESM · no transpilation</span><nav class="footer-links" aria-label="Resource navigation"><a href="./live.html">Live full suite</a><a href="./coverage.html">Coverage</a><a href="./security.html">Security</a><a href="./migration.html">Migration</a><a href="./changelog.html">Changelog</a><a href="./licence">License</a></nav></div></footer>
+    <footer class="site-footer"><div class="shell footer-row"><span>Native browser ESM · no eval · bounded timeline</span><nav class="footer-links" aria-label="Resource navigation"><a href="./playground-scenarios.html">Scenarios</a><a href="./live.html">Live full suite</a><a href="./coverage.html">Coverage</a><a href="./security.html">Security</a><a href="./changelog.html">Changelog</a><a href="./licence">License</a></nav></div></footer>
     <script src="./script.js"></script><script type="module" src="./playground.js"></script>
 </body>
 </html>

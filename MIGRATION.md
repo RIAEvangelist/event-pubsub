@@ -17,6 +17,10 @@ Version 6 preserves the public method names and synchronous wildcard-first model
   import EventPubSub, {EventPubSub as NamedEventPubSub} from 'event-pubsub';
   ```
 
+### Package export paths
+
+Version 6 defines an explicit package export map. The supported runtime imports are `event-pubsub` and `event-pubsub/index.js`; `event-pubsub/package.json` remains available for metadata. Other historical deep imports and repository-only paths are not public API and now fail with `ERR_PACKAGE_PATH_NOT_EXPORTED` in Node.
+
 ## Behavior to review
 
 ### `emit` remains fluent
@@ -43,7 +47,7 @@ Each `list` access creates a null-prototype object with copied handler arrays. M
 
 ### Browser package imports
 
-The prepared 6.0.0 source has zero runtime dependencies. Bundlers resolve the package normally. Unbundled browsers can import a relative module URL or use an import map for `event-pubsub`; no dependency mapping is required.
+The 6.0.0 GitHub source release has zero runtime dependencies. Bundlers resolve the package normally. Unbundled browsers can import a relative module URL or use an import map for `event-pubsub`; no dependency mapping is required. npm latest remains 5.0.3 until the separate registry publication.
 
 ## Tooling cleanup
 

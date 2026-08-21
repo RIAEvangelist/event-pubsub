@@ -3,13 +3,16 @@ import {execFileSync} from 'node:child_process';
 import {existsSync, readFileSync, readdirSync, statSync} from 'node:fs';
 import {extname, resolve} from 'node:path';
 import {categories} from '../test/CI.js';
+import {validateBenchmark} from '../site/benchmark-data.js';
+import {createStatus} from './site-data.js';
 
 const siteRoot = resolve(import.meta.dirname, '../site');
 const projectRoot = resolve(siteRoot, '..');
 const pages = [
-    'index.html', 'guide.html', 'api.html', 'examples.html', 'playground.html',
+    'index.html', 'guide.html', 'api.html', 'examples.html', 'playground.html', 'playground-scenarios.html',
     'testing.html', 'tests-unit.html', 'tests-functional.html', 'tests-integration.html',
-    'tests-regression.html', 'live.html', 'coverage.html', 'benchmarks.html',
+    'tests-regression.html', 'tests-interface.html', 'live.html', 'coverage.html', 'benchmarks.html',
+    'benchmarks-dispatch.html', 'benchmarks-lifecycle.html', 'benchmarks-methodology.html',
     'security.html', 'migration.html', 'changelog.html'
 ];
 const htmlByPage = new Map(pages.map((name) => [name, readFileSync(resolve(siteRoot, name), 'utf8')]));
@@ -58,6 +61,10 @@ for (const [name, html] of htmlByPage) {
         assert.ok(existsSync(resolve(siteRoot, target)), `${name} links missing local file ${target}`);
     }
     assert.match(html, /href="\.\/licence"/, `${name} needs the distributed license link`);
+
+    for (const field of html.matchAll(/<(?:input|select|textarea)\b[^>]*\sid="([^"]+)"[^>]*>/g)) {
+        assert.match(html, new RegExp(`<label\\s+for="${field[1]}"`), `${name} needs a label for ${field[1]}`);
+    }
 }
 
 const reachable = new Set(['index.html']);
@@ -74,10 +81,11 @@ assert.deepEqual([...reachable].sort(), [...pages].sort(), 'Every documentation 
 
 const suitePages = new Map([
     ['Unit', 'tests-unit.html'], ['Functional', 'tests-functional.html'],
-    ['Integration', 'tests-integration.html'], ['Regression', 'tests-regression.html']
+    ['Integration', 'tests-integration.html'], ['Regression', 'tests-regression.html'],
+    ['Interface', 'tests-interface.html']
 ]);
 const totalCases = categories.reduce((total, category) => total + category.tests.length, 0);
-assert.equal(totalCases, 90);
+assert.equal(totalCases, 110);
 
 for (const category of categories) {
     const html = htmlByPage.get(suitePages.get(category.name));
@@ -88,30 +96,42 @@ for (const category of categories) {
 }
 
 const testing = htmlByPage.get('testing.html');
-assert.match(testing, /90 unique checks/i);
+assert.match(testing, /110 unique checks/i);
 for (const category of categories) {
     assert.match(testing, new RegExp(`${category.name} · ${category.tests.length}`));
 }
 assert.match(htmlByPage.get('coverage.html'), /Node coverage/);
 assert.match(htmlByPage.get('coverage.html'), /Chrome coverage/);
-assert.match(htmlByPage.get('benchmarks.html'), /typed emit · 1\/5\/20/i);
+assert.match(htmlByPage.get('benchmarks.html'), /execution latency/i);
+assert.match(htmlByPage.get('benchmarks-dispatch.html'), /data-benchmark-group="dispatch"/);
+assert.match(htmlByPage.get('benchmarks-lifecycle.html'), /data-benchmark-group="lifecycle"/);
+assert.match(htmlByPage.get('benchmarks-lifecycle.html'), /data-benchmark-group="state"/);
+assert.match(htmlByPage.get('benchmarks-methodology.html'), /Only operation execution/i);
+const playground = htmlByPage.get('playground.html');
+for (const id of ['subscription-form', 'emit-form', 'argument-mode', 'registry-list', 'event-log', 'clear-log', 'reset-events', 'restore-defaults']) {
+    assert.match(playground, new RegExp(`id="${id}"`), `playground.html needs ${id}`);
+}
+assert.match(playground, /role="log"/);
+assert.match(playground, /role="status"/);
+assert.doesNotMatch(playground, /\son[a-z]+=/i, 'playground.html must not use inline event handlers');
 assert.match(htmlByPage.get('migration.html'), /5\.x → 6\.x/);
 assert.match(htmlByPage.get('security.html'), /security\/advisories\/new/);
-assert.match(htmlByPage.get('changelog.html'), /6\.0\.0 · unreleased · prepared 2026-08-21/);
+assert.match(htmlByPage.get('changelog.html'), /6\.0\.0 · 2026-08-21/);
 assert.match(htmlByPage.get('changelog.html'), /5\.0\.3 · 2020-11-26/);
 assert.match(htmlByPage.get('index.html'), /npm latest remains 5\.0\.3 until publication/);
 
-const status = JSON.parse(readFileSync(resolve(siteRoot, 'data/status.json'), 'utf8'));
+const status = createStatus();
 assert.equal(status.version, '6.0.0');
 assert.equal(status.tests.total, totalCases);
 assert.ok(statSync(resolve(siteRoot, 'og.png')).size > 100_000, 'Social image must be a substantive raster asset');
+validateBenchmark(JSON.parse(readFileSync(resolve(projectRoot, 'benchmark', 'results.json'), 'utf8')));
 
 const css = readFileSync(resolve(siteRoot, 'styles.css'), 'utf8');
 assert.equal((css.match(/{/g) ?? []).length, (css.match(/}/g) ?? []).length, 'CSS braces must balance');
 assert.match(css, /prefers-reduced-motion/);
 assert.doesNotMatch(css, /scroll-behavior:\s*smooth/i);
 
-for (const file of ['script.js', 'playground.js', 'live.js']) {
+for (const file of ['script.js', 'playground.js', 'playground-core.js', 'playground-scenarios.js', 'live.js', 'benchmark-data.js', 'benchmark-charts.js']) {
     execFileSync(process.execPath, ['--check', resolve(siteRoot, file)], {stdio: 'pipe'});
 }
 

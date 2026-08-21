@@ -1,13 +1,19 @@
 {
   "generated": false,
   "version": "6.0.0",
-  "commit": "local source",
+  "commit": "generated during Pages assembly",
   "tests": {
-    "total": 90
+    "total": 110,
+    "node": {},
+    "chrome": {}
   },
   "coverage": {
     "node": {},
     "chrome": {}
   },
-  "benchmark": {}
+  "benchmark": {},
+  "dependencies": {
+    "runtime": 0,
+    "vanillaTest": "2.1.1"
+  }
 }

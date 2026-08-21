@@ -35,17 +35,46 @@ function writeBadges(status, output) {
         functions: 'function ranges',
         lines: 'executable lines'
     };
-    mkdirSync(badgeDirectory, {recursive: true});
-    for (const metric of ['statements', 'branches', 'functions', 'lines']) {
-        const value = status.coverage.node[metric];
+    function write(name, label, message, color = 'brightgreen') {
         const schema = {
             schemaVersion: 1,
-            label: `Node ${labels[metric]}`,
-            message: value === undefined ? 'pending' : `${value}%`,
-            color: value === 100 ? 'brightgreen' : 'yellow'
+            label,
+            message,
+            color
         };
-        writeFileSync(resolve(badgeDirectory, `${metric}.json`), `${JSON.stringify(schema, null, 2)}\n`);
+        writeFileSync(resolve(badgeDirectory, `${name}.json`), `${JSON.stringify(schema, null, 2)}\n`);
     }
+
+    mkdirSync(badgeDirectory, {recursive: true});
+    for (const runtime of ['node', 'chrome']) {
+        const title = runtime === 'node' ? 'Node' : 'Chrome';
+        const tests = status.tests[runtime];
+        write(
+            `${runtime}-tests`,
+            `${title} tests`,
+            tests.total ? `${tests.passedCount}/${tests.total}` : 'pending',
+            tests.ok ? 'brightgreen' : 'red'
+        );
+        for (const metric of ['statements', 'branches', 'functions', 'lines']) {
+            const value = status.coverage[runtime][metric];
+            write(
+                `${runtime}-${metric}`,
+                `${title} ${labels[metric]}`,
+                value === undefined ? 'pending' : `${value}%`,
+                value === 100 ? 'brightgreen' : 'yellow'
+            );
+            if (runtime === 'node') {
+                write(
+                    metric,
+                    `Node ${labels[metric]}`,
+                    value === undefined ? 'pending' : `${value}%`,
+                    value === 100 ? 'brightgreen' : 'yellow'
+                );
+            }
+        }
+    }
+    write('runtime-dependencies', 'runtime dependencies', String(status.dependencies.runtime), status.dependencies.runtime === 0 ? 'brightgreen' : 'yellow');
+    write('vanilla-test', 'vanilla-test', status.dependencies.vanillaTest ?? 'missing', status.dependencies.vanillaTest ? 'blue' : 'red');
 }
 
 export function assembleSite(outputPath = resolve(projectRoot, '_site')) {
@@ -56,8 +85,11 @@ export function assembleSite(outputPath = resolve(projectRoot, '_site')) {
 
     copyFile(resolve(projectRoot, 'index.js'), resolve(output, 'module', 'index.js'));
     copyFile(resolve(projectRoot, 'licence'), resolve(output, 'licence'));
-    for (const name of ['CI.js', 'assertions.js', 'unit.js', 'functional.js', 'integration.js', 'regression.js']) {
+    for (const name of ['CI.js', 'assertions.js', 'unit.js', 'functional.js', 'integration.js', 'regression.js', 'interface.js']) {
         copyFile(resolve(projectRoot, 'test', name), resolve(output, 'module', 'test', name));
+    }
+    for (const name of ['playground-core.js', 'benchmark-data.js']) {
+        copyFile(resolve(projectRoot, 'site', name), resolve(output, 'module', 'site', name));
     }
     for (const packageName of ['strong-type', 'vanilla-test', 'ansi-colors-es6']) {
         copyFile(

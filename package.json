@@ -28,6 +28,7 @@
     "test:functional": "node ./test/node.js functional",
     "test:integration": "node ./test/node.js integration",
     "test:regression": "node ./test/node.js regression",
+    "test:interface": "node ./test/node.js interface",
     "coverage": "vanilla-test coverage all",
     "coverage:node": "vanilla-test coverage node",
     "coverage:chrome": "vanilla-test coverage chrome",

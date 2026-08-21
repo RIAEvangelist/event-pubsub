@@ -30,7 +30,8 @@ class EventPubSub {
     off(type = '*', handler = '*') {
         if (typeof type !== 'string') throw new TypeError('type must be a string');
 
-        const isWildcard = type === '*' || type === LEGACY_ALL_EVENTS_NAME;
+        const hasExactType = this.#events[type] !== undefined;
+        const isWildcard = type === '*' || (type === LEGACY_ALL_EVENTS_NAME && !hasExactType);
         const entries = isWildcard ? this.#wildcard : this.#events[type];
         if (entries === undefined) return this;
 

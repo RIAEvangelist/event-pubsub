@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Chart event-pubsub subscription lifecycle, list snapshot, and reset-cycle execution latency.">
+    <meta name="theme-color" content="#050914"><link rel="canonical" href="https://riaevangelist.github.io/event-pubsub/benchmarks-lifecycle.html">
+    <meta property="og:title" content="Lifecycle latency · event-pubsub"><meta property="og:description" content="Separate charts for subscription cycles and state operations.">
+    <meta property="og:image" content="https://riaevangelist.github.io/event-pubsub/og.png"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image">
+    <title>Lifecycle latency · event-pubsub</title><link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header"><div class="shell header-row"><a class="brand" href="./index.html"><span class="brand-mark" aria-hidden="true">●</span><span>event-pubsub</span></a><nav class="site-nav" aria-label="Primary navigation"><ul>
+        <li><a href="./index.html">Overview</a></li><li><a href="./guide.html">Guide</a></li><li><a href="./api.html">API</a></li><li><a href="./examples.html">Examples</a></li><li><a href="./playground.html">Playground</a></li><li><a href="./testing.html">Tests</a></li><li><a href="./coverage.html">Coverage</a></li><li><a class="section-current" href="./benchmarks.html">Benchmarks</a></li>
+    </ul></nav></div></header>
+    <main id="main" class="shell">
+        <header class="page-hero"><div><p class="eyebrow">Lifecycle charts</p><h1>Time the complete <span class="accent">developer action.</span></h1><p class="lede">Subscription cycles and state operations use separate scales. The reset scenario is explicitly a five-registration-plus-reset cycle; it does not pretend to be reset-only.</p></div></header>
+        <section class="section"><div class="chart-heading"><div><h2>Subscription cycles</h2><p>One complete cycle · lower is better</p></div><p data-benchmark-status role="status">Loading current CI benchmark…</p></div><div class="chart-shell" data-benchmark-group="lifecycle" data-chart-title="Subscription lifecycle execution time"><p>Loading timing evidence…</p></div></section>
+        <section class="section"><div class="chart-heading"><div><h2>State operations</h2><p>Snapshot and register-five-plus-reset are shown on their own scale</p></div></div><div class="chart-shell" data-benchmark-group="state" data-chart-title="State operation execution time"><p>Loading timing evidence…</p></div></section>
+        <section class="section"><div class="actions"><a class="button" href="./benchmarks.html">Benchmark overview</a><a class="button" href="./benchmarks-dispatch.html">Dispatch chart</a><a class="button primary" href="./benchmarks-methodology.html">How timing works</a></div></section>
+    </main>
+    <footer class="site-footer"><div class="shell footer-row"><span>Lifecycle latency · unlike work stays separated</span><nav class="footer-links" aria-label="Resource navigation"><a href="./benchmarks.html">Overview</a><a href="./benchmarks-dispatch.html">Dispatch</a><a href="./benchmarks-methodology.html">Method</a><a href="./data/benchmark.json">JSON</a><a href="./licence">License</a></nav></div></footer>
+    <script src="./script.js"></script><script type="module" src="./benchmark-charts.js"></script>
+</body>
+</html>

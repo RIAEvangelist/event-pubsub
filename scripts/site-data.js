@@ -29,20 +29,22 @@ function testsFor(runtime) {
     };
 }
 
-function compact(value) {
-    if (!Number.isFinite(value)) return undefined;
-    return new Intl.NumberFormat('en', {notation: 'compact', maximumFractionDigits: 2}).format(value);
+function latency(value, denominator) {
+    if (!Number.isFinite(value) || value <= 0) return undefined;
+    if (value >= 1_000_000) return `${Number((value / 1_000_000).toFixed(3))} ms/${denominator}`;
+    if (value >= 1_000) return `${Number((value / 1_000).toFixed(3))} µs/${denominator}`;
+    return `${Number(value.toFixed(value >= 10 ? 2 : 3))} ns/${denominator}`;
 }
 
 function benchmarkData() {
     const benchmark = readJson(resolve(projectRoot, 'benchmark', 'results.json'));
     if (!benchmark?.scenarios) return {};
-    const byName = new Map(benchmark.scenarios.map((scenario) => [scenario.name, scenario]));
+    const byId = new Map(benchmark.scenarios.map((scenario) => [scenario.id, scenario]));
     return {
-        emitOneOps: compact(byName.get('typed emit · 1 handler')?.medianOpsPerSecond),
-        emitFiveOps: compact(byName.get('typed emit · 5 handlers')?.medianOpsPerSecond),
-        wildcardOps: compact(byName.get('wildcard + typed emit')?.medianOpsPerSecond),
-        onceOps: compact(byName.get('once register + emit')?.medianOpsPerSecond)
+        emitOneTime: latency(byId.get('typed-emit-1')?.summary?.medianNanosecondsPerOperation, 'emit'),
+        emitFiveTime: latency(byId.get('typed-emit-5')?.summary?.medianNanosecondsPerOperation, 'emit'),
+        wildcardTime: latency(byId.get('wildcard-typed-emit')?.summary?.medianNanosecondsPerOperation, 'emit'),
+        onceTime: latency(byId.get('once-emit-cycle')?.summary?.medianNanosecondsPerOperation, 'cycle')
     };
 }
 
@@ -64,7 +66,7 @@ export function createStatus() {
         version: manifest.version,
         commit: commit(),
         tests: {
-            total: nodeTests.total ?? chromeTests.total ?? 90,
+            total: nodeTests.total ?? chromeTests.total ?? 110,
             node: nodeTests,
             chrome: chromeTests
         },
@@ -72,7 +74,11 @@ export function createStatus() {
             node: coverageFor('node'),
             chrome: coverageFor('chrome')
         },
-        benchmark: benchmarkData()
+        benchmark: benchmarkData(),
+        dependencies: {
+            runtime: Object.keys(manifest.dependencies ?? {}).length,
+            vanillaTest: manifest.devDependencies?.['vanilla-test']
+        }
     };
 }
 

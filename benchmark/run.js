@@ -1,198 +1,364 @@
 import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
 import {mkdirSync, writeFileSync} from 'node:fs';
-import {cpus} from 'node:os';
+import {cpus, release as osRelease} from 'node:os';
 import {dirname, resolve} from 'node:path';
-import {performance} from 'node:perf_hooks';
 import EventPubSub from '../index.js';
 import manifest from '../package.json' with {type: 'json'};
 
 const smoke = process.argv.includes('--smoke');
 const printJson = process.argv.includes('--json');
 const sampleCount = smoke ? 1 : 7;
-const sampleDurationMs = smoke ? 25 : 250;
-const warmupDurationMs = smoke ? 10 : 75;
+const targetSampleNanoseconds = smoke ? 25_000_000 : 250_000_000;
+const warmupNanoseconds = smoke ? 10_000_000 : 75_000_000;
 const projectRoot = resolve(import.meta.dirname, '..');
+const noop = () => {};
+const counterModulus = 1_073_741_824;
+const counterMask = counterModulus - 1;
 
-function median(values) {
+function percentile(values, fraction) {
     const sorted = [...values].sort((left, right) => left - right);
-    const middle = Math.floor(sorted.length / 2);
-    return sorted.length % 2 === 0
-        ? (sorted[middle - 1] + sorted[middle]) / 2
-        : sorted[middle];
+    const position = (sorted.length - 1) * fraction;
+    const lower = Math.floor(position);
+    const upper = Math.ceil(position);
+    if (lower === upper) return sorted[lower];
+    const weight = position - lower;
+    return sorted[lower] * (1 - weight) + sorted[upper] * weight;
 }
 
-function measure(createRun, durationMs, batchSize) {
-    const {run, verify} = createRun();
-    const start = performance.now();
-    const deadline = start + durationMs;
-    let operations = 0;
+function sourceCommit() {
+    if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA;
+    try {
+        const commit = execFileSync('git', ['rev-parse', 'HEAD'], {
+            cwd: projectRoot,
+            encoding: 'utf8',
+            stdio: ['ignore', 'pipe', 'ignore']
+        }).trim();
+        const dirty = execFileSync(
+            'git',
+            ['status', '--porcelain', '--untracked-files=all', '--', 'index.js', 'benchmark/run.js', 'package.json'],
+            {cwd: projectRoot, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore']}
+        ).trim();
+        return dirty ? `${commit}-dirty` : commit;
+    } catch {
+        return 'local-source';
+    }
+}
 
-    do {
-        for (let index = 0; index < batchSize; index += 1) run();
-        operations += batchSize;
-    } while (performance.now() < deadline);
-
-    const elapsedMs = performance.now() - start;
-    const checksum = verify(operations);
+function timeExecution(createRun, operations) {
+    const sample = createRun();
+    const start = process.hrtime.bigint();
+    sample.execute(operations);
+    const elapsedNanoseconds = Number(process.hrtime.bigint() - start);
+    const checksum = sample.verify(operations);
+    const nanosecondsPerOperation = elapsedNanoseconds / operations;
     return {
-        checksum,
-        operationsPerSecond: operations / (elapsedMs / 1000)
+        operations,
+        elapsedNanoseconds,
+        nanosecondsPerOperation,
+        operationsPerSecond: 1_000_000_000 / nanosecondsPerOperation,
+        checksum
     };
 }
 
-function typedEmit(handlerCount) {
-    return () => {
-        const events = new EventPubSub();
-        let calls = 0;
-        for (let index = 0; index < handlerCount; index += 1) {
-            events.on('pulse', () => { calls += 1; });
+function calibratedOperations(createRun) {
+    let operations = 1_000;
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+        const sample = timeExecution(createRun, operations);
+        if (sample.elapsedNanoseconds >= targetSampleNanoseconds / 8) {
+            const projected = Math.ceil(
+                operations * targetSampleNanoseconds / sample.elapsedNanoseconds
+            );
+            return Math.max(1_000, Math.min(100_000_000, projected));
         }
-        return {
-            run() {
-                events.emit('pulse', 42);
-            },
-            verify(operations) {
-                assert.equal(calls, operations * handlerCount);
-                return calls;
+        operations = Math.min(100_000_000, operations * 10);
+    }
+    return operations;
+}
+
+function warm(createRun, calibrated) {
+    const operations = Math.max(
+        1_000,
+        Math.round(calibrated * warmupNanoseconds / targetSampleNanoseconds)
+    );
+    const sample = createRun();
+    sample.execute(operations);
+    sample.verify(operations);
+}
+
+function typedEmit(handlerCount) {
+    return {
+        validate() {
+            const events = new EventPubSub();
+            let calls = 0;
+            for (let index = 0; index < handlerCount; index += 1) {
+                events.on('pulse', (value) => {
+                    assert.equal(value, 42);
+                    calls += 1;
+                });
             }
-        };
+            events.emit('pulse', 42);
+            assert.equal(calls, handlerCount);
+        },
+        createRun() {
+            const events = new EventPubSub();
+            let observed = 0;
+            let expectedPerOperation = 0;
+            for (let index = 0; index < handlerCount; index += 1) {
+                expectedPerOperation += 42 + index;
+                events.on('pulse', (value) => {
+                    observed = (observed + value + index) & counterMask;
+                });
+            }
+            return {
+                execute(operations) {
+                    for (let index = 0; index < operations; index += 1) {
+                        events.emit('pulse', 42);
+                    }
+                },
+                verify(operations) {
+                    assert.equal(events.list.pulse.length, handlerCount);
+                    assert.equal(observed, operations * expectedPerOperation % counterModulus);
+                    return observed;
+                }
+            };
+        }
     };
 }
 
 const scenarios = [
     {
-        name: 'typed emit · 1 handler',
+        id: 'typed-emit-1',
+        name: 'Typed emit · 1 handler',
+        group: 'dispatch',
         description: 'One stable typed subscriber with one payload value.',
-        batchSize: 10_000,
-        createRun: typedEmit(1)
+        unit: 'ns/emit',
+        workload: {
+            setup: 'Create one emitter and register one minimal observable typed handler.',
+            timed: "events.emit('pulse', 42)",
+            apiCallsPerOperation: 1,
+            handlerInvocationsPerOperation: 1,
+            payloadValues: 1
+        },
+        ...typedEmit(1)
     },
     {
-        name: 'typed emit · 5 handlers',
+        id: 'typed-emit-5',
+        name: 'Typed emit · 5 handlers',
+        group: 'dispatch',
         description: 'Five stable typed subscribers with one payload value.',
-        batchSize: 5_000,
-        createRun: typedEmit(5)
+        unit: 'ns/emit',
+        workload: {
+            setup: 'Create one emitter and register five distinct minimal observable typed handlers.',
+            timed: "events.emit('pulse', 42)",
+            apiCallsPerOperation: 1,
+            handlerInvocationsPerOperation: 5,
+            payloadValues: 1
+        },
+        ...typedEmit(5)
     },
     {
-        name: 'typed emit · 20 handlers',
+        id: 'typed-emit-20',
+        name: 'Typed emit · 20 handlers',
+        group: 'dispatch',
         description: 'Twenty stable typed subscribers with one payload value.',
-        batchSize: 2_000,
-        createRun: typedEmit(20)
+        unit: 'ns/emit',
+        workload: {
+            setup: 'Create one emitter and register twenty distinct minimal observable typed handlers.',
+            timed: "events.emit('pulse', 42)",
+            apiCallsPerOperation: 1,
+            handlerInvocationsPerOperation: 20,
+            payloadValues: 1
+        },
+        ...typedEmit(20)
     },
     {
-        name: 'wildcard + typed emit',
+        id: 'wildcard-typed-emit',
+        name: 'Wildcard + typed emit',
+        group: 'dispatch',
         description: 'One wildcard subscriber followed by five typed subscribers.',
-        batchSize: 5_000,
-        createRun() {
+        unit: 'ns/emit',
+        workload: {
+            setup: 'Create one emitter with one wildcard and five distinct minimal observable typed handlers.',
+            timed: "events.emit('pulse', 42)",
+            apiCallsPerOperation: 1,
+            handlerInvocationsPerOperation: 6,
+            payloadValues: 1
+        },
+        validate() {
             const order = [];
-            const validation = new EventPubSub();
-            validation.on('*', (type, value) => order.push(`wildcard:${type}:${value}`));
-            validation.on('pulse', (value) => order.push(`typed:${value}`));
-            validation.emit('pulse', 42);
-            assert.deepEqual(order, ['wildcard:pulse:42', 'typed:42']);
-
             const events = new EventPubSub();
-            let wildcardCalls = 0;
-            let typedCalls = 0;
-            events.on('*', () => { wildcardCalls += 1; });
+            events.on('*', (type, value) => order.push(`wildcard:${type}:${value}`));
+            events.on('pulse', (value) => order.push(`typed:${value}`));
+            events.emit('pulse', 42);
+            assert.deepEqual(order, ['wildcard:pulse:42', 'typed:42']);
+        },
+        createRun() {
+            let observed = 0;
+            const events = new EventPubSub().on('*', (type, value) => {
+                observed = (observed + type.length + value) & counterMask;
+            });
+            let expectedPerOperation = 'pulse'.length + 42;
             for (let index = 0; index < 5; index += 1) {
-                events.on('pulse', () => { typedCalls += 1; });
+                expectedPerOperation += 42 + index;
+                events.on('pulse', (value) => {
+                    observed = (observed + value + index) & counterMask;
+                });
             }
             return {
-                run() {
-                    events.emit('pulse', 42);
+                execute(operations) {
+                    for (let index = 0; index < operations; index += 1) {
+                        events.emit('pulse', 42);
+                    }
                 },
                 verify(operations) {
-                    assert.equal(wildcardCalls, operations);
-                    assert.equal(typedCalls, operations * 5);
-                    return wildcardCalls + typedCalls;
-                }
-            };
-        }
-    },
-    {
-        name: 'once register + emit',
-        description: 'Register, invoke, and remove one one-shot subscriber.',
-        batchSize: 1_000,
-        createRun() {
-            const events = new EventPubSub();
-            let calls = 0;
-            const handler = () => { calls += 1; };
-            return {
-                run() {
-                    events.once('pulse', handler).emit('pulse');
-                },
-                verify(operations) {
-                    assert.equal(calls, operations);
-                    assert.equal(events.list.pulse, undefined);
-                    return calls;
-                }
-            };
-        }
-    },
-    {
-        name: 'on + off pair',
-        description: 'Append one typed subscriber and remove the matching record.',
-        batchSize: 1_000,
-        createRun() {
-            const events = new EventPubSub();
-            const handler = () => assert.fail('A removed handler must not run.');
-            let pairs = 0;
-            return {
-                run() {
-                    events.on('pulse', handler).off('pulse', handler);
-                    pairs += 1;
-                },
-                verify(operations) {
-                    assert.equal(pairs, operations);
-                    assert.equal(events.list.pulse, undefined);
-                    events.emit('pulse');
-                    return pairs;
-                }
-            };
-        }
-    },
-    {
-        name: 'list snapshot · 5 handlers',
-        description: 'Create an isolated snapshot for one five-subscriber type.',
-        batchSize: 2_000,
-        createRun() {
-            const events = new EventPubSub();
-            const handler = () => {};
-            for (let index = 0; index < 5; index += 1) events.on('pulse', handler);
-            let observed = 0;
-            let lastSnapshot;
-            return {
-                run() {
-                    lastSnapshot = events.list;
-                    observed += lastSnapshot.pulse.length;
-                },
-                verify(operations) {
-                    assert.equal(observed, operations * 5);
-                    lastSnapshot.pulse.length = 0;
                     assert.equal(events.list.pulse.length, 5);
+                    assert.equal(events.list[Symbol.for('event-pubsub-all')].length, 1);
+                    assert.equal(observed, operations * expectedPerOperation % counterModulus);
                     return observed;
                 }
             };
         }
     },
     {
-        name: 'reset · 5 handlers',
-        description: 'Clear a registry containing five typed subscribers.',
-        batchSize: 500,
+        id: 'once-emit-cycle',
+        name: 'Once register + emit',
+        group: 'lifecycle',
+        description: 'Register, invoke, and remove one one-shot subscriber.',
+        unit: 'ns/cycle',
+        workload: {
+            setup: 'Create one empty emitter and one reusable minimal observable handler.',
+            timed: "events.once('pulse', handler).emit('pulse')",
+            apiCallsPerOperation: 2,
+            handlerInvocationsPerOperation: 1,
+            payloadValues: 0
+        },
+        validate() {
+            const events = new EventPubSub();
+            let calls = 0;
+            events.once('pulse', () => { calls += 1; }).emit('pulse').emit('pulse');
+            assert.equal(calls, 1);
+            assert.equal(events.list.pulse, undefined);
+        },
         createRun() {
             const events = new EventPubSub();
-            const handler = () => {};
-            let resets = 0;
+            let observed = 0;
+            const handler = () => {
+                observed = (observed + 1) & counterMask;
+            };
             return {
-                run() {
-                    for (let index = 0; index < 5; index += 1) events.on('pulse', handler);
-                    events.reset();
-                    resets += 1;
+                execute(operations) {
+                    for (let index = 0; index < operations; index += 1) {
+                        events.once('pulse', handler).emit('pulse');
+                    }
                 },
                 verify(operations) {
-                    assert.equal(resets, operations);
+                    assert.equal(events.list.pulse, undefined);
+                    assert.equal(observed, operations % counterModulus);
+                    return observed;
+                }
+            };
+        }
+    },
+    {
+        id: 'on-off-cycle',
+        name: 'On + off pair',
+        group: 'lifecycle',
+        description: 'Append one typed subscriber and remove the matching record.',
+        unit: 'ns/cycle',
+        workload: {
+            setup: 'Create one empty emitter and one reusable no-op handler.',
+            timed: "events.on('pulse', handler).off('pulse', handler)",
+            apiCallsPerOperation: 2,
+            handlerInvocationsPerOperation: 0,
+            payloadValues: 0
+        },
+        validate() {
+            const events = new EventPubSub().on('pulse', noop).off('pulse', noop);
+            assert.equal(events.list.pulse, undefined);
+        },
+        createRun() {
+            const events = new EventPubSub();
+            return {
+                execute(operations) {
+                    for (let index = 0; index < operations; index += 1) {
+                        events.on('pulse', noop).off('pulse', noop);
+                    }
+                },
+                verify(operations) {
+                    assert.equal(events.list.pulse, undefined);
+                    return operations;
+                }
+            };
+        }
+    },
+    {
+        id: 'list-snapshot-5',
+        name: 'List snapshot · 5 handlers',
+        group: 'state',
+        description: 'Create an isolated snapshot for one five-subscriber type.',
+        unit: 'ns/snapshot',
+        workload: {
+            setup: 'Create one emitter with five typed handlers.',
+            timed: 'snapshot = events.list',
+            apiCallsPerOperation: 1,
+            handlerInvocationsPerOperation: 0,
+            payloadValues: 0
+        },
+        validate() {
+            const events = new EventPubSub();
+            for (let index = 0; index < 5; index += 1) events.on('pulse', noop);
+            const snapshot = events.list;
+            snapshot.pulse.length = 0;
+            assert.equal(events.list.pulse.length, 5);
+        },
+        createRun() {
+            const events = new EventPubSub();
+            for (let index = 0; index < 5; index += 1) events.on('pulse', noop);
+            let snapshot;
+            return {
+                execute(operations) {
+                    for (let index = 0; index < operations; index += 1) snapshot = events.list;
+                },
+                verify(operations) {
+                    assert.equal(snapshot.pulse.length, 5);
+                    assert.equal(events.list.pulse.length, 5);
+                    return operations * snapshot.pulse.length;
+                }
+            };
+        }
+    },
+    {
+        id: 'register-5-reset-cycle',
+        name: 'Register 5 + reset cycle',
+        group: 'state',
+        description: 'Register five typed subscribers and clear the complete registry.',
+        unit: 'ns/cycle',
+        workload: {
+            setup: 'Create one empty emitter and one reusable no-op handler.',
+            timed: "five events.on('pulse', handler) calls, then events.reset()",
+            apiCallsPerOperation: 6,
+            handlerInvocationsPerOperation: 0,
+            payloadValues: 0
+        },
+        validate() {
+            const events = new EventPubSub();
+            for (let index = 0; index < 5; index += 1) events.on('pulse', noop);
+            events.reset();
+            assert.deepEqual(Object.keys(events.list), []);
+        },
+        createRun() {
+            const events = new EventPubSub();
+            return {
+                execute(operations) {
+                    for (let operation = 0; operation < operations; operation += 1) {
+                        for (let index = 0; index < 5; index += 1) events.on('pulse', noop);
+                        events.reset();
+                    }
+                },
+                verify(operations) {
                     assert.deepEqual(Object.keys(events.list), []);
-                    return resets;
+                    return operations;
                 }
             };
         }
@@ -201,34 +367,72 @@ const scenarios = [
 
 const results = [];
 for (const scenario of scenarios) {
-    measure(scenario.createRun, warmupDurationMs, scenario.batchSize);
+    scenario.validate();
+    const operations = calibratedOperations(scenario.createRun);
+    warm(scenario.createRun, operations);
     const samples = [];
-    let checksum = 0;
     for (let index = 0; index < sampleCount; index += 1) {
-        const result = measure(scenario.createRun, sampleDurationMs, scenario.batchSize);
-        checksum += result.checksum;
-        samples.push(Math.round(result.operationsPerSecond));
+        samples.push({index: index + 1, ...timeExecution(scenario.createRun, operations)});
     }
+    const durations = samples.map((sample) => sample.nanosecondsPerOperation);
+    const medianNanosecondsPerOperation = percentile(durations, 0.5);
     results.push({
+        id: scenario.id,
         name: scenario.name,
+        group: scenario.group,
         description: scenario.description,
-        medianOpsPerSecond: Math.round(median(samples)),
-        samplesOpsPerSecond: samples,
-        checksum
+        unit: scenario.unit,
+        workload: scenario.workload,
+        samples,
+        summary: {
+            medianNanosecondsPerOperation,
+            p25NanosecondsPerOperation: percentile(durations, 0.25),
+            p75NanosecondsPerOperation: percentile(durations, 0.75),
+            minNanosecondsPerOperation: Math.min(...durations),
+            maxNanosecondsPerOperation: Math.max(...durations),
+            medianOperationsPerSecond: 1_000_000_000 / medianNanosecondsPerOperation
+        }
     });
 }
 
 const output = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     generatedAt: new Date().toISOString(),
-    package: `event-pubsub@${manifest.version}`,
-    runtime: process.version,
-    platform: process.platform,
-    architecture: process.arch,
-    cpu: cpus()[0]?.model ?? 'unknown',
-    sampleCount,
-    sampleDurationMs,
-    warmupDurationMs,
+    package: {
+        name: manifest.name,
+        version: manifest.version,
+        commit: sourceCommit()
+    },
+    environment: {
+        node: process.version,
+        v8: process.versions.v8,
+        platform: process.platform,
+        osRelease: osRelease(),
+        architecture: process.arch,
+        cpuModel: cpus()[0]?.model ?? 'unknown',
+        logicalCpus: cpus().length,
+        execArgv: process.execArgv
+    },
+    methodology: {
+        clock: 'process.hrtime.bigint',
+        statistic: 'median with p25 and p75',
+        sampleCount,
+        targetSampleNanoseconds,
+        timingBoundary: 'execute(operations) only',
+        excluded: [
+            'scenario setup',
+            'behavior validation',
+            'iteration calibration',
+            'warmup',
+            'post-run verification',
+            'summary calculation',
+            'serialization',
+            'file I/O',
+            'CI orchestration'
+        ],
+        harnessAdjustment: 'none; fixed-count loops avoid per-operation clock reads and deadline polling',
+        checksum: 'observed from timed handler effects where dispatch invokes subscribers'
+    },
     scenarios: results
 };
 
@@ -242,7 +446,11 @@ if (printJson) {
     process.stdout.write(`${JSON.stringify(output, null, 2)}\n`);
 } else {
     for (const result of results) {
-        process.stdout.write(`${result.name.padEnd(34)} ${result.medianOpsPerSecond.toLocaleString('en-US')} ops/s\n`);
+        const duration = result.summary.medianNanosecondsPerOperation;
+        const throughput = result.summary.medianOperationsPerSecond / 1_000_000;
+        process.stdout.write(
+            `${result.name.padEnd(34)} ${duration.toFixed(2).padStart(9)} ${result.unit} · ${throughput.toFixed(2)} M ops/s\n`
+        );
     }
-    process.stdout.write(`${smoke ? 'Benchmark smoke' : 'Benchmark'} completed with validated checksums.\n`);
+    process.stdout.write(`${smoke ? 'Benchmark smoke' : 'Benchmark'} completed with execution-only timing boundaries.\n`);
 }

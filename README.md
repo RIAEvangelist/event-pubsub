@@ -1,13 +1,29 @@
 # event-pubsub
 
 [![CI](https://github.com/RIAEvangelist/event-pubsub/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/RIAEvangelist/event-pubsub/actions/workflows/ci.yml)
+[![GitHub release](https://img.shields.io/github/v/release/RIAEvangelist/event-pubsub?sort=semver)](https://github.com/RIAEvangelist/event-pubsub/releases)
 [![npm](https://img.shields.io/npm/v/event-pubsub.svg)](https://www.npmjs.com/package/event-pubsub)
-[![Node lines](https://img.shields.io/endpoint?url=https://riaevangelist.github.io/event-pubsub/badges/lines.json)](https://riaevangelist.github.io/event-pubsub/reports/node/)
+[![Node](https://img.shields.io/badge/Node-%3E%3D22.12-339933?logo=nodedotjs&logoColor=white)](./package.json)
+[![runtime dependencies](https://img.shields.io/endpoint?url=https://riaevangelist.github.io/event-pubsub/badges/runtime-dependencies.json)](./package.json)
+[![vanilla-test](https://img.shields.io/endpoint?url=https://riaevangelist.github.io/event-pubsub/badges/vanilla-test.json)](https://www.npmjs.com/package/vanilla-test)
 [![license](https://img.shields.io/github/license/RIAEvangelist/event-pubsub.svg)](./licence)
+
+[![Node tests](https://img.shields.io/endpoint?url=https://riaevangelist.github.io/event-pubsub/badges/node-tests.json)](https://riaevangelist.github.io/event-pubsub/reports/node/test-results.json)
+[![Chrome tests](https://img.shields.io/endpoint?url=https://riaevangelist.github.io/event-pubsub/badges/chrome-tests.json)](https://riaevangelist.github.io/event-pubsub/reports/chrome/test-results.json)
+
+[![Node executable ranges](https://img.shields.io/endpoint?url=https://riaevangelist.github.io/event-pubsub/badges/node-statements.json)](https://riaevangelist.github.io/event-pubsub/reports/node/)
+[![Node block ranges](https://img.shields.io/endpoint?url=https://riaevangelist.github.io/event-pubsub/badges/node-branches.json)](https://riaevangelist.github.io/event-pubsub/reports/node/)
+[![Node function ranges](https://img.shields.io/endpoint?url=https://riaevangelist.github.io/event-pubsub/badges/node-functions.json)](https://riaevangelist.github.io/event-pubsub/reports/node/)
+[![Node executable lines](https://img.shields.io/endpoint?url=https://riaevangelist.github.io/event-pubsub/badges/node-lines.json)](https://riaevangelist.github.io/event-pubsub/reports/node/)
+
+[![Chrome executable ranges](https://img.shields.io/endpoint?url=https://riaevangelist.github.io/event-pubsub/badges/chrome-statements.json)](https://riaevangelist.github.io/event-pubsub/reports/chrome/)
+[![Chrome block ranges](https://img.shields.io/endpoint?url=https://riaevangelist.github.io/event-pubsub/badges/chrome-branches.json)](https://riaevangelist.github.io/event-pubsub/reports/chrome/)
+[![Chrome function ranges](https://img.shields.io/endpoint?url=https://riaevangelist.github.io/event-pubsub/badges/chrome-functions.json)](https://riaevangelist.github.io/event-pubsub/reports/chrome/)
+[![Chrome executable lines](https://img.shields.io/endpoint?url=https://riaevangelist.github.io/event-pubsub/badges/chrome-lines.json)](https://riaevangelist.github.io/event-pubsub/reports/chrome/)
 
 Small, synchronous, extensible publish/subscribe events for modern Node.js and browsers.
 
-> **Release status:** `6.0.0` is prepared and verified on `main`, but is not yet published to npm. The npm badge and unversioned install command continue to resolve the current registry release, `5.0.3`, until publication.
+> **Release status:** `6.0.0` is the GitHub source release. It is not yet published to npm, so the npm badge and unversioned install command continue to resolve `5.0.3`.
 
 ![event-pubsub signal fan-out](https://riaevangelist.github.io/event-pubsub/og.png)
 
@@ -35,7 +51,8 @@ events.emit('ready', {fast: true});
 - Subscribers added during an emit wait for the next emit; subscribers removed before their turn are skipped.
 - Safe event names, including `__proto__`, `constructor`, and `toString`.
 - Isolated `list` snapshots that cannot mutate the live registry.
-- Native ESM for Node and browsers, without a transpilation or build requirement.
+- Native ESM for Node and browsers, without transpilation or a build requirement.
+- Zero production dependencies.
 
 ## API
 
@@ -64,9 +81,11 @@ events.emit('invoice.paid', {id: 42});
 
 The wildcard list entry is exposed at `Symbol.for('event-pubsub-all')`.
 
+For legacy callers, `off(Symbol.for('event-pubsub-all').toString(), handler)` still falls back to wildcard removal. If that exact string is also registered as a typed event, the exact typed registration takes precedence; `off('*', handler)` is always the unambiguous wildcard form.
+
 ### Browser import map
 
-The prepared 6.0.0 runtime has zero dependencies. An unbundled browser can map the package directly:
+The 6.0.0 source runtime has zero dependencies. An unbundled browser can map the package directly:
 
 ```html
 <script type="importmap">
@@ -81,9 +100,9 @@ The prepared 6.0.0 runtime has zero dependencies. An unbundled browser can map t
 </script>
 ```
 
-## Verification
+## Complete verification summary
 
-The shared host-neutral suite contains 90 unique checks:
+The shared host-neutral registry contains **110 unique checks**. `vanilla-test` 2.1.1 executes the same inventory in Node and real Google Chrome.
 
 | Suite | Cases | Focus |
 | --- | ---: | --- |
@@ -91,17 +110,207 @@ The shared host-neutral suite contains 90 unique checks:
 | Functional | 26 | Registration, dispatch, wildcard, once, removal, reset, and chaining |
 | Integration | 14 | Subclassing, routing, isolation, namespaces, lifecycle, and errors |
 | Regression | 34 | Mutation, reentrancy, snapshots, safe names, throws, and legacy edges |
+| Interface | 20 | Playground parsing, safe display, bounded state, benchmark evidence, units, and chart scaling |
+| **Total** | **110** | One registry used by direct tests and both coverage runtimes |
 
-```sh
-npm test
-npm run coverage
-npm run benchmark
-npm run test:package
-npm run site:check
-npm run verify
-```
+### Runtime and CI matrix
 
-`vanilla-test` 2.1.1 executes the same registry in Node and real Chrome. Each runtime independently gates `index.js` at 100% executable ranges, block ranges, function ranges, and executable lines. The configuration keys retain the familiar `statements`, `branches`, `functions`, and `lines` names, but the first two are native V8 ranges rather than parser-derived Istanbul counts. The package smoke installs the generated tarball in a clean temporary consumer. The benchmark validates each scenario before timing and publishes machine-readable medians.
+| Verification | Runtime | Hosts | Result requirement |
+| --- | --- | --- | --- |
+| Direct shared suite | Node 22.12.0 and Node 24 | Ubuntu, macOS, Windows | 110/110 on every matrix job |
+| Node coverage | Node 24.18.0 | Ubuntu | 110/110 and every native V8 gate at 100% |
+| Browser coverage | Google Chrome Stable | Ubuntu | 110/110 and every native V8 gate at 100% |
+| Packed consumer | Node 24 | Ubuntu | Exact tarball contents, ESM exports, behavior, and zero production dependencies |
+| Execution benchmark | Node 24.18.0 | Ubuntu | Eight validated scenarios with execution-only timing boundaries |
+| GitHub Pages | Node 24 | Ubuntu | 21 pages, both runtime reports, badges, benchmark JSON, scripts, links, and licenses |
+
+### Coverage gates
+
+| Runtime | Executable ranges | Block ranges | Function ranges | Executable lines |
+| --- | ---: | ---: | ---: | ---: |
+| Node 24.18.0 | 100% | 100% | 100% | 100% |
+| Chrome Stable | 100% | 100% | 100% | 100% |
+
+These are native V8 executable/block/function range and executable-line totals for `index.js`, not parser-derived Istanbul statement or branch counts. Node and Chrome produce independent HTML, JSON, LCOV, and normalized test-result artifacts.
+
+### Commands
+
+| Command | Purpose |
+| --- | --- |
+| `npm test` | Run all 110 checks in Node. |
+| `npm run test:unit` | Run the 16 Unit cases. |
+| `npm run test:functional` | Run the 26 Functional cases. |
+| `npm run test:integration` | Run the 14 Integration cases. |
+| `npm run test:regression` | Run the 34 Regression cases. |
+| `npm run test:interface` | Run the 20 Interface cases. |
+| `npm run coverage` | Run all 110 checks independently in Node and real Chrome with 100% gates. |
+| `npm run coverage:node` | Generate only the Node native V8 report. |
+| `npm run coverage:chrome` | Generate only the real-Chrome native V8 report. |
+| `npm run benchmark` | Record seven fixed-count latency samples for eight scenarios. |
+| `npm run benchmark:smoke` | Validate the benchmark quickly without replacing published results. |
+| `npm run test:package` | Pack, inspect, install, and exercise a clean consumer. |
+| `npm run site:check` | Validate all focused pages, exact test inventories, scripts, links, forms, and assets. |
+| `npm run verify` | Run the complete local release gate. |
+
+### Published evidence
+
+- [Testing strategy and suite totals](https://riaevangelist.github.io/event-pubsub/testing.html)
+- [Live execution of all 110 checks](https://riaevangelist.github.io/event-pubsub/live.html)
+- [Node test-result JSON](https://riaevangelist.github.io/event-pubsub/reports/node/test-results.json)
+- [Chrome test-result JSON](https://riaevangelist.github.io/event-pubsub/reports/chrome/test-results.json)
+- [Node HTML coverage](https://riaevangelist.github.io/event-pubsub/reports/node/)
+- [Chrome HTML coverage](https://riaevangelist.github.io/event-pubsub/reports/chrome/)
+- [Chrome coverage screenshot](https://riaevangelist.github.io/event-pubsub/reports/chrome/vanilla-test-chrome.png)
+- [Execution-latency charts](https://riaevangelist.github.io/event-pubsub/benchmarks.html)
+- [Raw benchmark schema v2 JSON](https://riaevangelist.github.io/event-pubsub/data/benchmark.json)
+
+## Complete test inventory
+
+Every test name below is sourced from the shared registry. The focused Pages site presents the same inventory one suite per page.
+
+<details>
+<summary><strong>Unit — 16 cases</strong></summary>
+
+1. default and named exports reference the same class
+2. a fresh instance exposes an empty list snapshot
+3. instances own independent event registries
+4. on returns the current instance
+5. once returns the current instance
+6. off returns the current instance when the type is absent
+7. emit returns the current instance when the type is absent
+8. reset returns the current instance
+9. on requires a string event type
+10. on requires a function handler
+11. on requires a boolean once flag
+12. once delegates type validation to on
+13. once delegates handler validation to on
+14. off requires a string event type
+15. off validates a handler when the event exists
+16. emit requires a string event type
+
+</details>
+
+<details>
+<summary><strong>Functional — 26 cases</strong></summary>
+
+1. on exposes the registered handler in list
+2. on preserves registration order in list
+3. duplicate registrations remain visible as separate entries
+4. emit runs a registered handler synchronously
+5. emit runs handlers in registration order
+6. emit forwards every payload argument by identity
+7. handlers run without an emitter-bound this value
+8. once runs a handler exactly once
+9. on with an explicit false once flag remains persistent
+10. on with an explicit true once flag matches once
+11. wildcard handlers receive the emitted type before payloads
+12. wildcard handlers run before typed handlers
+13. multiple wildcard handlers retain registration order
+14. once supports wildcard subscriptions
+15. wildcard handlers are exposed under the stable symbol
+16. off removes a matching handler
+17. off removes every duplicate registration of a handler
+18. off leaves nonmatching handlers registered
+19. off with a wildcard handler removes an event type
+20. off defaults the handler argument to wildcard removal
+21. off defaults the event type to wildcard subscriptions only
+22. off removes one wildcard handler without touching typed handlers
+23. reset removes typed and wildcard registrations
+24. emitting an unknown type does not run other typed handlers
+25. all public mutators support fluent chaining
+26. the same function can be once and persistent independently
+
+</details>
+
+<details>
+<summary><strong>Integration — 14 cases</strong></summary>
+
+1. a subclass can publish state changes
+2. multiple instances isolate same-named topics
+3. namespaced topic strings remain exact
+4. a wildcard audit stream observes several domains
+5. a one-shot readiness gate coexists with persistent progress
+6. a request-style payload preserves callbacks by identity
+7. a handler can publish a second event synchronously
+8. a wildcard handler can route selected events
+9. reset provides a clean lifecycle boundary
+10. empty and whitespace topic names remain distinct
+11. unicode topic names and payloads pass through unchanged
+12. async handlers are invoked without delaying synchronous peers
+13. synchronous handler exceptions propagate to the publisher
+14. list supports operational introspection without exposing records
+
+</details>
+
+<details>
+<summary><strong>Regression — 34 cases</strong></summary>
+
+1. `__proto__` is a safe event name
+2. `constructor` is a safe event name
+3. `toString` is a safe event name
+4. `hasOwnProperty` is a safe event name
+5. numeric-looking event names remain strings
+6. the legacy wildcard symbol string still removes wildcard handlers
+7. the legacy wildcard alias prefers exact typed registrations before wildcard fallback
+8. emitting the literal wildcard type invokes wildcard handlers once
+9. handlers added during dispatch wait for the next emit
+10. typed handlers added by a wildcard wait for the next emit
+11. wildcard handlers added during wildcard dispatch wait for the next emit
+12. handlers removed during dispatch do not run later in that dispatch
+13. a wildcard can remove a typed handler before the typed phase
+14. reset during dispatch prevents remaining handlers
+15. reset from a wildcard prevents later wildcard and typed handlers
+16. once is removed before a reentrant emit
+17. persistent reentrant emits preserve nested registration order
+18. wildcard once is removed before a reentrant emit
+19. a throwing once handler remains removed
+20. a throwing once handler is absent from the next list snapshot
+21. a throwing persistent handler remains registered
+22. a thrown wildcard handler stops typed dispatch
+23. off with a nonmatching function preserves the type
+24. off ignores an invalid handler when the type is absent
+25. mutating a list array does not change the registry
+26. deleting a list property does not change the registry
+27. mutating a wildcard list snapshot does not change the registry
+28. frozen handler functions can be registered
+29. nonextensible handler functions can be registered
+30. duplicate once registrations each run once
+31. the same handler can be wildcard-once and typed-persistent
+32. registration does not write the old once symbol onto handlers
+33. wildcard-only emits remain chainable
+34. reset instances accept new registrations immediately
+
+</details>
+
+<details>
+<summary><strong>Interface — 20 cases</strong></summary>
+
+1. the playground parses no-argument mode
+2. the playground preserves one exact text argument
+3. the playground parses an empty JSON argument array
+4. the playground spreads several JSON arguments
+5. invalid playground JSON is an explicit syntax error
+6. a non-array JSON argument source is rejected
+7. typed playground subscriptions preserve whitespace
+8. wildcard playground subscriptions resolve to star
+9. typed star subscriptions require wildcard mode
+10. event-type display quotes invisible characters
+11. safe value formatting exposes undefined
+12. safe value formatting marks circular references
+13. safe value formatting bounds long output
+14. bounded timeline retention keeps chronological tail entries
+15. benchmark evidence accepts all eight unique scenarios
+16. benchmark evidence rejects the wrong schema version
+17. benchmark evidence rejects duplicate or internally inconsistent scenarios
+18. benchmark dispatch selection returns four scenarios
+19. benchmark durations choose readable nanosecond and microsecond units
+20. benchmark chart values clamp and expose equivalent throughput
+
+</details>
+
+## Benchmark interpretation
+
+The benchmark reports median **execution latency**—nanoseconds per named operation—with p25, p75, min, max, and every raw sample. Fixed-count loops use exactly two `process.hrtime.bigint()` readings around the execution boundary. Dispatch scenarios use distinct minimal observable subscribers, then verify their accumulated effects after timing so empty callbacks cannot become an optimizer-only lower bound. Setup, validation, calibration, warmup, post-run checks, summary work, JSON serialization, file I/O, Node startup, and CI orchestration are excluded. The charts never present total benchmark or workflow duration as module execution time.
 
 ## Documentation
 
@@ -109,10 +318,14 @@ npm run verify
 - [Guide](https://riaevangelist.github.io/event-pubsub/guide.html)
 - [API](https://riaevangelist.github.io/event-pubsub/api.html)
 - [Examples](https://riaevangelist.github.io/event-pubsub/examples.html)
-- [Playground](https://riaevangelist.github.io/event-pubsub/playground.html)
-- [All 90 tests](https://riaevangelist.github.io/event-pubsub/testing.html)
+- [Event console playground](https://riaevangelist.github.io/event-pubsub/playground.html)
+- [Mutation playground scenarios](https://riaevangelist.github.io/event-pubsub/playground-scenarios.html)
+- [All 110 tests](https://riaevangelist.github.io/event-pubsub/testing.html)
 - [Node and Chrome coverage](https://riaevangelist.github.io/event-pubsub/coverage.html)
-- [Benchmarks](https://riaevangelist.github.io/event-pubsub/benchmarks.html)
+- [Benchmark overview](https://riaevangelist.github.io/event-pubsub/benchmarks.html)
+- [Dispatch latency chart](https://riaevangelist.github.io/event-pubsub/benchmarks-dispatch.html)
+- [Lifecycle latency charts](https://riaevangelist.github.io/event-pubsub/benchmarks-lifecycle.html)
+- [Benchmark methodology](https://riaevangelist.github.io/event-pubsub/benchmarks-methodology.html)
 - [5.x → 6.x migration](./MIGRATION.md)
 - [Security policy](./SECURITY.md)
 - [Changelog](./CHANGELOG.md)

@@ -43,10 +43,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run all 90 tests
+      - name: Run all 110 tests
         run: npm test
 
-      - name: Validate the 16-page site
+      - name: Validate the 21-page site
         run: npm run site:check
 
   coverage:
