@@ -1,1 +1,5 @@
-coverage/* linguist-generated=true
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary

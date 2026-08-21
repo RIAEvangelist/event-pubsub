@@ -1,213 +1,127 @@
-# Event PubSub
+# event-pubsub
 
-[![Sponsor RIAEvangelist to help development of event-pubsub](https://img.shields.io/static/v1?label=Sponsor%20Me%20On%20Github&message=%E2%9D%A4&logo=GitHub&link=https://github.com/sponsors/RIAEvangelist)](https://github.com/sponsors/RIAEvangelist)
+[![CI](https://github.com/RIAEvangelist/event-pubsub/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/RIAEvangelist/event-pubsub/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/event-pubsub.svg)](https://www.npmjs.com/package/event-pubsub)
+[![Node lines](https://img.shields.io/endpoint?url=https://riaevangelist.github.io/event-pubsub/badges/lines.json)](https://riaevangelist.github.io/event-pubsub/reports/node/)
+[![license](https://img.shields.io/github/license/RIAEvangelist/event-pubsub.svg)](./licence)
 
-`npm install event-pubsub`
+Small, synchronous, extensible publish/subscribe events for modern Node.js and browsers.
 
-npm info :  [See npm trends and stats for event-pubsub](http://npm-stat.com/charts.html?package=event-pubsub&author=&from=&to=)   
+> **Release status:** `6.0.0` is prepared and verified on `main`, but is not yet published to npm. The npm badge and unversioned install command continue to resolve the current registry release, `5.0.3`, until publication.
 
-![event-pubsub npm version](https://img.shields.io/npm/v/event-pubsub.svg) ![total npm downloads for event-pubsub](https://img.shields.io/npm/dt/event-pubsub.svg) ![monthly npm downloads for event-pubsub](https://img.shields.io/npm/dm/event-pubsub.svg)
+![event-pubsub signal fan-out](https://riaevangelist.github.io/event-pubsub/og.png)
 
-GitHub info :  
-![event-pubsub GitHub Release](https://img.shields.io/github/release/RIAEvangelist/event-pubsub.svg) ![GitHub license event-pubsub license](https://img.shields.io/github/license/RIAEvangelist/event-pubsub.svg) ![open issues for event-pubsub on GitHub](https://img.shields.io/github/issues/RIAEvangelist/event-pubsub.svg)
-
-Build Info :  
-Travis CI (linux,windows & Mac) : [![Build Status](https://travis-ci.org/RIAEvangelist/event-pubsub.svg?branch=master)](https://travis-ci.org/RIAEvangelist/event-pubsub)
-
-### [See the c8 & vanilla-test code coverage](https://cdn-avsja.ondigitalocean.app/event-pubsub/coverage/)
-
-***Super light and fast*** Extensible ES6+ event system for Node and the browser the same files that work in node will work in the browser without any modifications. If you must support old browsers you can transpile the module.
-
-
-# Methods
-
-|Method|Arguments|Description|
-|------|---------|-----------|
-|on|type:`string`, handler:`function`, once:`boolean`|will bind the `handler` function to the the `type` event. Just like `addEventListener` in the browser. If once is set to true the hander will be removed after being called once.|
-|once|type:`string`, handler:`function`| will bind the `handler` function to the the `type` event and unbind it after ***one*** execution. Just like `addEventListener` in the browser withe the `once` option set|
-|off|type/`*`:`string`, handler/`*`:`function`|will ***un***bind the `handler` function from the the `type` event. If the `handler` is `*`, all handlers for the event type will be removed.   Just like `removeEventListener` in the browser, but also can remove all event handlers for the type.|
-|emit|type:`string`, `...data` arguments|will call all `handler` functions bound to the `*` event and the `type` event. It will pass all `...data arguments` to those handlers, for `*` events, the first arg will be the `type` you can filter the events|
-|reset||Removes all events of any and all types including `*`|
-
-# Members
-
-|Member|Type|Description|
-|------|----|-----------|
-|.list |Object|List representation of all the bound events, primarily used for visibility. |
-
-# The ` * ` event type
-
-The ` * ` event type will be triggered by ***any `emit`***. These also run first. The handlers for `*` should expect the first arg to be the `type` and all args after that to be data arguments.
-
-## Local website
-
-`npm start` actually starts a [node-http-server](https://github.com/RIAEvangelist/node-http-server). So if you just want quick links to the example and test web pages, there is a page in the root of this module with links. You can access it by going to the [local homepage](http://localhost:8000) : http://localhost:8000
-
-Provided your router and firewall are not blocking your IP/ports, you can also go to `http://[your-ip-here]:8000/` on any device including your mobile device provided it is on the same network.
-
-## Digital Ocean Static App
-
-We use the free Digital Ocean Static Apps to host a version of the local server. It is exactly the same as if you ran npm start on your machine. You can also use this like a CDN as it automatically rebuilds from main/master each time the branch is updated. [event-pubsub CDN home](https://cdn-avsja.ondigitalocean.app/event-pubsub/) : https://cdn-avsja.ondigitalocean.app/event-pubsub/
- 
-
-## Basic Examples
-
-```javascript
-
-//relative paths will let your code work in both node and the browser without transpiling unless you want to.
-import EventPubSub from './node_modules/event-pubsub/index.js';
-
-events=new EventPubSub
-
-events.on(
-    'hello',
-    (data)=>{
-        console.log('hello event recieved ', data);
-    }
-);
-
-events.emit(
-    'hello',
-    'world'
-);
-
+```sh
+npm install event-pubsub
 ```
 
-#### Basic Chaining
+```js
+import EventPubSub from 'event-pubsub';
 
-```javascript
+const events = new EventPubSub();
 
-events.on(
-    'hello',
-    someFunction
-).on(
-    'goodbye',
-    anotherFunction
-).emit(
-    'hello',
-    'world'
-);
+events.on('ready', (payload) => {
+    console.log(payload);
+});
 
-events.emit(
-    'goodbye',
-    'humans'
-).off(
-    'hello',
-    '*'
-);
-
+events.emit('ready', {fast: true});
 ```
 
-### Basic Event Emitter and/or Extending Event PubSub
+## Why this module
 
-```javascript
-//relative paths will let your code work in both node and the browser!
-import EventPubSub from './node_modules/event-pubsub/index.js';
+- Five fluent methods: `on`, `once`, `off`, `emit`, and `reset`.
+- Synchronous, registration-order dispatch with wildcard subscribers first.
+- One-shot subscribers are removed before invocation, including reentrant emits.
+- Subscribers added during an emit wait for the next emit; subscribers removed before their turn are skipped.
+- Safe event names, including `__proto__`, `constructor`, and `toString`.
+- Isolated `list` snapshots that cannot mutate the live registry.
+- Native ESM for Node and browsers, without a transpilation or build requirement.
 
+## API
 
-class Book extends EventPubSub{
-    constructor(){
-        super();
-        //now Book has .on, .off, and .emit
+| Member | Signature | Behavior |
+| --- | --- | --- |
+| `on` | `on(type, handler, once = false)` | Register a persistent or explicitly one-shot handler. |
+| `once` | `once(type, handler)` | Register a handler removed immediately before its first call. |
+| `off` | `off(type = '*', handler = '*')` | Remove every matching handler or a whole event type. |
+| `emit` | `emit(type, ...payload)` | Run wildcard handlers, then typed handlers, synchronously. |
+| `reset` | `reset()` | Clear the complete registry. |
+| `list` | `get list()` | Return an isolated null-prototype object snapshot of handler arrays. |
 
-        this.words=[];
-    }
+All public mutators return the current instance. Event types must be strings, and `on`/`once` validate their handler immediately. For 5.x compatibility, `off` returns early for a missing type before validating its optional handler. Synchronous handler throws propagate to the publisher; return values and promises are ignored, so applications must handle asynchronous rejections themselves.
 
-    add(...words){
-        this.words.push(...words);
-        this.emit(
-            'added',
-            ...words
-        );
-    }
+### Wildcard events
 
-    read(){
-        this.emit(
-            'reading'
-        );
-        console.log(this.words.join(' '));
-    }
+`*` subscribers run before typed subscribers and receive the emitted type as their first argument.
+
+```js
+events.on('*', (type, ...payload) => {
+    console.log(type, payload);
+});
+
+events.emit('invoice.paid', {id: 42});
+```
+
+The wildcard list entry is exposed at `Symbol.for('event-pubsub-all')`.
+
+### Browser import map
+
+The prepared 6.0.0 runtime has zero dependencies. An unbundled browser can map the package directly:
+
+```html
+<script type="importmap">
+{
+  "imports": {
+    "event-pubsub": "./node_modules/event-pubsub/index.js"
+  }
 }
-
-const book=new Book;
-
-book.on(
-    'added',
-    function(...words){
-        console.log('words added : ',words);
-        this.read();
-    }
-);
-
-book.add(
-    'once','upon','a','time','in','a','cubicle'
-);
-
-
+</script>
+<script type="module">
+  import EventPubSub from 'event-pubsub';
+</script>
 ```
 
-## Strong Type Checking
-`event-pubsub` uses the `strong-type` class which provides methods to test ***all*** the built in js primatives, objects, classes, and even fancy things like async functions and generators. This should help make sure your code doesn't do unexpected things.
+## Verification
 
-[full strong-type documentation](https://github.com/RIAEvangelist/strong-type)
+The shared host-neutral suite contains 90 unique checks:
 
+| Suite | Cases | Focus |
+| --- | ---: | --- |
+| Unit | 16 | Exports, state, fluent identity, validation, and list shape |
+| Functional | 26 | Registration, dispatch, wildcard, once, removal, reset, and chaining |
+| Integration | 14 | Subclassing, routing, isolation, namespaces, lifecycle, and errors |
+| Regression | 34 | Mutation, reentrancy, snapshots, safe names, throws, and legacy edges |
 
-#### For node
-Since we use the same files for node and the browser, we need to emulate a production `npm i event-pubsub` in the example folder, so be sure to :  
-
-first run `npm run emulate`
-
-then run any of the following examples
-
-`node ./example/basic.js`  
-`node ./example/miltiple.js`  
-`node ./example/extending.js`  
-`node ./example/once.js`  
-
-![node event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/node-event-pubsub-es6.PNG)
-
-
-#### For the browser
-run `npm start` this will automatically run `npm run emulate` for you as well. 
-
-Then just go to the [local server](http://localhost:8000) : http://localhost:8000 from here you can see both the examples and the tests. Or go directly to [the local example](http://localhost:8000/example/index.html) : http://localhost:8000/example/. It actually imports the node example into the browser and runs it, same exact file, no transpiling or custom code for the browser. If you want to transpile though, you can. 
-
-## How Did I emulate a production install for the module inside itself???
-
-I'm actually pretty pleased with how easy this was. Feel free to use the same type of scripts in your projects. You can even copy paste and just change the repo/module names if you want. Here is the code from my package.json ***using && is important*** otherwise your commands  will run in parallel, and you really need them to run atomically.
-
-This is needed because we use relative paths in our ES6+ modules to allow the same exact js to work in node and the browser. Its what we have all been waiting for!
-
-```json
-
- "scripts": {
-    "test": "npm run emulate && node ./test/CI.js",
-    "start": "npm run emulate && node-http-server port=8000 verbose=true",
-    "emulate": "npm i && copyfiles -V \"./!(node_modules)/*\" \"./**!(node_modules)\"  \"./example/node_modules/event-pubsub/\" && copyfiles -V \"./node_modules/**/*\" \"./example/\" && copyfiles -V \"./!(node_modules)/*\" \"./**!(node_modules)\"  \"./test/node_modules/event-pubsub/\" && copyfiles -V \"./node_modules/**/*\" \"./test/\""
-},
-
+```sh
+npm test
+npm run coverage
+npm run benchmark
+npm run test:package
+npm run site:check
+npm run verify
 ```
 
-## Testing done with vanilla-test
-[vanilla-test](https://github.com/RIAEvangelist/vanilla-test) is a pretty sweet, And minimalist ES6+ testing suite for both the browser and node. You can run the tests with `npm test`
+`vanilla-test` 2.1.1 executes the same registry in Node and real Chrome. Each runtime independently gates `index.js` at 100% executable ranges, block ranges, function ranges, and executable lines. The configuration keys retain the familiar `statements`, `branches`, `functions`, and `lines` names, but the first two are native V8 ranges rather than parser-derived Istanbul counts. The package smoke installs the generated tarball in a clean temporary consumer. The benchmark validates each scenario before timing and publishes machine-readable medians.
 
-Also, the tests can be run in the browser if you run `npm start` and then go to the [local server](http://localhost:8000) : http://localhost:8000 and click the test link. Also, remember, you should be able to access them via http://[your-ip]:8000 provided your firwall and router are not blocking your ip or ports.
+## Documentation
 
-### [See the c8 code coverage](https://cdn-avsja.ondigitalocean.app/event-pubsub/coverage/)
+- [Overview](https://riaevangelist.github.io/event-pubsub/)
+- [Guide](https://riaevangelist.github.io/event-pubsub/guide.html)
+- [API](https://riaevangelist.github.io/event-pubsub/api.html)
+- [Examples](https://riaevangelist.github.io/event-pubsub/examples.html)
+- [Playground](https://riaevangelist.github.io/event-pubsub/playground.html)
+- [All 90 tests](https://riaevangelist.github.io/event-pubsub/testing.html)
+- [Node and Chrome coverage](https://riaevangelist.github.io/event-pubsub/coverage.html)
+- [Benchmarks](https://riaevangelist.github.io/event-pubsub/benchmarks.html)
+- [5.x → 6.x migration](./MIGRATION.md)
+- [Security policy](./SECURITY.md)
+- [Changelog](./CHANGELOG.md)
 
-## Node vanilla-test screenshot
-![node event-pubsub vanilla-test report](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/node-vanilla-test-event-pubsub-es6.PNG)
+## Runtime support
 
-## Chrome vanilla-test screenshot
-![Chrome event-pubsub vanilla-test report](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/chrome-vanilla-test-event-pubsub-es6.PNG)
+- Node.js 22.12.0 or newer.
+- Modern browsers with native modules, private class fields, `Symbol`, and import-map or bundler support for package imports.
 
-## Chrome Example Screenshot
-![Chrome event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/chrome-event-pubsub-es6.PNG)
+## License
 
-## Edge Example Screenshot
-![Edge event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/edge-event-pubsub-es6.PNG)
-
-## FireFox Nightly Example Screenshot
-As of 11/22/2020 FF still does not support private fields or methods in js classes, however, the nightly build has it included behind a flag. With the private field and method flags set to true, FireFox nightly works like a charm.
-
-![FireFox-nightly event-pubsub basic example](https://raw.githubusercontent.com/RIAEvangelist/event-pubsub/master/example/img/FireFox-nightly-event-pubsub-es6.PNG)
+MIT. See [licence](./licence).

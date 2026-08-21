@@ -1,0 +1,24 @@
+{
+  "entry": "./test/CI.js",
+  "reportsDirectory": "./coverage",
+  "thresholds": {
+    "statements": 100,
+    "branches": 100,
+    "functions": 100,
+    "lines": 100
+  },
+  "timeoutMs": 30000,
+  "node": {
+    "include": [
+      "index.js"
+    ]
+  },
+  "chrome": {
+    "include": [
+      "index.js"
+    ],
+    "imports": {},
+    "headless": true,
+    "executablePath": null
+  }
+}

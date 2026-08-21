@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-21T21:46:48.760Z",
+  "package": "event-pubsub@6.0.0",
+  "runtime": "v24.18.0",
+  "platform": "win32",
+  "architecture": "x64",
+  "cpu": "Intel(R) Core(TM) Ultra 9 275HX",
+  "sampleCount": 7,
+  "sampleDurationMs": 250,
+  "warmupDurationMs": 75,
+  "scenarios": [
+    {
+      "name": "typed emit · 1 handler",
+      "description": "One stable typed subscriber with one payload value.",
+      "medianOpsPerSecond": 173167306,
+      "samplesOpsPerSecond": [
+        172798065,
+        173167306,
+        177250860,
+        176317836,
+        168529665,
+        172448201,
+        177025130
+      ],
+      "checksum": 304440000
+    },
+    {
+      "name": "typed emit · 5 handlers",
+      "description": "Five stable typed subscribers with one payload value.",
+      "medianOpsPerSecond": 83593948,
+      "samplesOpsPerSecond": [
+        84989699,
+        85141099,
+        83593948,
+        85484442,
+        79162616,
+        78596165,
+        75043791
+      ],
+      "checksum": 715125000
+    },
+    {
+      "name": "typed emit · 20 handlers",
+      "description": "Twenty stable typed subscribers with one payload value.",
+      "medianOpsPerSecond": 27340293,
+      "samplesOpsPerSecond": [
+        27909354,
+        27939273,
+        27205388,
+        27340293,
+        26773708,
+        27230606,
+        28391330
+      ],
+      "checksum": 964040000
+    },
+    {
+      "name": "wildcard + typed emit",
+      "description": "One wildcard subscriber followed by five typed subscribers.",
+      "medianOpsPerSecond": 36552982,
+      "samplesOpsPerSecond": [
+        35581754,
+        38059756,
+        36498642,
+        37498815,
+        36552982,
+        36812446,
+        35557966
+      ],
+      "checksum": 384900000
+    },
+    {
+      "name": "once register + emit",
+      "description": "Register, invoke, and remove one one-shot subscriber.",
+      "medianOpsPerSecond": 15599070,
+      "samplesOpsPerSecond": [
+        17459260,
+        15446313,
+        16201048,
+        15566338,
+        15599070,
+        15858348,
+        15195885
+      ],
+      "checksum": 27838000
+    },
+    {
+      "name": "on + off pair",
+      "description": "Append one typed subscriber and remove the matching record.",
+      "medianOpsPerSecond": 15876787,
+      "samplesOpsPerSecond": [
+        15492505,
+        15830455,
+        16794287,
+        18279737,
+        18418887,
+        15876787,
+        15464221
+      ],
+      "checksum": 29044000
+    },
+    {
+      "name": "list snapshot · 5 handlers",
+      "description": "Create an isolated snapshot for one five-subscriber type.",
+      "medianOpsPerSecond": 10722892,
+      "samplesOpsPerSecond": [
+        10837980,
+        10232322,
+        10721473,
+        10722892,
+        12248313,
+        10926957,
+        10107706
+      ],
+      "checksum": 94800000
+    },
+    {
+      "name": "reset · 5 handlers",
+      "description": "Clear a registry containing five typed subscribers.",
+      "medianOpsPerSecond": 7959124,
+      "samplesOpsPerSecond": [
+        9323784,
+        8268694,
+        7959124,
+        7929204,
+        7791357,
+        7581900,
+        8005500
+      ],
+      "checksum": 14216500
+    }
+  ]
+}

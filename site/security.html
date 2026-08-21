@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Security model, supported versions, reporting path, and safe usage guidance for event-pubsub.">
+    <meta name="theme-color" content="#050914"><link rel="canonical" href="https://riaevangelist.github.io/event-pubsub/security.html">
+    <meta property="og:title" content="Security · event-pubsub"><meta property="og:description" content="Trust boundaries and responsible vulnerability reporting for event-pubsub.">
+    <meta property="og:image" content="https://riaevangelist.github.io/event-pubsub/og.png"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image">
+    <title>Security · event-pubsub</title><link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header"><div class="shell header-row"><a class="brand" href="./index.html"><span class="brand-mark" aria-hidden="true">●</span><span>event-pubsub</span></a><nav class="site-nav" aria-label="Primary navigation"><ul>
+        <li><a href="./index.html">Overview</a></li><li><a href="./guide.html">Guide</a></li><li><a href="./api.html">API</a></li><li><a href="./examples.html">Examples</a></li><li><a href="./playground.html">Playground</a></li><li><a href="./testing.html">Tests</a></li><li><a href="./coverage.html">Coverage</a></li><li><a href="./benchmarks.html">Benchmarks</a></li>
+    </ul></nav></div></header>
+    <main id="main" class="shell">
+        <header class="page-hero"><div><p class="eyebrow">Security</p><h1>Keep the trust boundary <span class="accent">explicit.</span></h1><p class="lede">event-pubsub dispatches application functions synchronously. It does not sandbox subscribers, serialize payloads, authorize event names, catch synchronous throws, or observe returned promises.</p></div></header>
+        <section class="section"><div class="grid three">
+            <article class="card"><h2>Trusted handlers</h2><p>Register only code you intend to execute in the publisher's process and privilege context. A subscriber can mutate referenced payloads or throw.</p></article>
+            <article class="card"><h2>Bounded lifecycle</h2><p>Use <code>off</code> and <code>reset</code> when components are retired. Long-lived hubs retain registered functions and their captured state.</p></article>
+            <article class="card"><h2>Safe names</h2><p>Prototype-like strings such as <code>__proto__</code>, <code>constructor</code>, and <code>toString</code> are stored safely and regression-tested.</p></article>
+        </div></section>
+        <section class="section"><div class="table-wrap"><table class="reference-table"><thead><tr><th>Version line</th><th>Status</th><th>Action</th></tr></thead><tbody><tr><td>6.x on <code>main</code></td><td>Pre-release support</td><td>Evaluate the verified source while registry publication is pending.</td></tr><tr><td>5.0.3 on npm</td><td>Current registry line</td><td>Plan migration to 6.x and Node 22.12 or newer.</td></tr><tr><td>Older lines after 6.x publication</td><td>Security fixes not planned</td><td>Use the latest 6.x patch.</td></tr></tbody></table></div></section>
+        <section class="section"><div class="callout"><strong>Report privately.</strong><p>Do not open a public issue for a suspected vulnerability. Use the repository's private <a href="https://github.com/RIAEvangelist/event-pubsub/security/advisories/new">GitHub Security Advisory form</a> with a minimal reproduction, impact, and affected versions.</p></div></section>
+    </main>
+    <footer class="site-footer"><div class="shell footer-row"><span>Security policy for the 6.x line</span><nav class="footer-links" aria-label="Resource navigation"><a href="./migration.html">Migration</a><a href="./testing.html">Testing</a><a href="./coverage.html">Coverage</a><a href="./changelog.html">Changelog</a><a href="./licence">License</a><a href="https://github.com/RIAEvangelist/event-pubsub/security">Advisories</a></nav></div></footer>
+    <script src="./script.js"></script>
+</body>
+</html>

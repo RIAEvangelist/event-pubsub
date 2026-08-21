@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Fast, synchronous publish/subscribe events for modern Node.js and browsers.">
+    <meta name="theme-color" content="#050914">
+    <link rel="canonical" href="https://riaevangelist.github.io/event-pubsub/">
+    <meta property="og:title" content="event-pubsub">
+    <meta property="og:description" content="Fast events. Node and browser.">
+    <meta property="og:image" content="https://riaevangelist.github.io/event-pubsub/og.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>event-pubsub · Fast events for Node and browsers</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header"><div class="shell header-row">
+        <a class="brand" href="./index.html"><span class="brand-mark" aria-hidden="true">●</span><span>event-pubsub</span></a>
+        <nav class="site-nav" aria-label="Primary navigation"><ul>
+            <li><a href="./index.html" aria-current="page">Overview</a></li><li><a href="./guide.html">Guide</a></li>
+            <li><a href="./api.html">API</a></li><li><a href="./examples.html">Examples</a></li>
+            <li><a href="./playground.html">Playground</a></li><li><a href="./testing.html">Tests</a></li>
+            <li><a href="./coverage.html">Coverage</a></li><li><a href="./benchmarks.html">Benchmarks</a></li>
+        </ul></nav>
+    </div></header>
+    <main id="main">
+        <section class="shell hero">
+            <div>
+                <p class="eyebrow">Native ESM · synchronous · extensible</p>
+                <h1>Fast events.<br><span class="accent">No ceremony.</span></h1>
+                <p class="lede">One small publish/subscribe class for Node.js and the browser, with predictable wildcard ordering, fluent methods, and no build step.</p>
+                <div class="command"><code id="install-command">npm install event-pubsub</code><button class="button copy-button" type="button" data-copy="#install-command">Copy</button></div>
+                <p class="release-note"><strong>Release status:</strong> 6.0.0 is verified on <code>main</code>; npm latest remains 5.0.3 until publication.</p>
+                <div class="actions"><a class="button primary" href="./guide.html">Start with the guide</a><a class="button" href="./playground.html">Try the live playground</a></div>
+            </div>
+            <div class="signal-card" role="img" aria-label="One published event fans out to several subscribers">
+                <span class="node source">emit</span><span class="node one">on</span><span class="node two">on</span><span class="node three">once</span>
+            </div>
+        </section>
+        <section class="shell section">
+            <div class="grid four" aria-label="Project quality summary">
+                <div class="stat"><strong>90</strong><span>unique behavior checks</span></div>
+                <div class="stat"><strong>2</strong><span>measured runtimes</span></div>
+                <div class="stat"><strong>100%</strong><span>coverage gates</span></div>
+                <div class="stat"><strong>0</strong><span>runtime dependencies</span></div>
+            </div>
+        </section>
+        <section class="shell section">
+            <div class="section-heading"><p class="eyebrow">The small surface</p><h2>Learn five methods, ship the event flow.</h2><p>Registration and dispatch stay direct. The deeper documentation is split into focused pages so you can get an answer without crossing a wall of prose.</p></div>
+            <div class="grid three">
+                <article class="card"><h3><code>on</code> and <code>once</code></h3><p>Register persistent or one-shot subscribers. One-shot records are removed before invocation, including reentrant emits.</p><a class="stretched" href="./api.html">Read the API →</a></article>
+                <article class="card"><h3><code>emit</code></h3><p>Run wildcard subscribers first, then typed subscribers, synchronously and in registration order.</p><a class="stretched" href="./examples.html">See patterns →</a></article>
+                <article class="card"><h3><code>off</code> and <code>reset</code></h3><p>Remove one function, one topic, wildcard subscribers, or the complete registry while keeping fluent chaining.</p><a class="stretched" href="./guide.html">Understand lifecycle →</a></article>
+            </div>
+        </section>
+        <section class="shell section">
+            <div class="grid two">
+                <div class="code-card"><pre><code>import EventPubSub from 'event-pubsub';
+
+const events = new EventPubSub();
+
+events.on('ready', (payload) =&gt; {
+    console.log(payload);
+});
+
+events.emit('ready', { fast: true });</code></pre></div>
+                <div><p class="eyebrow">Quality is inspectable</p><h2>Tests, coverage, and speed are public artifacts.</h2><p class="lede">The same shared suite runs in Node and real Chrome. Independent coverage reports, normalized results, package smoke tests, and reproducible benchmarks ship with the Pages deployment.</p><div class="actions"><a class="button" href="./testing.html">Explore 90 checks</a><a class="button" href="./coverage.html">Open coverage</a><a class="button" href="./benchmarks.html">Review speed</a></div></div>
+            </div>
+        </section>
+    </main>
+    <footer class="site-footer"><div class="shell footer-row"><span>event-pubsub · MIT licensed</span><nav class="footer-links" aria-label="Resource navigation"><a href="./live.html">Live browser test</a><a href="./security.html">Security</a><a href="./migration.html">Migration</a><a href="./changelog.html">Changelog</a><a href="./licence">License</a><a href="https://github.com/RIAEvangelist/event-pubsub">GitHub</a></nav></div></footer>
+    <script src="./script.js"></script>
+</body>
+</html>

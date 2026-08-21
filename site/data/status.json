@@ -1,0 +1,13 @@
+{
+  "generated": false,
+  "version": "6.0.0",
+  "commit": "local source",
+  "tests": {
+    "total": 90
+  },
+  "coverage": {
+    "node": {},
+    "chrome": {}
+  },
+  "benchmark": {}
+}

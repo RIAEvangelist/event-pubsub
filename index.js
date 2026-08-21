@@ -1,128 +1,156 @@
-//shim toallow node and native browser module path support with the same code
-import Is from '../strong-type/index.js';
-
-const is=new Is;
+const ALL_EVENTS = Symbol.for('event-pubsub-all');
+const LEGACY_ALL_EVENTS_NAME = ALL_EVENTS.toString();
 
 class EventPubSub {
-    constructor() {
-        
-    }
+    #events = Object.create(null);
+    #wildcard;
 
-    on(type, handler, once=false) {
-        is.string(type);
-        is.function(handler);
-        is.boolean(once);
-        
-        if(type=='*'){
-            type=this.#all;
+    on(type, handler, once = false) {
+        if (typeof type !== 'string') throw new TypeError('type must be a string');
+        if (typeof handler !== 'function') throw new TypeError('handler must be a function');
+        if (typeof once !== 'boolean') throw new TypeError('once must be a boolean');
+
+        const entry = {handler, once};
+        if (type === '*') {
+            let entries = this.#wildcard;
+            if (entries === undefined) entries = this.#wildcard = [];
+            entries.push(entry);
+        } else {
+            let entries = this.#events[type];
+            if (entries === undefined) entries = this.#events[type] = [];
+            entries.push(entry);
         }
-
-        if (!this.#events[type]) {
-            this.#events[type] = [];
-        }
-
-        handler[this.#once] = once;
-
-        this.#events[type].push(handler);
-        
         return this;
     }
 
     once(type, handler) {
-        //sugar for this.on with once set to true 
-        //so let that do the validation
-        return this.on(type,handler,true);
+        return this.on(type, handler, true);
     }
 
-    off(type='*', handler='*') {
-        is.string(type);
-        
-        if(type==this.#all.toString()||type=='*'){
-            type=this.#all;
-        }
-        
-        if (!this.#events[type]) {
+    off(type = '*', handler = '*') {
+        if (typeof type !== 'string') throw new TypeError('type must be a string');
+
+        const isWildcard = type === '*' || type === LEGACY_ALL_EVENTS_NAME;
+        const entries = isWildcard ? this.#wildcard : this.#events[type];
+        if (entries === undefined) return this;
+
+        if (handler === '*') {
+            for (let index = 0; index < entries.length; index += 1) {
+                entries[index].handler = undefined;
+            }
+            if (isWildcard) this.#wildcard = undefined;
+            else delete this.#events[type];
             return this;
         }
 
-        if (handler=='*') {
+        if (typeof handler !== 'function') throw new TypeError('handler must be a function');
+
+        const kept = entries.filter((entry) => {
+            if (entry.handler !== handler) return entry.handler !== undefined;
+            entry.handler = undefined;
+            return false;
+        });
+
+        if (isWildcard) {
+            this.#wildcard = kept.length === 0 ? undefined : kept;
+        } else if (kept.length === 0) {
             delete this.#events[type];
-            return this;
+        } else {
+            this.#events[type] = kept;
         }
-
-        //If we are not removing all the handlers,
-        //we need to know which one we are removing.
-        is.function(handler);
-
-        const handlers = this.#events[type];
-
-        while (handlers.includes(handler)) {
-            handlers.splice(
-                handlers.indexOf( handler ),
-                1
-            );
-        }
-
-        if (handlers.length < 1) {
-            delete this.#events[type];
-        }
-
         return this;
     }
 
     emit(type, ...args) {
-        is.string(type);
-        
-        const globalHandlers=this.#events[this.#all]||[];
-        
-        this.#handleOnce(this.#all.toString(), globalHandlers, type, ...args);
-        
-        if (!this.#events[type]) {
-            return this;
-        }
+        if (typeof type !== 'string') throw new TypeError('type must be a string');
 
-        const handlers = this.#events[type];        
+        const wildcard = this.#wildcard;
+        const typed = type === '*' ? undefined : this.#events[type];
+        const wildcardLimit = wildcard === undefined ? 0 : wildcard.length;
+        const typedLimit = typed === undefined ? 0 : typed.length;
 
-        this.#handleOnce(type, handlers, ...args);
-
-        return this;
-    }
-
-    reset(){
-        this.off(this.#all.toString());
-        for(let type in this.#events){
-            this.off(type);
-        }
-
-        return this
-    }
-
-    get list(){
-        return Object.assign({},this.#events);
-    }
-
-    #handleOnce=(type, handlers, ...args)=>{
-        is.string(type);
-        is.array(handlers);
-        
-        const deleteOnceHandled=[];
-
-        for (let handler of handlers) {
-            handler(...args);
-            if(handler[this.#once]){
-                deleteOnceHandled.push(handler);
+        if (wildcard !== undefined) {
+            for (let index = 0; index < wildcardLimit; index += 1) {
+                const entry = wildcard[index];
+                const handler = entry.handler;
+                if (handler === undefined) continue;
+                if (entry.once) this.#removeOnce(true, type, entry);
+                if (args.length === 0) handler(type);
+                else if (args.length === 1) handler(type, args[0]);
+                else if (args.length === 2) handler(type, args[0], args[1]);
+                else handler(type, ...args);
             }
         }
 
-        for(let handler of deleteOnceHandled){
-          this.off(type,handler);
+        if (typed !== undefined) {
+            for (let index = 0; index < typedLimit; index += 1) {
+                const entry = typed[index];
+                const handler = entry.handler;
+                if (handler === undefined) continue;
+                if (entry.once) this.#removeOnce(false, type, entry);
+                if (args.length === 0) handler();
+                else if (args.length === 1) handler(args[0]);
+                else if (args.length === 2) handler(args[0], args[1]);
+                else handler(...args);
+            }
         }
+        return this;
     }
 
-    #all =Symbol.for('event-pubsub-all')
-    #once=Symbol.for('event-pubsub-once')
+    reset() {
+        const wildcard = this.#wildcard;
+        if (wildcard !== undefined) {
+            for (let index = 0; index < wildcard.length; index += 1) {
+                wildcard[index].handler = undefined;
+            }
+        }
 
-    #events={}
+        const events = this.#events;
+        const types = Object.keys(events);
+        for (let typeIndex = 0; typeIndex < types.length; typeIndex += 1) {
+            const entries = events[types[typeIndex]];
+            for (let index = 0; index < entries.length; index += 1) {
+                entries[index].handler = undefined;
+            }
+        }
+
+        this.#wildcard = undefined;
+        this.#events = Object.create(null);
+        return this;
+    }
+
+    get list() {
+        const snapshot = Object.create(null);
+        if (this.#wildcard !== undefined) {
+            snapshot[ALL_EVENTS] = this.#wildcard.map((entry) => entry.handler);
+        }
+
+        const types = Object.keys(this.#events);
+        for (let index = 0; index < types.length; index += 1) {
+            const type = types[index];
+            snapshot[type] = this.#events[type].map((entry) => entry.handler);
+        }
+        return snapshot;
+    }
+
+    #removeOnce(isWildcard, type, removed) {
+        removed.handler = undefined;
+        const current = isWildcard ? this.#wildcard : this.#events[type];
+
+        const kept = [];
+        for (let index = 0; index < current.length; index += 1) {
+            const entry = current[index];
+            if (entry.handler !== undefined) kept.push(entry);
+        }
+
+        if (isWildcard) {
+            this.#wildcard = kept.length === 0 ? undefined : kept;
+        } else if (kept.length === 0) {
+            delete this.#events[type];
+        } else {
+            this.#events[type] = kept;
+        }
+    }
 }
 
 export {EventPubSub as default, EventPubSub};

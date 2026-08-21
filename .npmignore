@@ -1,6 +1,10 @@
-coverage
-example
-coverage
-test
-.travis.yml
-index.html
+.github/
+badges/
+benchmark/
+coverage/
+example/
+scripts/
+site/
+test/
+vanilla-test.config.json
+*.tgz

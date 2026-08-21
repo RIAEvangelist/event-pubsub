@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Complete event-pubsub API reference for on, once, off, emit, reset, and list.">
+    <meta name="theme-color" content="#050914"><link rel="canonical" href="https://riaevangelist.github.io/event-pubsub/api.html">
+    <meta property="og:title" content="API · event-pubsub"><meta property="og:description" content="The complete event-pubsub API on one focused reference page.">
+    <meta property="og:image" content="https://riaevangelist.github.io/event-pubsub/og.png"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image">
+    <title>API · event-pubsub</title><link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header"><div class="shell header-row"><a class="brand" href="./index.html"><span class="brand-mark" aria-hidden="true">●</span><span>event-pubsub</span></a><nav class="site-nav" aria-label="Primary navigation"><ul>
+        <li><a href="./index.html">Overview</a></li><li><a href="./guide.html">Guide</a></li><li><a href="./api.html" aria-current="page">API</a></li><li><a href="./examples.html">Examples</a></li><li><a href="./playground.html">Playground</a></li><li><a href="./testing.html">Tests</a></li><li><a href="./coverage.html">Coverage</a></li><li><a href="./benchmarks.html">Benchmarks</a></li>
+    </ul></nav></div></header>
+    <main id="main" class="shell">
+        <header class="page-hero"><div><p class="eyebrow">API reference</p><h1>Six surfaces.<br><span class="accent">One fluent class.</span></h1><p class="lede">All dispatch is synchronous. Public mutators return the same instance. Event types must be strings; registration handlers are validated immediately.</p></div></header>
+        <section class="section"><div class="table-wrap"><table class="reference-table"><thead><tr><th>Member</th><th>Signature</th><th>Contract</th><th>Returns</th></tr></thead><tbody>
+            <tr><td><code>on</code></td><td><code>on(type, handler, once = false)</code></td><td>Registers a function. <code>*</code> creates a wildcard subscription.</td><td><code>this</code></td></tr>
+            <tr><td><code>once</code></td><td><code>once(type, handler)</code></td><td>Registers a record removed immediately before its first invocation.</td><td><code>this</code></td></tr>
+            <tr><td><code>off</code></td><td><code>off(type = '*', handler = '*')</code></td><td>Removes all matching function registrations, or the whole type when handler is <code>*</code>. A missing type returns before optional-handler validation, preserving 5.x behavior.</td><td><code>this</code></td></tr>
+            <tr><td><code>emit</code></td><td><code>emit(type, ...payload)</code></td><td>Runs wildcard then typed handlers, synchronously, with additions deferred.</td><td><code>this</code></td></tr>
+            <tr><td><code>reset</code></td><td><code>reset()</code></td><td>Clears every typed and wildcard registration.</td><td><code>this</code></td></tr>
+            <tr><td><code>list</code></td><td><code>get list()</code></td><td>Returns an isolated null-prototype object snapshot of topic arrays. Wildcards use <code>Symbol.for('event-pubsub-all')</code>.</td><td><code>object</code></td></tr>
+        </tbody></table></div></section>
+        <section class="section"><div class="grid two">
+            <article class="code-card"><h2>Typed subscriber</h2><pre><code>const handler = (payload) =&gt; {
+    console.log(payload);
+};
+
+events.on('topic', handler);
+events.emit('topic', { id: 1 });
+events.off('topic', handler);</code></pre></article>
+            <article class="code-card"><h2>Wildcard subscriber</h2><pre><code>events.on('*', (type, ...payload) =&gt; {
+    console.log(type, payload);
+});
+
+events.emit('topic', { id: 1 });
+events.off(); // wildcard subscribers only</code></pre></article>
+        </div></section>
+        <section class="section"><div class="callout"><strong>Synchronous exceptions are publisher-visible.</strong><p>A synchronously thrown handler stops the current dispatch and propagates through <code>emit</code>. One-shot handlers have already been removed; persistent handlers remain registered. Handler return values and promises are ignored, so callers must handle asynchronous rejections in application code.</p></div></section>
+    </main>
+    <footer class="site-footer"><div class="shell footer-row"><span>API for event-pubsub 6.0.0</span><nav class="footer-links" aria-label="Resource navigation"><a href="./examples.html">Examples</a><a href="./live.html">Live test</a><a href="./security.html">Security</a><a href="./migration.html">Migration</a><a href="./changelog.html">Changelog</a><a href="./licence">License</a></nav></div></footer>
+    <script src="./script.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="The 14 event-pubsub Integration checks for subclassing, routing, namespaces, lifecycles, and errors.">
+    <meta name="theme-color" content="#050914"><link rel="canonical" href="https://riaevangelist.github.io/event-pubsub/tests-integration.html">
+    <meta property="og:title" content="Integration tests · event-pubsub"><meta property="og:description" content="All 14 Integration checks, named and inspectable.">
+    <meta property="og:image" content="https://riaevangelist.github.io/event-pubsub/og.png"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image">
+    <title>Integration tests · event-pubsub</title><link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header"><div class="shell header-row"><a class="brand" href="./index.html"><span class="brand-mark" aria-hidden="true">●</span><span>event-pubsub</span></a><nav class="site-nav" aria-label="Primary navigation"><ul>
+        <li><a href="./index.html">Overview</a></li><li><a href="./guide.html">Guide</a></li><li><a href="./api.html">API</a></li><li><a href="./examples.html">Examples</a></li><li><a href="./playground.html">Playground</a></li><li><a class="section-current" href="./testing.html">Tests</a></li><li><a href="./coverage.html">Coverage</a></li><li><a href="./benchmarks.html">Benchmarks</a></li>
+    </ul></nav></div></header>
+    <main id="main" class="shell">
+        <header class="page-hero"><div><p class="eyebrow">Integration suite · 14 cases</p><h1>Events inside <span class="accent">real composition.</span></h1><p class="lede">Domain subclasses, isolated hubs, namespaced topics, audit routing, lifecycle boundaries, synchronous nesting, and publisher-visible errors.</p></div></header>
+        <section class="section result-panel"><div class="result-head"><h2>Complete Integration inventory</h2><span class="score">14</span></div><ol class="case-list" data-suite="Integration">
+            <li>a subclass can publish state changes</li><li>multiple instances isolate same-named topics</li><li>namespaced topic strings remain exact</li><li>a wildcard audit stream observes several domains</li><li>a one-shot readiness gate coexists with persistent progress</li><li>a request-style payload preserves callbacks by identity</li><li>a handler can publish a second event synchronously</li><li>a wildcard handler can route selected events</li><li>reset provides a clean lifecycle boundary</li><li>empty and whitespace topic names remain distinct</li><li>unicode topic names and payloads pass through unchanged</li><li>async handlers are invoked without delaying synchronous peers</li><li>synchronous handler exceptions propagate to the publisher</li><li>list supports operational introspection without exposing records</li>
+        </ol></section>
+        <section class="section"><div class="actions"><a class="button" href="./tests-functional.html">Previous: Functional</a><a class="button" href="./testing.html">All suites</a><a class="button" href="./tests-regression.html">Next: Regression</a><a class="button primary" href="./live.html">Run in this browser</a></div></section>
+    </main>
+    <footer class="site-footer"><div class="shell footer-row"><span>Integration · 14 unique checks</span><nav class="footer-links" aria-label="Resource navigation"><a href="./tests-unit.html">Unit</a><a href="./tests-functional.html">Functional</a><a href="./tests-regression.html">Regression</a><a href="./coverage.html">Coverage</a><a href="./changelog.html">Changelog</a><a href="./licence">License</a></nav></div></footer>
+    <script src="./script.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Execute all 90 event-pubsub checks live in this browser using the shared CI test registry.">
+    <meta name="theme-color" content="#050914"><link rel="canonical" href="https://riaevangelist.github.io/event-pubsub/live.html">
+    <meta property="og:title" content="Live browser test · event-pubsub"><meta property="og:description" content="Run the same 90 checks used by Node and Chrome coverage.">
+    <meta property="og:image" content="https://riaevangelist.github.io/event-pubsub/og.png"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image">
+    <title>Live browser test · event-pubsub</title><link rel="stylesheet" href="./styles.css">
+    <script type="importmap">{"imports":{"strong-type":"./vendor/strong-type/index.js","vanilla-test":"./vendor/vanilla-test/index.js","ansi-colors-es6":"./vendor/ansi-colors-es6/index.js"}}</script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header"><div class="shell header-row"><a class="brand" href="./index.html"><span class="brand-mark" aria-hidden="true">●</span><span>event-pubsub</span></a><nav class="site-nav" aria-label="Primary navigation"><ul>
+        <li><a href="./index.html">Overview</a></li><li><a href="./guide.html">Guide</a></li><li><a href="./api.html">API</a></li><li><a href="./examples.html">Examples</a></li><li><a href="./playground.html">Playground</a></li><li><a class="section-current" href="./testing.html">Tests</a></li><li><a href="./coverage.html">Coverage</a></li><li><a href="./benchmarks.html">Benchmarks</a></li>
+    </ul></nav></div></header>
+    <main id="main" class="shell">
+        <header class="page-hero"><div><p class="eyebrow">Live browser verification</p><h1 id="live-title">Running all <span class="accent">90 checks…</span></h1><p class="lede">This page imports the repository source and the same host-neutral registry used by Node and Chrome coverage. Open DevTools to inspect the vanilla-test report.</p></div></header>
+        <section class="section result-panel" aria-live="polite"><div class="result-head"><div><p class="eyebrow">Current browser result</p><h2>Shared-suite score</h2></div><span class="score" id="live-score">—</span></div></section>
+        <section class="section"><div class="grid four" id="live-categories"><article class="card"><h2>Loading</h2><p>The shared suite is executing sequentially.</p></article></div></section>
+        <section class="section"><div class="callout"><strong>A live run is evidence, not the published CI record.</strong><p>The coverage page links immutable Node and Chrome result artifacts produced by the gated workflow. This page confirms the deployed source in your current browser.</p></div><div class="actions"><a class="button" href="./testing.html">Test strategy</a><a class="button primary" href="./coverage.html">Published coverage</a></div></section>
+    </main>
+    <footer class="site-footer"><div class="shell footer-row"><span>Shared registry · real browser execution</span><nav class="footer-links" aria-label="Resource navigation"><a href="./tests-unit.html">Unit</a><a href="./tests-functional.html">Functional</a><a href="./tests-integration.html">Integration</a><a href="./tests-regression.html">Regression</a><a href="./coverage.html">Coverage</a><a href="./licence">License</a></nav></div></footer>
+    <script src="./script.js"></script><script type="module" src="./live.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="event-pubsub release history, modernization details, test expansion, coverage, benchmarks, and Pages changes.">
+    <meta name="theme-color" content="#050914"><link rel="canonical" href="https://riaevangelist.github.io/event-pubsub/changelog.html">
+    <meta property="og:title" content="Changelog · event-pubsub"><meta property="og:description" content="What changed in event-pubsub 6.0.0 and earlier releases.">
+    <meta property="og:image" content="https://riaevangelist.github.io/event-pubsub/og.png"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image">
+    <title>Changelog · event-pubsub</title><link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header"><div class="shell header-row"><a class="brand" href="./index.html"><span class="brand-mark" aria-hidden="true">●</span><span>event-pubsub</span></a><nav class="site-nav" aria-label="Primary navigation"><ul>
+        <li><a href="./index.html">Overview</a></li><li><a href="./guide.html">Guide</a></li><li><a href="./api.html">API</a></li><li><a href="./examples.html">Examples</a></li><li><a href="./playground.html">Playground</a></li><li><a href="./testing.html">Tests</a></li><li><a href="./coverage.html">Coverage</a></li><li><a href="./benchmarks.html">Benchmarks</a></li>
+    </ul></nav></div></header>
+    <main id="main" class="shell">
+        <header class="page-hero"><div><p class="eyebrow">Changelog</p><h1>A smaller core with <span class="accent">stronger evidence.</span></h1><p class="lede">Release notes are split from migration guidance so this page can stay focused on what is prepared and what has shipped.</p></div></header>
+        <section class="section"><article class="card"><p class="eyebrow">6.0.0 · unreleased · prepared 2026-08-21</p><h2>Modern event dispatch, native coverage, and engineer documentation</h2><p>The source is verified on <code>main</code>; npm publication and a GitHub release remain separate release actions.</p><div class="grid two">
+            <div><h3>Runtime</h3><ul><li>Optimized packed listener records and dispatch hot paths.</li><li>Safe prototype-like event names.</li><li>Reentrant-safe one-shot removal.</li><li>Isolated <code>list</code> snapshots and consistent fluent returns.</li><li>Zero production dependencies.</li></ul></div>
+            <div><h3>Evidence</h3><ul><li>90 unique checks across four focused suites.</li><li>Independent Node and real-Chrome native V8 coverage.</li><li>Validated package smoke and cross-platform Node matrix.</li><li>Reproducible hot-path benchmarks with JSON output.</li><li>Sixteen-page GitHub Pages documentation and live demos.</li></ul></div>
+        </div></article></section>
+        <section class="section"><div class="grid two"><article class="card"><p class="eyebrow">5.0.3 · 2020-11-26</p><h2>Prior npm release</h2><p>The stable 5.x package added browser-oriented ESM examples and the earlier vanilla-test checks. The c8 workflow was added later on the repository branch.</p></article><article class="card"><p class="eyebrow">Historical lines</p><h2>1.x through 4.x</h2><p>Earlier branches remain available in Git history and tags. Version 6 keeps the recognizable API while formalizing behavior that was previously implicit.</p></article></div></section>
+        <section class="section"><div class="actions"><a class="button primary" href="./migration.html">Read the 5.x → 6.x migration</a><a class="button" href="https://github.com/RIAEvangelist/event-pubsub/releases">GitHub releases</a></div></section>
+    </main>
+    <footer class="site-footer"><div class="shell footer-row"><span>Release history</span><nav class="footer-links" aria-label="Resource navigation"><a href="./migration.html">Migration</a><a href="./api.html">API</a><a href="./testing.html">Testing</a><a href="./coverage.html">Coverage</a><a href="./security.html">Security</a><a href="./licence">License</a></nav></div></footer>
+    <script src="./script.js"></script>
+</body>
+</html>
