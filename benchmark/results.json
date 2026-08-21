@@ -1,134 +1,681 @@
 {
-  "schemaVersion": 1,
-  "generatedAt": "2026-08-21T21:46:48.760Z",
-  "package": "event-pubsub@6.0.0",
-  "runtime": "v24.18.0",
-  "platform": "win32",
-  "architecture": "x64",
-  "cpu": "Intel(R) Core(TM) Ultra 9 275HX",
-  "sampleCount": 7,
-  "sampleDurationMs": 250,
-  "warmupDurationMs": 75,
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-21T22:54:22.040Z",
+  "package": {
+    "name": "event-pubsub",
+    "version": "6.0.0",
+    "commit": "f3f4a82bd541be3b19f4acc4847a590e1c425c77"
+  },
+  "environment": {
+    "node": "v24.18.0",
+    "v8": "13.6.233.17-node.50",
+    "platform": "win32",
+    "osRelease": "10.0.26200",
+    "architecture": "x64",
+    "cpuModel": "Intel(R) Core(TM) Ultra 9 275HX",
+    "logicalCpus": 24,
+    "execArgv": []
+  },
+  "methodology": {
+    "clock": "process.hrtime.bigint",
+    "statistic": "median with p25 and p75",
+    "sampleCount": 7,
+    "targetSampleNanoseconds": 250000000,
+    "timingBoundary": "execute(operations) only",
+    "excluded": [
+      "scenario setup",
+      "behavior validation",
+      "iteration calibration",
+      "warmup",
+      "post-run verification",
+      "summary calculation",
+      "serialization",
+      "file I/O",
+      "CI orchestration"
+    ],
+    "harnessAdjustment": "none; fixed-count loops avoid per-operation clock reads and deadline polling",
+    "checksum": "observed from timed handler effects where dispatch invokes subscribers"
+  },
   "scenarios": [
     {
-      "name": "typed emit · 1 handler",
+      "id": "typed-emit-1",
+      "name": "Typed emit · 1 handler",
+      "group": "dispatch",
       "description": "One stable typed subscriber with one payload value.",
-      "medianOpsPerSecond": 173167306,
-      "samplesOpsPerSecond": [
-        172798065,
-        173167306,
-        177250860,
-        176317836,
-        168529665,
-        172448201,
-        177025130
+      "unit": "ns/emit",
+      "workload": {
+        "setup": "Create one emitter and register one minimal observable typed handler.",
+        "timed": "events.emit('pulse', 42)",
+        "apiCallsPerOperation": 1,
+        "handlerInvocationsPerOperation": 1,
+        "payloadValues": 1
+      },
+      "samples": [
+        {
+          "index": 1,
+          "operations": 40751856,
+          "elapsedNanoseconds": 249955500,
+          "nanosecondsPerOperation": 6.133597939686477,
+          "operationsPerSecond": 163036444.48711872,
+          "checksum": 637836128
+        },
+        {
+          "index": 2,
+          "operations": 40751856,
+          "elapsedNanoseconds": 250326100,
+          "nanosecondsPerOperation": 6.142692004015719,
+          "operationsPerSecond": 162795074.105337,
+          "checksum": 637836128
+        },
+        {
+          "index": 3,
+          "operations": 40751856,
+          "elapsedNanoseconds": 250574200,
+          "nanosecondsPerOperation": 6.14878007028686,
+          "operationsPerSecond": 162633886.4895109,
+          "checksum": 637836128
+        },
+        {
+          "index": 4,
+          "operations": 40751856,
+          "elapsedNanoseconds": 250472200,
+          "nanosecondsPerOperation": 6.146277116801747,
+          "operationsPerSecond": 162700116.0208598,
+          "checksum": 637836128
+        },
+        {
+          "index": 5,
+          "operations": 40751856,
+          "elapsedNanoseconds": 250838500,
+          "nanosecondsPerOperation": 6.15526566446446,
+          "operationsPerSecond": 162462524.69218242,
+          "checksum": 637836128
+        },
+        {
+          "index": 6,
+          "operations": 40751856,
+          "elapsedNanoseconds": 249378100,
+          "nanosecondsPerOperation": 6.119429259859968,
+          "operationsPerSecond": 163413932.4984832,
+          "checksum": 637836128
+        },
+        {
+          "index": 7,
+          "operations": 40751856,
+          "elapsedNanoseconds": 249495800,
+          "nanosecondsPerOperation": 6.12231747187171,
+          "operationsPerSecond": 163336841.74242613,
+          "checksum": 637836128
+        }
       ],
-      "checksum": 304440000
+      "summary": {
+        "medianNanosecondsPerOperation": 6.142692004015719,
+        "p25NanosecondsPerOperation": 6.127957705779094,
+        "p75NanosecondsPerOperation": 6.147528593544304,
+        "minNanosecondsPerOperation": 6.119429259859968,
+        "maxNanosecondsPerOperation": 6.15526566446446,
+        "medianOperationsPerSecond": 162795074.105337
+      }
     },
     {
-      "name": "typed emit · 5 handlers",
+      "id": "typed-emit-5",
+      "name": "Typed emit · 5 handlers",
+      "group": "dispatch",
       "description": "Five stable typed subscribers with one payload value.",
-      "medianOpsPerSecond": 83593948,
-      "samplesOpsPerSecond": [
-        84989699,
-        85141099,
-        83593948,
-        85484442,
-        79162616,
-        78596165,
-        75043791
+      "unit": "ns/emit",
+      "workload": {
+        "setup": "Create one emitter and register five distinct minimal observable typed handlers.",
+        "timed": "events.emit('pulse', 42)",
+        "apiCallsPerOperation": 1,
+        "handlerInvocationsPerOperation": 5,
+        "payloadValues": 1
+      },
+      "samples": [
+        {
+          "index": 1,
+          "operations": 17467457,
+          "elapsedNanoseconds": 248433100,
+          "nanosecondsPerOperation": 14.222625537306318,
+          "operationsPerSecond": 70310506.12820916,
+          "checksum": 621615068
+        },
+        {
+          "index": 2,
+          "operations": 17467457,
+          "elapsedNanoseconds": 247892500,
+          "nanosecondsPerOperation": 14.19167655600927,
+          "operationsPerSecond": 70463838.15565215,
+          "checksum": 621615068
+        },
+        {
+          "index": 3,
+          "operations": 17467457,
+          "elapsedNanoseconds": 249079100,
+          "nanosecondsPerOperation": 14.259608596717886,
+          "operationsPerSecond": 70128152.06093164,
+          "checksum": 621615068
+        },
+        {
+          "index": 4,
+          "operations": 17467457,
+          "elapsedNanoseconds": 248196400,
+          "nanosecondsPerOperation": 14.209074623741738,
+          "operationsPerSecond": 70377559.86791106,
+          "checksum": 621615068
+        },
+        {
+          "index": 5,
+          "operations": 17467457,
+          "elapsedNanoseconds": 248336400,
+          "nanosecondsPerOperation": 14.217089528258178,
+          "operationsPerSecond": 70337884.41807161,
+          "checksum": 621615068
+        },
+        {
+          "index": 6,
+          "operations": 17467457,
+          "elapsedNanoseconds": 248687000,
+          "nanosecondsPerOperation": 14.23716113914006,
+          "operationsPerSecond": 70238721.7667188,
+          "checksum": 621615068
+        },
+        {
+          "index": 7,
+          "operations": 17467457,
+          "elapsedNanoseconds": 248129200,
+          "nanosecondsPerOperation": 14.205227469573849,
+          "operationsPerSecond": 70396619.98668435,
+          "checksum": 621615068
+        }
       ],
-      "checksum": 715125000
+      "summary": {
+        "medianNanosecondsPerOperation": 14.217089528258178,
+        "p25NanosecondsPerOperation": 14.207151046657794,
+        "p75NanosecondsPerOperation": 14.229893338223189,
+        "minNanosecondsPerOperation": 14.19167655600927,
+        "maxNanosecondsPerOperation": 14.259608596717886,
+        "medianOperationsPerSecond": 70337884.41807161
+      }
     },
     {
-      "name": "typed emit · 20 handlers",
+      "id": "typed-emit-20",
+      "name": "Typed emit · 20 handlers",
+      "group": "dispatch",
       "description": "Twenty stable typed subscribers with one payload value.",
-      "medianOpsPerSecond": 27340293,
-      "samplesOpsPerSecond": [
-        27909354,
-        27939273,
-        27205388,
-        27340293,
-        26773708,
-        27230606,
-        28391330
+      "unit": "ns/emit",
+      "workload": {
+        "setup": "Create one emitter and register twenty distinct minimal observable typed handlers.",
+        "timed": "events.emit('pulse', 42)",
+        "apiCallsPerOperation": 1,
+        "handlerInvocationsPerOperation": 20,
+        "payloadValues": 1
+      },
+      "samples": [
+        {
+          "index": 1,
+          "operations": 6056202,
+          "elapsedNanoseconds": 251767400,
+          "nanosecondsPerOperation": 41.57183000170734,
+          "operationsPerSecond": 24054750.53561343,
+          "checksum": 869178940
+        },
+        {
+          "index": 2,
+          "operations": 6056202,
+          "elapsedNanoseconds": 251079400,
+          "nanosecondsPerOperation": 41.458227450141194,
+          "operationsPerSecond": 24120664.618443407,
+          "checksum": 869178940
+        },
+        {
+          "index": 3,
+          "operations": 6056202,
+          "elapsedNanoseconds": 250204900,
+          "nanosecondsPerOperation": 41.31383002086126,
+          "operationsPerSecond": 24204969.606910177,
+          "checksum": 869178940
+        },
+        {
+          "index": 4,
+          "operations": 6056202,
+          "elapsedNanoseconds": 250999100,
+          "nanosecondsPerOperation": 41.44496831512555,
+          "operationsPerSecond": 24128381.336825512,
+          "checksum": 869178940
+        },
+        {
+          "index": 5,
+          "operations": 6056202,
+          "elapsedNanoseconds": 250658700,
+          "nanosecondsPerOperation": 41.388761471298345,
+          "operationsPerSecond": 24161148.206704974,
+          "checksum": 869178940
+        },
+        {
+          "index": 6,
+          "operations": 6056202,
+          "elapsedNanoseconds": 250521200,
+          "nanosecondsPerOperation": 41.36605747298389,
+          "operationsPerSecond": 24174409.19171711,
+          "checksum": 869178940
+        },
+        {
+          "index": 7,
+          "operations": 6056202,
+          "elapsedNanoseconds": 251291600,
+          "nanosecondsPerOperation": 41.493265911539936,
+          "operationsPerSecond": 24100296.229559604,
+          "checksum": 869178940
+        }
       ],
-      "checksum": 964040000
+      "summary": {
+        "medianNanosecondsPerOperation": 41.44496831512555,
+        "p25NanosecondsPerOperation": 41.37740947214112,
+        "p75NanosecondsPerOperation": 41.475746680840565,
+        "minNanosecondsPerOperation": 41.31383002086126,
+        "maxNanosecondsPerOperation": 41.57183000170734,
+        "medianOperationsPerSecond": 24128381.336825512
+      }
     },
     {
-      "name": "wildcard + typed emit",
+      "id": "wildcard-typed-emit",
+      "name": "Wildcard + typed emit",
+      "group": "dispatch",
       "description": "One wildcard subscriber followed by five typed subscribers.",
-      "medianOpsPerSecond": 36552982,
-      "samplesOpsPerSecond": [
-        35581754,
-        38059756,
-        36498642,
-        37498815,
-        36552982,
-        36812446,
-        35557966
+      "unit": "ns/emit",
+      "workload": {
+        "setup": "Create one emitter with one wildcard and five distinct minimal observable typed handlers.",
+        "timed": "events.emit('pulse', 42)",
+        "apiCallsPerOperation": 1,
+        "handlerInvocationsPerOperation": 6,
+        "payloadValues": 1
+      },
+      "samples": [
+        {
+          "index": 1,
+          "operations": 10234573,
+          "elapsedNanoseconds": 249773800,
+          "nanosecondsPerOperation": 24.40490678018516,
+          "operationsPerSecond": 40975366.51161972,
+          "checksum": 585147343
+        },
+        {
+          "index": 2,
+          "operations": 10234573,
+          "elapsedNanoseconds": 249311700,
+          "nanosecondsPerOperation": 24.359755897974445,
+          "operationsPerSecond": 41051314.47902365,
+          "checksum": 585147343
+        },
+        {
+          "index": 3,
+          "operations": 10234573,
+          "elapsedNanoseconds": 247616200,
+          "nanosecondsPerOperation": 24.19409192743068,
+          "operationsPerSecond": 41332404.7457315,
+          "checksum": 585147343
+        },
+        {
+          "index": 4,
+          "operations": 10234573,
+          "elapsedNanoseconds": 248234000,
+          "nanosecondsPerOperation": 24.254455950433886,
+          "operationsPerSecond": 41229537.45256492,
+          "checksum": 585147343
+        },
+        {
+          "index": 5,
+          "operations": 10234573,
+          "elapsedNanoseconds": 246110200,
+          "nanosecondsPerOperation": 24.046943629206613,
+          "operationsPerSecond": 41585326.41068919,
+          "checksum": 585147343
+        },
+        {
+          "index": 6,
+          "operations": 10234573,
+          "elapsedNanoseconds": 247827900,
+          "nanosecondsPerOperation": 24.21477671809073,
+          "operationsPerSecond": 41297097.70368873,
+          "checksum": 585147343
+        },
+        {
+          "index": 7,
+          "operations": 10234573,
+          "elapsedNanoseconds": 247235700,
+          "nanosecondsPerOperation": 24.156914020741265,
+          "operationsPerSecond": 41396016.02842955,
+          "checksum": 585147343
+        }
       ],
-      "checksum": 384900000
+      "summary": {
+        "medianNanosecondsPerOperation": 24.21477671809073,
+        "p25NanosecondsPerOperation": 24.175502974085973,
+        "p75NanosecondsPerOperation": 24.307105924204166,
+        "minNanosecondsPerOperation": 24.046943629206613,
+        "maxNanosecondsPerOperation": 24.40490678018516,
+        "medianOperationsPerSecond": 41297097.70368873
+      }
     },
     {
-      "name": "once register + emit",
+      "id": "once-emit-cycle",
+      "name": "Once register + emit",
+      "group": "lifecycle",
       "description": "Register, invoke, and remove one one-shot subscriber.",
-      "medianOpsPerSecond": 15599070,
-      "samplesOpsPerSecond": [
-        17459260,
-        15446313,
-        16201048,
-        15566338,
-        15599070,
-        15858348,
-        15195885
+      "unit": "ns/cycle",
+      "workload": {
+        "setup": "Create one empty emitter and one reusable minimal observable handler.",
+        "timed": "events.once('pulse', handler).emit('pulse')",
+        "apiCallsPerOperation": 2,
+        "handlerInvocationsPerOperation": 1,
+        "payloadValues": 0
+      },
+      "samples": [
+        {
+          "index": 1,
+          "operations": 5369324,
+          "elapsedNanoseconds": 237736700,
+          "nanosecondsPerOperation": 44.276840064037856,
+          "operationsPerSecond": 22585170.905459695,
+          "checksum": 5369324
+        },
+        {
+          "index": 2,
+          "operations": 5369324,
+          "elapsedNanoseconds": 234195400,
+          "nanosecondsPerOperation": 43.61729707501354,
+          "operationsPerSecond": 22926684.29866684,
+          "checksum": 5369324
+        },
+        {
+          "index": 3,
+          "operations": 5369324,
+          "elapsedNanoseconds": 236084500,
+          "nanosecondsPerOperation": 43.96912907472151,
+          "operationsPerSecond": 22743229.64870629,
+          "checksum": 5369324
+        },
+        {
+          "index": 4,
+          "operations": 5369324,
+          "elapsedNanoseconds": 235831700,
+          "nanosecondsPerOperation": 43.92204679769744,
+          "operationsPerSecond": 22767609.273901682,
+          "checksum": 5369324
+        },
+        {
+          "index": 5,
+          "operations": 5369324,
+          "elapsedNanoseconds": 234046100,
+          "nanosecondsPerOperation": 43.589490967578044,
+          "operationsPerSecond": 22941309.42579261,
+          "checksum": 5369324
+        },
+        {
+          "index": 6,
+          "operations": 5369324,
+          "elapsedNanoseconds": 231088000,
+          "nanosecondsPerOperation": 43.03856500371369,
+          "operationsPerSecond": 23234975.420618985,
+          "checksum": 5369324
+        },
+        {
+          "index": 7,
+          "operations": 5369324,
+          "elapsedNanoseconds": 232485000,
+          "nanosecondsPerOperation": 43.29874673236333,
+          "operationsPerSecond": 23095356.689678904,
+          "checksum": 5369324
+        }
       ],
-      "checksum": 27838000
+      "summary": {
+        "medianNanosecondsPerOperation": 43.61729707501354,
+        "p25NanosecondsPerOperation": 43.444118849970685,
+        "p75NanosecondsPerOperation": 43.94558793620948,
+        "minNanosecondsPerOperation": 43.03856500371369,
+        "maxNanosecondsPerOperation": 44.276840064037856,
+        "medianOperationsPerSecond": 22926684.29866684
+      }
     },
     {
-      "name": "on + off pair",
+      "id": "on-off-cycle",
+      "name": "On + off pair",
+      "group": "lifecycle",
       "description": "Append one typed subscriber and remove the matching record.",
-      "medianOpsPerSecond": 15876787,
-      "samplesOpsPerSecond": [
-        15492505,
-        15830455,
-        16794287,
-        18279737,
-        18418887,
-        15876787,
-        15464221
+      "unit": "ns/cycle",
+      "workload": {
+        "setup": "Create one empty emitter and one reusable no-op handler.",
+        "timed": "events.on('pulse', handler).off('pulse', handler)",
+        "apiCallsPerOperation": 2,
+        "handlerInvocationsPerOperation": 0,
+        "payloadValues": 0
+      },
+      "samples": [
+        {
+          "index": 1,
+          "operations": 5531916,
+          "elapsedNanoseconds": 253936400,
+          "nanosecondsPerOperation": 45.90387851153199,
+          "operationsPerSecond": 21784651.589925665,
+          "checksum": 5531916
+        },
+        {
+          "index": 2,
+          "operations": 5531916,
+          "elapsedNanoseconds": 248337500,
+          "nanosecondsPerOperation": 44.89176986779987,
+          "operationsPerSecond": 22275798.05707958,
+          "checksum": 5531916
+        },
+        {
+          "index": 3,
+          "operations": 5531916,
+          "elapsedNanoseconds": 251828900,
+          "nanosecondsPerOperation": 45.52290743388005,
+          "operationsPerSecond": 21966962.489213906,
+          "checksum": 5531916
+        },
+        {
+          "index": 4,
+          "operations": 5531916,
+          "elapsedNanoseconds": 253561300,
+          "nanosecondsPerOperation": 45.83607198663176,
+          "operationsPerSecond": 21816878.206571743,
+          "checksum": 5531916
+        },
+        {
+          "index": 5,
+          "operations": 5531916,
+          "elapsedNanoseconds": 259414800,
+          "nanosecondsPerOperation": 46.89420446731295,
+          "operationsPerSecond": 21324596.74621494,
+          "checksum": 5531916
+        },
+        {
+          "index": 6,
+          "operations": 5531916,
+          "elapsedNanoseconds": 254150300,
+          "nanosecondsPerOperation": 45.94254504226022,
+          "operationsPerSecond": 21766317.017922074,
+          "checksum": 5531916
+        },
+        {
+          "index": 7,
+          "operations": 5531916,
+          "elapsedNanoseconds": 253417200,
+          "nanosecondsPerOperation": 45.81002314568768,
+          "operationsPerSecond": 21829283.884440362,
+          "checksum": 5531916
+        }
       ],
-      "checksum": 29044000
+      "summary": {
+        "medianNanosecondsPerOperation": 45.83607198663176,
+        "p25NanosecondsPerOperation": 45.666465289783865,
+        "p75NanosecondsPerOperation": 45.92321177689611,
+        "minNanosecondsPerOperation": 44.89176986779987,
+        "maxNanosecondsPerOperation": 46.89420446731295,
+        "medianOperationsPerSecond": 21816878.206571743
+      }
     },
     {
-      "name": "list snapshot · 5 handlers",
+      "id": "list-snapshot-5",
+      "name": "List snapshot · 5 handlers",
+      "group": "state",
       "description": "Create an isolated snapshot for one five-subscriber type.",
-      "medianOpsPerSecond": 10722892,
-      "samplesOpsPerSecond": [
-        10837980,
-        10232322,
-        10721473,
-        10722892,
-        12248313,
-        10926957,
-        10107706
+      "unit": "ns/snapshot",
+      "workload": {
+        "setup": "Create one emitter with five typed handlers.",
+        "timed": "snapshot = events.list",
+        "apiCallsPerOperation": 1,
+        "handlerInvocationsPerOperation": 0,
+        "payloadValues": 0
+      },
+      "samples": [
+        {
+          "index": 1,
+          "operations": 4030867,
+          "elapsedNanoseconds": 244858300,
+          "nanosecondsPerOperation": 60.745814734150244,
+          "operationsPerSecond": 16462039.473442396,
+          "checksum": 20154335
+        },
+        {
+          "index": 2,
+          "operations": 4030867,
+          "elapsedNanoseconds": 248263300,
+          "nanosecondsPerOperation": 61.590546152974035,
+          "operationsPerSecond": 16236258.037333751,
+          "checksum": 20154335
+        },
+        {
+          "index": 3,
+          "operations": 4030867,
+          "elapsedNanoseconds": 247806800,
+          "nanosecondsPerOperation": 61.47729508316697,
+          "operationsPerSecond": 16266167.837202208,
+          "checksum": 20154335
+        },
+        {
+          "index": 4,
+          "operations": 4030867,
+          "elapsedNanoseconds": 248066400,
+          "nanosecondsPerOperation": 61.54169810117774,
+          "operationsPerSecond": 16249145.39010523,
+          "checksum": 20154335
+        },
+        {
+          "index": 5,
+          "operations": 4030867,
+          "elapsedNanoseconds": 244619300,
+          "nanosecondsPerOperation": 60.68652227920197,
+          "operationsPerSecond": 16478123.35330859,
+          "checksum": 20154335
+        },
+        {
+          "index": 6,
+          "operations": 4030867,
+          "elapsedNanoseconds": 244388800,
+          "nanosecondsPerOperation": 60.62933855173093,
+          "operationsPerSecond": 16493665.01247193,
+          "checksum": 20154335
+        },
+        {
+          "index": 7,
+          "operations": 4030867,
+          "elapsedNanoseconds": 243593400,
+          "nanosecondsPerOperation": 60.43201127697838,
+          "operationsPerSecond": 16547521.40246821,
+          "checksum": 20154335
+        }
       ],
-      "checksum": 94800000
+      "summary": {
+        "medianNanosecondsPerOperation": 60.745814734150244,
+        "p25NanosecondsPerOperation": 60.65793041546645,
+        "p75NanosecondsPerOperation": 61.509496592172354,
+        "minNanosecondsPerOperation": 60.43201127697838,
+        "maxNanosecondsPerOperation": 61.590546152974035,
+        "medianOperationsPerSecond": 16462039.473442396
+      }
     },
     {
-      "name": "reset · 5 handlers",
-      "description": "Clear a registry containing five typed subscribers.",
-      "medianOpsPerSecond": 7959124,
-      "samplesOpsPerSecond": [
-        9323784,
-        8268694,
-        7959124,
-        7929204,
-        7791357,
-        7581900,
-        8005500
+      "id": "register-5-reset-cycle",
+      "name": "Register 5 + reset cycle",
+      "group": "state",
+      "description": "Register five typed subscribers and clear the complete registry.",
+      "unit": "ns/cycle",
+      "workload": {
+        "setup": "Create one empty emitter and one reusable no-op handler.",
+        "timed": "five events.on('pulse', handler) calls, then events.reset()",
+        "apiCallsPerOperation": 6,
+        "handlerInvocationsPerOperation": 0,
+        "payloadValues": 0
+      },
+      "samples": [
+        {
+          "index": 1,
+          "operations": 2805531,
+          "elapsedNanoseconds": 247673300,
+          "nanosecondsPerOperation": 88.28036475091524,
+          "operationsPerSecond": 11327547.216433907,
+          "checksum": 2805531
+        },
+        {
+          "index": 2,
+          "operations": 2805531,
+          "elapsedNanoseconds": 250089200,
+          "nanosecondsPerOperation": 89.14148515913743,
+          "operationsPerSecond": 11218121.374293651,
+          "checksum": 2805531
+        },
+        {
+          "index": 3,
+          "operations": 2805531,
+          "elapsedNanoseconds": 251161200,
+          "nanosecondsPerOperation": 89.52358751337982,
+          "operationsPerSecond": 11170240.467078513,
+          "checksum": 2805531
+        },
+        {
+          "index": 4,
+          "operations": 2805531,
+          "elapsedNanoseconds": 250018000,
+          "nanosecondsPerOperation": 89.11610671919148,
+          "operationsPerSecond": 11221316.065243304,
+          "checksum": 2805531
+        },
+        {
+          "index": 5,
+          "operations": 2805531,
+          "elapsedNanoseconds": 250425000,
+          "nanosecondsPerOperation": 89.26117729584881,
+          "operationsPerSecond": 11203078.766097633,
+          "checksum": 2805531
+        },
+        {
+          "index": 6,
+          "operations": 2805531,
+          "elapsedNanoseconds": 251689300,
+          "nanosecondsPerOperation": 89.71182282427105,
+          "operationsPerSecond": 11146802.823957952,
+          "checksum": 2805531
+        },
+        {
+          "index": 7,
+          "operations": 2805531,
+          "elapsedNanoseconds": 249795400,
+          "nanosecondsPerOperation": 89.03676345048406,
+          "operationsPerSecond": 11231315.708776062,
+          "checksum": 2805531
+        }
       ],
-      "checksum": 14216500
+      "summary": {
+        "medianNanosecondsPerOperation": 89.14148515913743,
+        "p25NanosecondsPerOperation": 89.07643508483777,
+        "p75NanosecondsPerOperation": 89.39238240461432,
+        "minNanosecondsPerOperation": 88.28036475091524,
+        "maxNanosecondsPerOperation": 89.71182282427105,
+        "medianOperationsPerSecond": 11218121.374293651
+      }
     }
   ]
 }
