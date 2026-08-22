@@ -24,7 +24,7 @@
 
 Small, synchronous, extensible publish/subscribe events for modern Node.js and browsers.
 
-> **Release status:** `6.1.0` is the current npm release and the verified source on `main`. `6.0.0` remains the most recent separately tagged GitHub source release.
+> **Release status:** `6.1.0` is the current npm release and the current GitHub release, built from the same verified source commit. `6.0.0` remains the earlier GitHub source release.
 
 ![event-pubsub signal fan-out](https://riaevangelist.github.io/event-pubsub/og.png)
 
