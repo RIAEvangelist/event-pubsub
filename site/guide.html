@@ -18,7 +18,7 @@
         <section class="section"><ol class="steps">
             <li><h2>Install</h2><div class="command"><code id="guide-install">npm install event-pubsub</code><button class="button copy-button" type="button" data-copy="#guide-install">Copy</button></div><p>This currently installs npm latest 5.0.3. Select <code>event-pubsub@6</code> after the separate 6.x npm publication.</p></li>
             <li><h2>Create one event hub per boundary</h2><pre><code>import EventPubSub from 'event-pubsub';
-const events = new EventPubSub();</code></pre></li>
+const events = new EventPubSub();</code></pre><p>CommonJS on Node.js 22.12 or newer loads the same source with <code>const EventPubSub = require('event-pubsub');</code>.</p></li>
             <li><h2>Register before publishing</h2><pre><code>events.on('message.received', handleMessage);
 events.once('app.ready', warmCache);</code></pre></li>
             <li><h2>Publish synchronously</h2><pre><code>events.emit('message.received', message, metadata);</code></pre></li>
@@ -27,10 +27,10 @@ events.reset();</code></pre></li>
         </ol></section>
         <section class="section"><div class="section-heading"><p class="eyebrow">Dispatch contract</p><h2>Predictable order under mutation.</h2></div><div class="grid three">
             <article class="card"><h3>Wildcard first</h3><p><code>*</code> subscribers receive <code>(type, ...payload)</code> before typed subscribers receive <code>(...payload)</code>.</p></article>
-            <article class="card"><h3>Snapshot iteration</h3><p>Subscribers added during an emit wait until the next emit. Subscribers removed before their turn do not run.</p></article>
+            <article class="card"><h3>Live iteration</h3><p>Subscribers appended to the active array can run in the same emit. Specifically removed handlers are skipped before their turn; removing a whole bucket detaches it from future lookup while an already-active array finishes.</p></article>
             <article class="card"><h3>Once before call</h3><p>One-shot records are removed before invocation, preventing repeat calls during reentrant emits or after a thrown error.</p></article>
         </div></section>
-        <section class="section"><div class="callout"><strong>The 6.0.0 GitHub source release has zero dependencies.</strong><p>The same native ESM source runs in Node and modern browsers. Use a relative URL, import map, or bundler to give the browser a resolvable module URL; no runtime dependency mapping is required.</p></div></section>
+        <section class="section"><div class="callout"><strong>The prepared 6.1.0 source has one runtime dependency.</strong><p><code>strong-type</code> 2.0.0 performs public input validation. Node installs it beside <code>event-pubsub</code>; unbundled browsers serve the same sibling package layout so the deliberate relative shim resolves unchanged.</p></div></section>
     </main>
     <footer class="site-footer"><div class="shell footer-row"><span>Next: exact signatures and return values</span><nav class="footer-links" aria-label="Resource navigation"><a href="./api.html">API</a><a href="./examples.html">Examples</a><a href="./security.html">Security</a><a href="./migration.html">Migration</a><a href="./changelog.html">Changelog</a><a href="./licence">License</a></nav></div></footer>
     <script src="./script.js"></script>

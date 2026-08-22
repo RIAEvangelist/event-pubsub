@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {existsSync, readFileSync, readdirSync, statSync} from 'node:fs';
 import {extname, resolve} from 'node:path';
-import {categories} from '../test/CI.js';
+import {categories} from '../test-runtime/event-pubsub/test/CI.js';
 import {validateBenchmark} from '../site/benchmark-data.js';
 import {createStatus} from './site-data.js';
 
@@ -85,7 +85,7 @@ const suitePages = new Map([
     ['Interface', 'tests-interface.html']
 ]);
 const totalCases = categories.reduce((total, category) => total + category.tests.length, 0);
-assert.equal(totalCases, 110);
+assert.equal(totalCases, 119);
 
 for (const category of categories) {
     const html = htmlByPage.get(suitePages.get(category.name));
@@ -96,13 +96,14 @@ for (const category of categories) {
 }
 
 const testing = htmlByPage.get('testing.html');
-assert.match(testing, /110 unique checks/i);
+assert.match(testing, /119 unique checks/i);
 for (const category of categories) {
     assert.match(testing, new RegExp(`${category.name} · ${category.tests.length}`));
 }
 assert.match(htmlByPage.get('coverage.html'), /Node coverage/);
 assert.match(htmlByPage.get('coverage.html'), /Chrome coverage/);
 assert.match(htmlByPage.get('benchmarks.html'), /execution latency/i);
+assert.match(htmlByPage.get('benchmarks.html'), /data-benchmark-group="dispatch"/);
 assert.match(htmlByPage.get('benchmarks-dispatch.html'), /data-benchmark-group="dispatch"/);
 assert.match(htmlByPage.get('benchmarks-lifecycle.html'), /data-benchmark-group="lifecycle"/);
 assert.match(htmlByPage.get('benchmarks-lifecycle.html'), /data-benchmark-group="state"/);
@@ -121,10 +122,14 @@ assert.match(htmlByPage.get('changelog.html'), /5\.0\.3 · 2020-11-26/);
 assert.match(htmlByPage.get('index.html'), /npm latest remains 5\.0\.3 until publication/);
 
 const status = createStatus();
-assert.equal(status.version, '6.0.0');
+assert.equal(status.version, '6.1.0');
 assert.equal(status.tests.total, totalCases);
 assert.ok(statSync(resolve(siteRoot, 'og.png')).size > 100_000, 'Social image must be a substantive raster asset');
-validateBenchmark(JSON.parse(readFileSync(resolve(projectRoot, 'benchmark', 'results.json'), 'utf8')));
+assert.ok(statSync(resolve(siteRoot, 'benchmark-summary.svg')).size > 5_000, 'Benchmark summary must be a substantive generated chart.');
+validateBenchmark(
+    JSON.parse(readFileSync(resolve(projectRoot, 'benchmark', 'results.json'), 'utf8')),
+    {name: 'event-pubsub', version: status.version}
+);
 
 const css = readFileSync(resolve(siteRoot, 'styles.css'), 'utf8');
 assert.equal((css.match(/{/g) ?? []).length, (css.match(/}/g) ?? []).length, 'CSS braces must balance');

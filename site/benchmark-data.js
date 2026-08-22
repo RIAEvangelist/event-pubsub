@@ -39,8 +39,22 @@ function unitDenominator(unit) {
     return match[1];
 }
 
-export function validateBenchmark(data) {
+export function validateBenchmark(data, expectedPackage = {}) {
     if (!data || data.schemaVersion !== 2) throw new TypeError('Benchmark schema version 2 is required.');
+    if (data.package?.name !== 'event-pubsub') {
+        throw new TypeError('Benchmark package name must be event-pubsub.');
+    }
+    if (!/^\d+\.\d+\.\d+$/.test(data.package?.version ?? '')) {
+        throw new TypeError('Benchmark package version must be numeric MAJOR.MINOR.PATCH.');
+    }
+    if (!/^[0-9a-f]{40}$/.test(data.package?.commit ?? '')) {
+        throw new TypeError('Benchmark package commit must be a clean full Git commit.');
+    }
+    for (const field of ['name', 'version', 'commit']) {
+        if (expectedPackage[field] !== undefined && data.package[field] !== expectedPackage[field]) {
+            throw new TypeError(`Benchmark package ${field} does not match the deployed source.`);
+        }
+    }
     if (!Array.isArray(data.scenarios)) throw new TypeError('Benchmark scenarios must be an array.');
     requireSafePositiveInteger(data.methodology?.sampleCount, 'Benchmark sample count');
     if (data.methodology.sampleCount !== 7) throw new TypeError('Published benchmarks require exactly seven samples.');

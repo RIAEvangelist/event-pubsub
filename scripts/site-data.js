@@ -4,6 +4,7 @@ import {dirname, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const expectedTestTotal = 119;
 
 function readJson(path) {
     if (!existsSync(path)) return null;
@@ -62,11 +63,11 @@ export function createStatus() {
     const nodeTests = testsFor('node');
     const chromeTests = testsFor('chrome');
     return {
-        generated: Boolean(nodeTests.total && chromeTests.total),
+        generated: nodeTests.total === expectedTestTotal && chromeTests.total === expectedTestTotal,
         version: manifest.version,
         commit: commit(),
         tests: {
-            total: nodeTests.total ?? chromeTests.total ?? 110,
+            total: expectedTestTotal,
             node: nodeTests,
             chrome: chromeTests
         },
@@ -77,6 +78,7 @@ export function createStatus() {
         benchmark: benchmarkData(),
         dependencies: {
             runtime: Object.keys(manifest.dependencies ?? {}).length,
+            strongType: manifest.dependencies?.['strong-type'],
             vanillaTest: manifest.devDependencies?.['vanilla-test']
         }
     };

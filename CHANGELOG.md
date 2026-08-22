@@ -1,5 +1,18 @@
 # Changelog
 
+## 6.1.0 — Unreleased
+
+- Added direct CommonJS `require('event-pubsub')` support while keeping one native ESM implementation for both module systems.
+
+- Restored `strong-type` 2.0.0 as the sole production dependency and preserved the original package-shaped `../strong-type/index.js` Node/browser shim.
+- Kept wildcard and typed registrations together in one null-prototype registry, with the real wildcard stored under `Symbol.for('event-pubsub-all')`.
+- Moved one-shot state from user functions into per-registration `{handler, once}` records and removed each one-shot registration before invocation.
+- Restored delegated public validation; invalid-input `TypeError` messages can differ from the direct checks in 6.0.0.
+- Restored live-array dispatch behavior while making duplicate removal linear and registry reset constant-time.
+- Set the production and development floor to Node.js 22.12.0, where synchronous ESM can be loaded directly through `require()` without a duplicate build.
+- Expanded the shared Node/Chrome inventory to 119 cases, including mixed once/persistent handlers, live mutation, strict wildcard removal, stale cleanup, and throwing-handler regressions.
+- Kept `copyfiles` out of the runtime and development dependency trees.
+
 ## 6.0.0 — 2026-08-21
 
 Published as the GitHub source release after complete `main` verification. npm publication remains a separate release action; npm latest is still 5.0.3.

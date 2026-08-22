@@ -1,4 +1,9 @@
 .github/
+.gitattributes
+.site-preview/
+.test-runtime/
+test-runtime/
+_site/
 badges/
 benchmark/
 coverage/

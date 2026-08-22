@@ -21,6 +21,7 @@
             <div class="stat"><strong data-status-field="benchmark.wildcardTime">—</strong><span>wildcard + 5 typed</span></div>
             <div class="stat"><strong data-status-field="benchmark.onceTime">—</strong><span>once registration + emit cycle</span></div>
         </div></section>
+        <section class="section"><div class="chart-heading"><div><h2>Dispatch scaling</h2><p>Median execution time per emit · lower is better</p></div><p data-benchmark-status role="status">Loading current CI benchmark…</p></div><div class="chart-shell" data-benchmark-group="dispatch" data-chart-title="Dispatch execution time"><p>Loading timing evidence…</p></div></section>
         <section class="section"><div class="grid three">
             <article class="card"><p class="eyebrow">Dispatch chart</p><h2>Subscriber scaling</h2><p>Compare one, five, and twenty typed handlers with wildcard-plus-typed dispatch.</p><a class="stretched" href="./benchmarks-dispatch.html">Open dispatch timings →</a></article>
             <article class="card"><p class="eyebrow">Lifecycle charts</p><h2>Mutation and state</h2><p>See once-plus-emit, on-plus-off, list snapshot, and register-five-plus-reset cycles without mixing unlike units.</p><a class="stretched" href="./benchmarks-lifecycle.html">Open lifecycle timings →</a></article>
@@ -31,6 +32,6 @@ npm run benchmark:smoke</code></pre></div><div class="card"><h2>Machine-readable
         <section class="section"><div class="callout"><strong>These are measurements, not promises.</strong><p>Compare commits on the same runtime and hardware. The charts make scaling and regressions readable; application handlers and real workloads will add their own execution time.</p></div></section>
     </main>
     <footer class="site-footer"><div class="shell footer-row"><span>Median execution latency · lower is better</span><nav class="footer-links" aria-label="Resource navigation"><a href="./benchmarks-dispatch.html">Dispatch</a><a href="./benchmarks-lifecycle.html">Lifecycle</a><a href="./benchmarks-methodology.html">Method</a><a href="./testing.html">Testing</a><a href="./coverage.html">Coverage</a><a href="./licence">License</a></nav></div></footer>
-    <script src="./script.js"></script>
+    <script src="./script.js"></script><script type="module" src="./benchmark-charts.js"></script>
 </body>
 </html>

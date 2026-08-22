@@ -30,7 +30,7 @@ const scenarios = Object.freeze({
         });
         events.on('topic', () => order.push('second'));
         events.emit('topic').emit('topic');
-        return {expected: ['first', 'second', 'first', 'second', 'late'], actual: order};
+        return {expected: ['first', 'second', 'late', 'first', 'second', 'late', 'late'], actual: order};
     },
     'off-during'() {
         const order = [];
@@ -53,7 +53,7 @@ const scenarios = Object.freeze({
         events.on('*', () => order.push('late-wildcard'));
         events.on('topic', () => order.push('typed'));
         events.emit('topic');
-        return {expected: ['wildcard-reset'], actual: order};
+        return {expected: ['wildcard-reset', 'late-wildcard'], actual: order};
     },
     'sync-throw'() {
         const order = [];

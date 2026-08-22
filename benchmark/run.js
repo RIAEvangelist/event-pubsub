@@ -3,7 +3,7 @@ import {execFileSync} from 'node:child_process';
 import {mkdirSync, writeFileSync} from 'node:fs';
 import {cpus, release as osRelease} from 'node:os';
 import {dirname, resolve} from 'node:path';
-import EventPubSub from '../index.js';
+import EventPubSub from '../test-runtime/event-pubsub/index.js';
 import manifest from '../package.json' with {type: 'json'};
 
 const smoke = process.argv.includes('--smoke');

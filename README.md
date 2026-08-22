@@ -5,6 +5,7 @@
 [![npm](https://img.shields.io/npm/v/event-pubsub.svg)](https://www.npmjs.com/package/event-pubsub)
 [![Node](https://img.shields.io/badge/Node-%3E%3D22.12-339933?logo=nodedotjs&logoColor=white)](./package.json)
 [![runtime dependencies](https://img.shields.io/endpoint?url=https://riaevangelist.github.io/event-pubsub/badges/runtime-dependencies.json)](./package.json)
+[![strong-type](https://img.shields.io/endpoint?url=https://riaevangelist.github.io/event-pubsub/badges/strong-type.json)](https://www.npmjs.com/package/strong-type)
 [![vanilla-test](https://img.shields.io/endpoint?url=https://riaevangelist.github.io/event-pubsub/badges/vanilla-test.json)](https://www.npmjs.com/package/vanilla-test)
 [![license](https://img.shields.io/github/license/RIAEvangelist/event-pubsub.svg)](./licence)
 
@@ -23,7 +24,7 @@
 
 Small, synchronous, extensible publish/subscribe events for modern Node.js and browsers.
 
-> **Release status:** `6.0.0` is the GitHub source release. It is not yet published to npm, so the npm badge and unversioned install command continue to resolve `5.0.3`.
+> **Release status:** `6.0.0` remains the published GitHub source release. `main` prepares `6.1.0` with shared-source ESM and CommonJS consumption; npm still resolves `5.0.3` until a separate registry publication.
 
 ![event-pubsub signal fan-out](https://riaevangelist.github.io/event-pubsub/og.png)
 
@@ -43,16 +44,28 @@ events.on('ready', (payload) => {
 events.emit('ready', {fast: true});
 ```
 
+The same source is available directly to CommonJS on Node.js 22.12 or newer:
+
+```js
+const EventPubSub = require('event-pubsub');
+```
+
+## Measured dispatch speed
+
+[![event-pubsub dispatch execution latency](./site/benchmark-summary.svg)](https://riaevangelist.github.io/event-pubsub/benchmarks-dispatch.html)
+
+Bars show median nanoseconds per emit, whiskers show p25–p75, and dots show all seven samples. Every rate is derived from the same execution-only measurement; setup, warmup, validation, verification, serialization, file I/O, and CI orchestration are excluded. Lower latency is better. Open the [interactive charts](https://riaevangelist.github.io/event-pubsub/benchmarks.html) or [raw schema v2 evidence](https://riaevangelist.github.io/event-pubsub/data/benchmark.json).
+
 ## Why this module
 
 - Five fluent methods: `on`, `once`, `off`, `emit`, and `reset`.
 - Synchronous, registration-order dispatch with wildcard subscribers first.
 - One-shot subscribers are removed before invocation, including reentrant emits.
-- Subscribers added during an emit wait for the next emit; subscribers removed before their turn are skipped.
+- Subscriber arrays remain live during an emit: additions can run in that emit, and specifically removed handlers are skipped before their turn. Removing a whole bucket or resetting the registry detaches it from future lookup while an already-active array finishes.
 - Safe event names, including `__proto__`, `constructor`, and `toString`.
 - Isolated `list` snapshots that cannot mutate the live registry.
-- Native ESM for Node and browsers, without transpilation or a build requirement.
-- Zero production dependencies.
+- One native ESM source for browser imports plus Node.js `import` and `require()`, without transpilation or a duplicate CommonJS build.
+- One explicit production validator: `strong-type` 2.0.0, loaded through the original Node/browser relative shim.
 
 ## API
 
@@ -81,11 +94,11 @@ events.emit('invoice.paid', {id: 42});
 
 The wildcard list entry is exposed at `Symbol.for('event-pubsub-all')`.
 
-For legacy callers, `off(Symbol.for('event-pubsub-all').toString(), handler)` still falls back to wildcard removal. If that exact string is also registered as a typed event, the exact typed registration takes precedence; `off('*', handler)` is always the unambiguous wildcard form.
+Only the exact public string `*` maps to the internal wildcard Symbol. The ordinary string `Symbol(event-pubsub-all)` remains an exact typed event name and never aliases wildcard removal.
 
 ### Browser import map
 
-The 6.0.0 source runtime has zero dependencies. An unbundled browser can map the package directly:
+The prepared 6.1.0 runtime imports `strong-type` 2.0.0 through `../strong-type/index.js`. This preserves the original package-shaped Node/browser layout: serve `event-pubsub` and `strong-type` as sibling package directories, then map only the public package name:
 
 ```html
 <script type="importmap">
@@ -102,25 +115,26 @@ The 6.0.0 source runtime has zero dependencies. An unbundled browser can map the
 
 ## Complete verification summary
 
-The shared host-neutral registry contains **110 unique checks**. `vanilla-test` 2.1.1 executes the same inventory in Node and real Google Chrome.
+The shared host-neutral registry contains **119 unique checks**. `vanilla-test` 2.1.1 executes the same inventory in Node and real Google Chrome.
 
 | Suite | Cases | Focus |
 | --- | ---: | --- |
 | Unit | 16 | Exports, state, fluent identity, validation, and list shape |
 | Functional | 26 | Registration, dispatch, wildcard, once, removal, reset, and chaining |
 | Integration | 14 | Subclassing, routing, isolation, namespaces, lifecycle, and errors |
-| Regression | 34 | Mutation, reentrancy, snapshots, safe names, throws, and legacy edges |
+| Regression | 43 | Mutation, reentrancy, snapshots, safe names, throws, and registration-local once state |
 | Interface | 20 | Playground parsing, safe display, bounded state, benchmark evidence, units, and chart scaling |
-| **Total** | **110** | One registry used by direct tests and both coverage runtimes |
+| **Total** | **119** | One registry used by direct tests and both coverage runtimes |
 
 ### Runtime and CI matrix
 
 | Verification | Runtime | Hosts | Result requirement |
 | --- | --- | --- | --- |
-| Direct shared suite | Node 22.12.0 and Node 24 | Ubuntu, macOS, Windows | 110/110 on every matrix job |
-| Node coverage | Node 24.18.0 | Ubuntu | 110/110 and every native V8 gate at 100% |
-| Browser coverage | Google Chrome Stable | Ubuntu | 110/110 and every native V8 gate at 100% |
-| Packed consumer | Node 24 | Ubuntu | Exact tarball contents, ESM exports, behavior, and zero production dependencies |
+| Direct shared suite | Node 22.12.0 and Node 24 | Ubuntu, macOS, Windows | 119/119 on every matrix job |
+| Node coverage | Node 24.18.0 | Ubuntu | 119/119 and every native V8 gate at 100% |
+| Browser coverage | Google Chrome Stable | Ubuntu | 119/119 and every native V8 gate at 100% |
+| Packed consumer | Node 24 | Ubuntu | Exact tarball contents, ESM exports, behavior, and the sole `strong-type` dependency |
+| Shared-source package smoke | Node 22.12.0 | Ubuntu | The same packed `index.js` through ESM `import` and direct CommonJS `require()` |
 | Execution benchmark | Node 24.18.0 | Ubuntu | Eight validated scenarios with execution-only timing boundaries |
 | GitHub Pages | Node 24 | Ubuntu | 21 pages, both runtime reports, badges, benchmark JSON, scripts, links, and licenses |
 
@@ -137,13 +151,13 @@ These are native V8 executable/block/function range and executable-line totals f
 
 | Command | Purpose |
 | --- | --- |
-| `npm test` | Run all 110 checks in Node. |
+| `npm test` | Stage the sibling packages and run all 119 checks in Node. |
 | `npm run test:unit` | Run the 16 Unit cases. |
 | `npm run test:functional` | Run the 26 Functional cases. |
 | `npm run test:integration` | Run the 14 Integration cases. |
-| `npm run test:regression` | Run the 34 Regression cases. |
+| `npm run test:regression` | Run the 43 Regression cases. |
 | `npm run test:interface` | Run the 20 Interface cases. |
-| `npm run coverage` | Run all 110 checks independently in Node and real Chrome with 100% gates. |
+| `npm run coverage` | Run all 119 checks independently in Node and real Chrome with 100% gates. |
 | `npm run coverage:node` | Generate only the Node native V8 report. |
 | `npm run coverage:chrome` | Generate only the real-Chrome native V8 report. |
 | `npm run benchmark` | Record seven fixed-count latency samples for eight scenarios. |
@@ -155,7 +169,7 @@ These are native V8 executable/block/function range and executable-line totals f
 ### Published evidence
 
 - [Testing strategy and suite totals](https://riaevangelist.github.io/event-pubsub/testing.html)
-- [Live execution of all 110 checks](https://riaevangelist.github.io/event-pubsub/live.html)
+- [Live execution of all 119 checks](https://riaevangelist.github.io/event-pubsub/live.html)
 - [Node test-result JSON](https://riaevangelist.github.io/event-pubsub/reports/node/test-results.json)
 - [Chrome test-result JSON](https://riaevangelist.github.io/event-pubsub/reports/chrome/test-results.json)
 - [Node HTML coverage](https://riaevangelist.github.io/event-pubsub/reports/node/)
@@ -243,23 +257,23 @@ Every test name below is sourced from the shared registry. The focused Pages sit
 </details>
 
 <details>
-<summary><strong>Regression — 34 cases</strong></summary>
+<summary><strong>Regression — 43 cases</strong></summary>
 
 1. `__proto__` is a safe event name
 2. `constructor` is a safe event name
 3. `toString` is a safe event name
 4. `hasOwnProperty` is a safe event name
 5. numeric-looking event names remain strings
-6. the legacy wildcard symbol string still removes wildcard handlers
-7. the legacy wildcard alias prefers exact typed registrations before wildcard fallback
+6. the wildcard symbol description remains an exact typed event
+7. off compares the remove-all handler sentinel strictly
 8. emitting the literal wildcard type invokes wildcard handlers once
-9. handlers added during dispatch wait for the next emit
-10. typed handlers added by a wildcard wait for the next emit
-11. wildcard handlers added during wildcard dispatch wait for the next emit
+9. handlers added during typed dispatch run in that emit
+10. typed handlers added by a wildcard run in that emit
+11. wildcard handlers added during wildcard dispatch run in that emit
 12. handlers removed during dispatch do not run later in that dispatch
 13. a wildcard can remove a typed handler before the typed phase
-14. reset during dispatch prevents remaining handlers
-15. reset from a wildcard prevents later wildcard and typed handlers
+14. reset during typed dispatch leaves the active array running
+15. reset from a wildcard finishes that array but prevents typed dispatch
 16. once is removed before a reentrant emit
 17. persistent reentrant emits preserve nested registration order
 18. wildcard once is removed before a reentrant emit
@@ -277,8 +291,17 @@ Every test name below is sourced from the shared registry. The focused Pages sit
 30. duplicate once registrations each run once
 31. the same handler can be wildcard-once and typed-persistent
 32. registration does not write the old once symbol onto handlers
-33. wildcard-only emits remain chainable
-34. reset instances accept new registrations immediately
+33. the same handler can be once and persistent in one bucket
+34. the same handler has independent state across instances
+35. typed once removal does not skip the next registration
+36. wildcard once removal does not skip the next registration
+37. a sole once handler can add a handler to its live bucket
+38. off all during dispatch leaves the active array running
+39. stale once cleanup cannot delete a fresh same-name bucket
+40. an earlier once remains consumed when a later handler throws
+41. persistent self-removal preserves shifted-array iteration
+42. wildcard-only emits remain chainable
+43. reset instances accept new registrations immediately
 
 </details>
 
@@ -320,7 +343,7 @@ The benchmark reports median **execution latency**—nanoseconds per named opera
 - [Examples](https://riaevangelist.github.io/event-pubsub/examples.html)
 - [Event console playground](https://riaevangelist.github.io/event-pubsub/playground.html)
 - [Mutation playground scenarios](https://riaevangelist.github.io/event-pubsub/playground-scenarios.html)
-- [All 110 tests](https://riaevangelist.github.io/event-pubsub/testing.html)
+- [All 119 tests](https://riaevangelist.github.io/event-pubsub/testing.html)
 - [Node and Chrome coverage](https://riaevangelist.github.io/event-pubsub/coverage.html)
 - [Benchmark overview](https://riaevangelist.github.io/event-pubsub/benchmarks.html)
 - [Dispatch latency chart](https://riaevangelist.github.io/event-pubsub/benchmarks-dispatch.html)
@@ -332,8 +355,8 @@ The benchmark reports median **execution latency**—nanoseconds per named opera
 
 ## Runtime support
 
-- Node.js 22.12.0 or newer.
-- Modern browsers with native modules, private class fields, `Symbol`, and import-map or bundler support for package imports.
+- Node.js 22.12.0 or newer for production, development, and direct CommonJS `require()` of the native ESM source.
+- Modern browsers with native modules, private class fields, and `Symbol`. Unbundled use must serve the sibling `event-pubsub` and `strong-type` package directories.
 
 ## License
 

@@ -36,7 +36,7 @@ function removeTemporaryRoot(target) {
 try {
     const packed = JSON.parse(runNpm(['pack', '--json', '--pack-destination', temporaryRoot]));
     assert.equal(packed.length, 1);
-    assert.match(packed[0].filename, /^event-pubsub-6\.0\.0\.tgz$/);
+    assert.match(packed[0].filename, /^event-pubsub-6\.1\.0\.tgz$/);
     assert.match(packed[0].integrity, /^sha512-/);
 
     const actualFiles = packed[0].files.map(({path}) => path).sort();
@@ -52,10 +52,15 @@ try {
 
     const installed = join(consumer, 'node_modules', 'event-pubsub');
     const manifest = JSON.parse(readFileSync(join(installed, 'package.json'), 'utf8'));
-    assert.equal(manifest.version, '6.0.0');
-    assert.equal(manifest.dependencies, undefined);
+    assert.equal(manifest.version, '6.1.0');
+    assert.equal(manifest.engines.node, '>=22.12.0');
+    assert.deepEqual(manifest.dependencies, {'strong-type': '2.0.0'});
     assert.deepEqual(manifest.devDependencies, {'vanilla-test': '2.1.1'});
-    assert.equal(existsSync(join(consumer, 'node_modules', 'strong-type')), false);
+    assert.equal(existsSync(join(consumer, 'node_modules', 'strong-type', 'index.js')), true);
+    assert.equal(
+        JSON.parse(readFileSync(join(consumer, 'node_modules', 'strong-type', 'package.json'), 'utf8')).version,
+        '2.0.0'
+    );
     assert.equal(existsSync(join(consumer, 'node_modules', 'vanilla-test')), false);
     for (const repositoryOnly of ['site', 'test', 'scripts', 'benchmark', 'coverage', '.github']) {
         assert.equal(existsSync(join(installed, repositoryOnly)), false);
@@ -70,7 +75,20 @@ try {
         "if (events.emit('ready').emit('ready') !== events || count !== 21) process.exit(1);",
         "const frozen = Object.freeze(() => { count += 100; });",
         "events.once('frozen', frozen).emit('frozen');",
-        "if (count !== 121 || events.list.frozen !== undefined) process.exit(1);"
+        "if (count !== 121 || events.list.frozen !== undefined) process.exit(1);",
+        "for (const operation of [() => events.on(1, () => {}), () => events.on('x', 1), () => events.emit(1)]) {",
+        "  let failed = false; try { operation(); } catch (error) { failed = error instanceof TypeError; }",
+        "  if (!failed) process.exit(1);",
+        "}"
+    ].join(' ')], {cwd: consumer});
+
+    run(process.execPath, ['-e', [
+        "const EventPubSub = require('event-pubsub');",
+        "const Direct = require('event-pubsub/index.js');",
+        "if (EventPubSub !== Direct || EventPubSub.default !== EventPubSub || EventPubSub.EventPubSub !== EventPubSub) process.exit(1);",
+        "const events = new EventPubSub(); let count = 0;",
+        "events.on('ready', () => { count += 1; }).emit('ready');",
+        "if (count !== 1) process.exit(1);"
     ].join(' ')], {cwd: consumer});
 
     process.stdout.write(`Packed package passed: ${packed[0].filename} ${packed[0].integrity}\n`);

@@ -20,6 +20,11 @@ import {
 function benchmarkFixture() {
     return {
         schemaVersion: 2,
+        package: {
+            name: 'event-pubsub',
+            version: '6.1.0',
+            commit: '0123456789abcdef0123456789abcdef01234567'
+        },
         methodology: {sampleCount: 7},
         scenarios: scenarioDefinitions.map(({id, group, unit}, index) => {
             const median = (index + 1) * 10;
@@ -123,6 +128,11 @@ export default Object.freeze({
             const wrongSummary = benchmarkFixture();
             wrongSummary.scenarios[0].summary.p75NanosecondsPerOperation += 1;
             throws(() => validateBenchmark(wrongSummary), TypeError, 'does not match its samples');
+            throws(
+                () => validateBenchmark(benchmarkFixture(), {version: '9.9.9'}),
+                TypeError,
+                'does not match the deployed source'
+            );
         }},
         {name: 'benchmark dispatch selection returns four scenarios', run() {
             equal(scenariosFor(benchmarkFixture(), 'dispatch').length, 4);

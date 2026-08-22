@@ -1,5 +1,5 @@
 {
-  "entry": "./test/CI.js",
+  "entry": "./test-runtime/event-pubsub/test/CI.js",
   "reportsDirectory": "./coverage",
   "thresholds": {
     "statements": 100,
@@ -10,12 +10,12 @@
   "timeoutMs": 30000,
   "node": {
     "include": [
-      "index.js"
+      "test-runtime/event-pubsub/index.js"
     ]
   },
   "chrome": {
     "include": [
-      "index.js"
+      "test-runtime/event-pubsub/index.js"
     ],
     "imports": {},
     "headless": true,

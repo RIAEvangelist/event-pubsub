@@ -1,41 +1,29 @@
 {
   "name": "event-pubsub",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "description": "Small, synchronous, extensible publish/subscribe events for modern Node.js and browsers.",
   "type": "module",
   "main": "./index.js",
-  "module": "./index.js",
-  "exports": {
-    ".": "./index.js",
-    "./index.js": "./index.js",
-    "./package.json": "./package.json"
-  },
-  "files": [
-    "index.js",
-    "CHANGELOG.md",
-    "MIGRATION.md",
-    "README.md",
-    "SECURITY.md",
-    "licence"
-  ],
-  "sideEffects": false,
   "engines": {
     "node": ">=22.12.0"
   },
   "scripts": {
-    "test": "node ./test/node.js",
-    "test:unit": "node ./test/node.js unit",
-    "test:functional": "node ./test/node.js functional",
-    "test:integration": "node ./test/node.js integration",
-    "test:regression": "node ./test/node.js regression",
-    "test:interface": "node ./test/node.js interface",
-    "coverage": "vanilla-test coverage all",
-    "coverage:node": "vanilla-test coverage node",
-    "coverage:chrome": "vanilla-test coverage chrome",
-    "benchmark": "node ./benchmark/run.js",
-    "benchmark:smoke": "node ./benchmark/run.js --smoke",
+    "stage": "node ./scripts/stage-runtime.js",
+    "test": "npm run stage && node ./test-runtime/event-pubsub/test/node.js",
+    "test:unit": "npm run stage && node ./test-runtime/event-pubsub/test/node.js unit",
+    "test:functional": "npm run stage && node ./test-runtime/event-pubsub/test/node.js functional",
+    "test:integration": "npm run stage && node ./test-runtime/event-pubsub/test/node.js integration",
+    "test:regression": "npm run stage && node ./test-runtime/event-pubsub/test/node.js regression",
+    "test:interface": "npm run stage && node ./test-runtime/event-pubsub/test/node.js interface",
+    "coverage": "npm run stage && vanilla-test coverage all",
+    "coverage:node": "npm run stage && vanilla-test coverage node",
+    "coverage:chrome": "npm run stage && vanilla-test coverage chrome",
+    "benchmark": "npm run stage && node ./benchmark/run.js && node ./scripts/benchmark-chart.js",
+    "benchmark:smoke": "npm run stage && node ./benchmark/run.js --smoke",
+    "benchmark:chart": "node ./scripts/benchmark-chart.js",
+    "benchmark:chart:check": "node ./scripts/benchmark-chart.js --check",
     "test:package": "node ./scripts/package-smoke.js",
-    "site:check": "node ./scripts/site-check.js",
+    "site:check": "npm run stage && npm run benchmark:chart:check && node ./scripts/site-check.js",
     "site:assemble": "node ./scripts/assemble-site.js _site",
     "site:deployment-check": "node ./scripts/deployment-check.js _site",
     "start": "node ./scripts/serve.js",
@@ -62,6 +50,9 @@
   ],
   "author": "Brandon Nozaki Miller",
   "license": "MIT",
+  "dependencies": {
+    "strong-type": "2.0.0"
+  },
   "devDependencies": {
     "vanilla-test": "2.1.1"
   }

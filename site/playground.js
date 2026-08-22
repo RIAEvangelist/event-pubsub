@@ -26,6 +26,7 @@ const elements = Object.freeze({
     argumentMode: document.querySelector('#argument-mode'),
     eventArguments: document.querySelector('#event-arguments'),
     registry: document.querySelector('#registry-list'),
+    registryHeading: document.querySelector('#registry-heading'),
     registryCount: document.querySelector('#registry-count'),
     log: document.querySelector('#event-log'),
     logRetention: document.querySelector('#log-retention')
@@ -122,6 +123,19 @@ function renderRegistry() {
     }
 }
 
+function renderRegistryAfterRemoval(control) {
+    const controls = [...elements.registry.querySelectorAll('button')];
+    const position = Math.max(0, controls.indexOf(control));
+    renderRegistry();
+    const remaining = [...elements.registry.querySelectorAll('button')];
+    const next = remaining[Math.min(position, remaining.length - 1)];
+    if (next) next.focus();
+    else {
+        elements.registryHeading.tabIndex = -1;
+        elements.registryHeading.focus();
+    }
+}
+
 function addSubscription({kind, exactType, label, lifetime}, announce = true) {
     const type = resolveSubscriptionType(kind, exactType);
     const id = nextSubscriptionId;
@@ -215,7 +229,7 @@ elements.registry.addEventListener('click', (event) => {
         if (!entry) return;
         events.off(entry.type, entry.handler);
         appendLog('off', entry.label, entry.type);
-        renderRegistry();
+        renderRegistryAfterRemoval(removeSubscription);
         setStatus(`Removed ${entry.label}.`);
         return;
     }
@@ -225,7 +239,7 @@ elements.registry.addEventListener('click', (event) => {
     const type = removeType.dataset.removeType;
     events.off(type);
     appendLog('off', 'whole event type', type);
-    renderRegistry();
+    renderRegistryAfterRemoval(removeType);
     setStatus(`Removed every subscriber on ${quotedType(type)}.`);
 });
 

@@ -73,7 +73,8 @@ function writeBadges(status, output) {
             }
         }
     }
-    write('runtime-dependencies', 'runtime dependencies', String(status.dependencies.runtime), status.dependencies.runtime === 0 ? 'brightgreen' : 'yellow');
+    write('runtime-dependencies', 'runtime dependencies', String(status.dependencies.runtime), status.dependencies.runtime === 1 ? 'brightgreen' : 'yellow');
+    write('strong-type', 'strong-type', status.dependencies.strongType ?? 'missing', status.dependencies.strongType === '2.0.0' ? 'blue' : 'red');
     write('vanilla-test', 'vanilla-test', status.dependencies.vanillaTest ?? 'missing', status.dependencies.vanillaTest ? 'blue' : 'red');
 }
 
@@ -91,14 +92,22 @@ export function assembleSite(outputPath = resolve(projectRoot, '_site')) {
     for (const name of ['playground-core.js', 'benchmark-data.js']) {
         copyFile(resolve(projectRoot, 'site', name), resolve(output, 'module', 'site', name));
     }
-    for (const packageName of ['strong-type', 'vanilla-test', 'ansi-colors-es6']) {
+    copyFile(
+        resolve(projectRoot, 'node_modules', 'strong-type', 'index.js'),
+        resolve(output, 'strong-type', 'index.js')
+    );
+    copyFile(
+        resolve(projectRoot, 'node_modules', 'strong-type', 'licence'),
+        resolve(output, 'strong-type', 'licence')
+    );
+    for (const packageName of ['vanilla-test', 'ansi-colors-es6']) {
         copyFile(
             resolve(projectRoot, 'node_modules', packageName, 'index.js'),
             resolve(output, 'vendor', packageName, 'index.js')
         );
     }
     for (const [packageName, licenseName] of [
-        ['strong-type', 'licence'], ['vanilla-test', 'licence'], ['ansi-colors-es6', 'LICENSE']
+        ['vanilla-test', 'licence'], ['ansi-colors-es6', 'LICENSE']
     ]) {
         copyFile(
             resolve(projectRoot, 'node_modules', packageName, licenseName),

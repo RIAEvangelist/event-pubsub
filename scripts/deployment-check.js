@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {existsSync, readFileSync} from 'node:fs';
 import {relative, resolve} from 'node:path';
+import {validateBenchmark} from '../site/benchmark-data.js';
 
 const projectRoot = resolve(import.meta.dirname, '..');
 const output = resolve(projectRoot, process.argv[2] ?? '_site');
@@ -19,13 +20,14 @@ const pages = [
 const required = [
     ...pages,
     '.nojekyll', 'licence', 'styles.css', 'script.js', 'playground.js', 'playground-core.js',
-    'playground-scenarios.js', 'live.js', 'benchmark-data.js', 'benchmark-charts.js', 'og.png',
+    'playground-scenarios.js', 'live.js', 'benchmark-data.js', 'benchmark-charts.js',
+    'benchmark-summary.svg', 'og.png',
     'module/index.js', 'module/test/CI.js', 'module/test/assertions.js',
     'module/test/unit.js', 'module/test/functional.js', 'module/test/integration.js',
     'module/test/regression.js', 'module/test/interface.js',
-    'module/site/playground-core.js', 'module/site/benchmark-data.js', 'vendor/vanilla-test/index.js',
-    'vendor/vanilla-test/licence', 'vendor/strong-type/index.js',
-    'vendor/strong-type/licence', 'vendor/ansi-colors-es6/index.js',
+    'module/site/playground-core.js', 'module/site/benchmark-data.js', 'strong-type/index.js',
+    'strong-type/licence', 'vendor/vanilla-test/index.js',
+    'vendor/vanilla-test/licence', 'vendor/ansi-colors-es6/index.js',
     'vendor/ansi-colors-es6/LICENSE',
     'reports/node/index.html', 'reports/node/coverage-summary.json',
     'reports/node/test-results.json', 'reports/node/lcov.info',
@@ -34,7 +36,8 @@ const required = [
     'reports/chrome/vanilla-test-chrome.png', 'data/benchmark.json',
     'data/status.json', 'badges/statements.json', 'badges/branches.json',
     'badges/functions.json', 'badges/lines.json', 'badges/node-tests.json',
-    'badges/chrome-tests.json', 'badges/runtime-dependencies.json', 'badges/vanilla-test.json',
+    'badges/chrome-tests.json', 'badges/runtime-dependencies.json', 'badges/strong-type.json',
+    'badges/vanilla-test.json',
     ...['node', 'chrome'].flatMap((runtime) =>
         ['statements', 'branches', 'functions', 'lines'].map((metric) => `badges/${runtime}-${metric}.json`)
     )
@@ -46,10 +49,16 @@ for (const file of required) {
 
 const status = JSON.parse(readFileSync(resolve(output, 'data/status.json'), 'utf8'));
 assert.equal(status.generated, true);
-assert.equal(status.tests.total, 110);
+assert.equal(status.tests.total, 119);
+const expectedBenchmark = {name: 'event-pubsub', version: status.version};
+if (process.env.GITHUB_SHA) expectedBenchmark.commit = process.env.GITHUB_SHA;
+validateBenchmark(
+    JSON.parse(readFileSync(resolve(output, 'data/benchmark.json'), 'utf8')),
+    expectedBenchmark
+);
 for (const runtime of ['node', 'chrome']) {
     assert.equal(status.tests[runtime].ok, true, `${runtime} tests must pass`);
-    assert.equal(status.tests[runtime].total, 110, `${runtime} must run every test`);
+    assert.equal(status.tests[runtime].total, 119, `${runtime} must run every test`);
     assert.equal(status.tests[runtime].failureCount, 0, `${runtime} must have no failures`);
     for (const metric of ['statements', 'branches', 'functions', 'lines']) {
         assert.equal(status.coverage[runtime][metric], 100, `${runtime} ${metric} coverage must be 100%`);
@@ -59,7 +68,8 @@ for (const field of ['emitOneTime', 'emitFiveTime', 'wildcardTime', 'onceTime'])
     assert.ok(status.benchmark[field], `Missing benchmark status: ${field}`);
 }
 
-assert.equal(status.dependencies.runtime, 0);
+assert.equal(status.dependencies.runtime, 1);
+assert.equal(status.dependencies.strongType, '2.0.0');
 assert.equal(status.dependencies.vanillaTest, '2.1.1');
 
-process.stdout.write(`Validated deployment: ${pages.length} pages, two 110-test runtime reports, 100% coverage, and benchmark evidence.\n`);
+process.stdout.write(`Validated deployment: ${pages.length} pages, two 119-test runtime reports, 100% coverage, and benchmark evidence.\n`);

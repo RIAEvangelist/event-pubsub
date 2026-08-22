@@ -43,7 +43,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run all 110 tests
+      - name: Run all 119 tests
         run: npm test
 
       - name: Validate the 21-page site
@@ -111,7 +111,10 @@ jobs:
       - name: Audit development dependencies
         run: npm audit --audit-level=high
 
-      - name: Verify zero production dependencies
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Verify production dependency tree
         run: npm ls --omit=dev --all
 
       - name: Pack, install, and exercise a clean consumer
@@ -128,6 +131,42 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+  production-floor:
+    name: Packed ESM + CommonJS / Node 22.12.0
+    needs: package-smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Set up Node.js 22.12.0
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22.12.0'
+
+      - name: Download packed package
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: event-pubsub-6-package
+          path: package-artifact
+
+      - name: Install production package only
+        run: |
+          mkdir consumer
+          cd consumer
+          npm install --ignore-scripts --no-audit --no-fund ../package-artifact/event-pubsub-6.1.0.tgz
+
+      - name: Exercise shared ESM and CommonJS source
+        working-directory: consumer
+        run: >-
+          node -e "const Required = require('event-pubsub');
+          import('event-pubsub').then(({default: Imported, EventPubSub: Named}) => {
+          if (Required !== Imported || Required !== Named || Required.EventPubSub !== Required) process.exit(1);
+          const events = new Required(); let calls = 0;
+          events.on('*', () => { calls += 1; }).once('ready', () => { calls += 10; });
+          events.emit('ready').emit('ready');
+          if (calls !== 12) process.exit(1);
+          }).catch((error) => { console.error(error); process.exit(1); });"
+
   benchmark:
     name: Validated benchmark / Node 24.18.0
     runs-on: ubuntu-latest
@@ -142,6 +181,9 @@ jobs:
         with:
           node-version: '24.18.0'
 
+      - name: Install exact dependencies
+        run: npm ci
+
       - name: Run eight validated hot-path scenarios
         run: npm run benchmark
 
@@ -149,7 +191,9 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: event-pubsub-benchmark
-          path: benchmark/results.json
+          path: |
+            benchmark/results.json
+            site/benchmark-summary.svg
           if-no-files-found: error
           retention-days: 14
 
@@ -160,6 +204,7 @@ jobs:
       - test
       - coverage
       - package-smoke
+      - production-floor
       - benchmark
     permissions:
       contents: read
@@ -190,7 +235,7 @@ jobs:
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: event-pubsub-benchmark
-          path: benchmark
+          path: .
 
       - name: Validate and assemble the focused site
         run: |

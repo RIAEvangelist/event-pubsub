@@ -28,11 +28,11 @@
     <main id="main">
         <section class="shell hero">
             <div>
-                <p class="eyebrow">Native ESM · synchronous · extensible</p>
+                <p class="eyebrow">One native module · import + require · synchronous</p>
                 <h1>Fast events.<br><span class="accent">No ceremony.</span></h1>
                 <p class="lede">One small publish/subscribe class for Node.js and the browser, with predictable wildcard ordering, fluent methods, and no build step.</p>
                 <div class="command"><code id="install-command">npm install event-pubsub</code><button class="button copy-button" type="button" data-copy="#install-command">Copy</button></div>
-                <p class="release-note"><strong>Release status:</strong> 6.0.0 is verified on <code>main</code>; npm latest remains 5.0.3 until publication.</p>
+                <p class="release-note"><strong>Release status:</strong> 6.0.0 is the published GitHub source release. <code>main</code> prepares 6.1.0 with shared-source ESM and CommonJS support; npm latest remains 5.0.3 until publication.</p>
                 <div class="actions"><a class="button primary" href="./guide.html">Start with the guide</a><a class="button" href="./playground.html">Try the live playground</a></div>
             </div>
             <div class="signal-card" role="img" aria-label="One published event fans out to several subscribers">
@@ -41,10 +41,10 @@
         </section>
         <section class="shell section">
             <div class="grid four" aria-label="Project quality summary">
-                <div class="stat"><strong>110</strong><span>unique behavior checks</span></div>
-                <div class="stat"><strong>2</strong><span>measured runtimes</span></div>
+                <div class="stat"><strong>119</strong><span>unique behavior checks</span></div>
+                <div class="stat"><strong data-status-field="benchmark.emitOneTime">—</strong><span>typed emit · one handler</span></div>
                 <div class="stat"><strong>100%</strong><span>coverage gates</span></div>
-                <div class="stat"><strong>0</strong><span>runtime dependencies</span></div>
+                <div class="stat"><strong data-status-field="dependencies.runtime">1</strong><span>runtime dependency</span></div>
             </div>
         </section>
         <section class="shell section">
@@ -66,7 +66,7 @@ events.on('ready', (payload) =&gt; {
 });
 
 events.emit('ready', { fast: true });</code></pre></div>
-                <div><p class="eyebrow">Quality is inspectable</p><h2>Tests, coverage, and speed are public artifacts.</h2><p class="lede">The same shared suite runs in Node and real Chrome. Independent coverage reports, normalized results, package smoke tests, and execution-latency charts ship with the Pages deployment.</p><div class="actions"><a class="button" href="./testing.html">Explore 110 checks</a><a class="button" href="./coverage.html">Open coverage</a><a class="button" href="./benchmarks.html">Review latency</a></div></div>
+                <div><p class="eyebrow">Quality is inspectable</p><h2>Tests, coverage, and speed are public artifacts.</h2><p class="lede">The same shared suite runs in Node and real Chrome. Independent coverage reports, normalized results, package smoke tests, and execution-latency charts ship with the Pages deployment.</p><div class="actions"><a class="button" href="./testing.html">Explore 119 checks</a><a class="button" href="./coverage.html">Open coverage</a><a class="button" href="./benchmarks.html">Review latency</a></div></div>
             </div>
         </section>
     </main>

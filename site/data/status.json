@@ -1,9 +1,9 @@
 {
   "generated": false,
-  "version": "6.0.0",
+  "version": "6.1.0",
   "commit": "generated during Pages assembly",
   "tests": {
-    "total": 110,
+    "total": 119,
     "node": {},
     "chrome": {}
   },
@@ -13,7 +13,8 @@
   },
   "benchmark": {},
   "dependencies": {
-    "runtime": 0,
+    "runtime": 1,
+    "strongType": "2.0.0",
     "vanillaTest": "2.1.1"
   }
 }

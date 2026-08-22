@@ -15,11 +15,11 @@
     </ul></nav></div></header>
     <main id="main" class="shell">
         <header class="page-hero"><div><p class="eyebrow">API reference</p><h1>Six surfaces.<br><span class="accent">One fluent class.</span></h1><p class="lede">All dispatch is synchronous. Public mutators return the same instance. Event types must be strings; registration handlers are validated immediately.</p></div></header>
-        <section class="section"><div class="table-wrap"><table class="reference-table"><thead><tr><th>Member</th><th>Signature</th><th>Contract</th><th>Returns</th></tr></thead><tbody>
+        <section class="section"><div class="table-wrap"><table class="reference-table"><caption>EventPubSub public API</caption><thead><tr><th>Member</th><th>Signature</th><th>Contract</th><th>Returns</th></tr></thead><tbody>
             <tr><td><code>on</code></td><td><code>on(type, handler, once = false)</code></td><td>Registers a function. <code>*</code> creates a wildcard subscription.</td><td><code>this</code></td></tr>
             <tr><td><code>once</code></td><td><code>once(type, handler)</code></td><td>Registers a record removed immediately before its first invocation.</td><td><code>this</code></td></tr>
-            <tr><td><code>off</code></td><td><code>off(type = '*', handler = '*')</code></td><td>Removes all matching function registrations, or the whole type when handler is <code>*</code>. A missing type returns before optional-handler validation, preserving 5.x behavior. The old wildcard-symbol string remains a fallback alias, but an exact typed registration with that name takes precedence; <code>*</code> is unambiguous.</td><td><code>this</code></td></tr>
-            <tr><td><code>emit</code></td><td><code>emit(type, ...payload)</code></td><td>Runs wildcard then typed handlers, synchronously, with additions deferred.</td><td><code>this</code></td></tr>
+            <tr><td><code>off</code></td><td><code>off(type = '*', handler = '*')</code></td><td>Removes all matching function registrations, or the whole type when handler is exactly <code>*</code>. A missing type returns before optional-handler validation, preserving 5.x behavior. Only the public string <code>*</code> maps to the internal wildcard Symbol; <code>Symbol(event-pubsub-all)</code> remains an ordinary typed name.</td><td><code>this</code></td></tr>
+            <tr><td><code>emit</code></td><td><code>emit(type, ...payload)</code></td><td>Runs wildcard then typed handlers synchronously over live registration arrays; appended handlers can run in the current emit.</td><td><code>this</code></td></tr>
             <tr><td><code>reset</code></td><td><code>reset()</code></td><td>Clears every typed and wildcard registration.</td><td><code>this</code></td></tr>
             <tr><td><code>list</code></td><td><code>get list()</code></td><td>Returns an isolated null-prototype object snapshot of topic arrays. Wildcards use <code>Symbol.for('event-pubsub-all')</code>.</td><td><code>object</code></td></tr>
         </tbody></table></div></section>
@@ -38,9 +38,9 @@ events.off('topic', handler);</code></pre></article>
 events.emit('topic', { id: 1 });
 events.off(); // wildcard subscribers only</code></pre></article>
         </div></section>
-        <section class="section"><div class="callout"><strong>Synchronous exceptions are publisher-visible.</strong><p>A synchronously thrown handler stops the current dispatch and propagates through <code>emit</code>. One-shot handlers have already been removed; persistent handlers remain registered. Handler return values and promises are ignored, so callers must handle asynchronous rejections in application code.</p></div></section>
+        <section class="section"><div class="callout"><strong>Synchronous exceptions are publisher-visible.</strong><p>A synchronously thrown handler stops the current dispatch and propagates through <code>emit</code>. A one-shot registration is removed immediately before its own invocation, so reached one-shot handlers stay removed; unvisited registrations remain. Persistent handlers remain registered. Handler return values and promises are ignored, so callers must handle asynchronous rejections in application code.</p></div></section>
     </main>
-    <footer class="site-footer"><div class="shell footer-row"><span>API for event-pubsub 6.0.0</span><nav class="footer-links" aria-label="Resource navigation"><a href="./examples.html">Examples</a><a href="./live.html">Live test</a><a href="./security.html">Security</a><a href="./migration.html">Migration</a><a href="./changelog.html">Changelog</a><a href="./licence">License</a></nav></div></footer>
+    <footer class="site-footer"><div class="shell footer-row"><span>API for event-pubsub 6.1.0 source</span><nav class="footer-links" aria-label="Resource navigation"><a href="./examples.html">Examples</a><a href="./live.html">Live test</a><a href="./security.html">Security</a><a href="./migration.html">Migration</a><a href="./changelog.html">Changelog</a><a href="./licence">License</a></nav></div></footer>
     <script src="./script.js"></script>
 </body>
 </html>
