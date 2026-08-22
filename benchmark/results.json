@@ -1,10 +1,10 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-21T22:54:22.040Z",
+  "generatedAt": "2026-08-22T02:43:10.742Z",
   "package": {
     "name": "event-pubsub",
-    "version": "6.0.0",
-    "commit": "f3f4a82bd541be3b19f4acc4847a590e1c425c77"
+    "version": "6.1.0",
+    "commit": "46ab9f8e53999766a34415f68c6c477609264bdd"
   },
   "environment": {
     "node": "v24.18.0",
@@ -53,68 +53,68 @@
       "samples": [
         {
           "index": 1,
-          "operations": 40751856,
-          "elapsedNanoseconds": 249955500,
-          "nanosecondsPerOperation": 6.133597939686477,
-          "operationsPerSecond": 163036444.48711872,
-          "checksum": 637836128
+          "operations": 24926915,
+          "elapsedNanoseconds": 248073800,
+          "nanosecondsPerOperation": 9.952045810723067,
+          "operationsPerSecond": 100481852.57774098,
+          "checksum": 1046930430
         },
         {
           "index": 2,
-          "operations": 40751856,
-          "elapsedNanoseconds": 250326100,
-          "nanosecondsPerOperation": 6.142692004015719,
-          "operationsPerSecond": 162795074.105337,
-          "checksum": 637836128
+          "operations": 24926915,
+          "elapsedNanoseconds": 246150300,
+          "nanosecondsPerOperation": 9.874880224849324,
+          "operationsPerSecond": 101267051.06595442,
+          "checksum": 1046930430
         },
         {
           "index": 3,
-          "operations": 40751856,
-          "elapsedNanoseconds": 250574200,
-          "nanosecondsPerOperation": 6.14878007028686,
-          "operationsPerSecond": 162633886.4895109,
-          "checksum": 637836128
+          "operations": 24926915,
+          "elapsedNanoseconds": 246713800,
+          "nanosecondsPerOperation": 9.89748631148299,
+          "operationsPerSecond": 101035754.78955778,
+          "checksum": 1046930430
         },
         {
           "index": 4,
-          "operations": 40751856,
-          "elapsedNanoseconds": 250472200,
-          "nanosecondsPerOperation": 6.146277116801747,
-          "operationsPerSecond": 162700116.0208598,
-          "checksum": 637836128
+          "operations": 24926915,
+          "elapsedNanoseconds": 248531800,
+          "nanosecondsPerOperation": 9.970419524437741,
+          "operationsPerSecond": 100296682.35614115,
+          "checksum": 1046930430
         },
         {
           "index": 5,
-          "operations": 40751856,
-          "elapsedNanoseconds": 250838500,
-          "nanosecondsPerOperation": 6.15526566446446,
-          "operationsPerSecond": 162462524.69218242,
-          "checksum": 637836128
+          "operations": 24926915,
+          "elapsedNanoseconds": 250910000,
+          "nanosecondsPerOperation": 10.065826437005944,
+          "operationsPerSecond": 99346040.41289705,
+          "checksum": 1046930430
         },
         {
           "index": 6,
-          "operations": 40751856,
-          "elapsedNanoseconds": 249378100,
-          "nanosecondsPerOperation": 6.119429259859968,
-          "operationsPerSecond": 163413932.4984832,
-          "checksum": 637836128
+          "operations": 24926915,
+          "elapsedNanoseconds": 248978500,
+          "nanosecondsPerOperation": 9.988339912901376,
+          "operationsPerSecond": 100116736.98733023,
+          "checksum": 1046930430
         },
         {
           "index": 7,
-          "operations": 40751856,
-          "elapsedNanoseconds": 249495800,
-          "nanosecondsPerOperation": 6.12231747187171,
-          "operationsPerSecond": 163336841.74242613,
-          "checksum": 637836128
+          "operations": 24926915,
+          "elapsedNanoseconds": 250321500,
+          "nanosecondsPerOperation": 10.042217418400954,
+          "operationsPerSecond": 99579600.6335852,
+          "checksum": 1046930430
         }
       ],
       "summary": {
-        "medianNanosecondsPerOperation": 6.142692004015719,
-        "p25NanosecondsPerOperation": 6.127957705779094,
-        "p75NanosecondsPerOperation": 6.147528593544304,
-        "minNanosecondsPerOperation": 6.119429259859968,
-        "maxNanosecondsPerOperation": 6.15526566446446,
-        "medianOperationsPerSecond": 162795074.105337
+        "medianNanosecondsPerOperation": 9.970419524437741,
+        "p25NanosecondsPerOperation": 9.924766061103028,
+        "p75NanosecondsPerOperation": 10.015278665651165,
+        "minNanosecondsPerOperation": 9.874880224849324,
+        "maxNanosecondsPerOperation": 10.065826437005944,
+        "medianOperationsPerSecond": 100296682.35614115
       }
     },
     {
@@ -133,68 +133,68 @@
       "samples": [
         {
           "index": 1,
-          "operations": 17467457,
-          "elapsedNanoseconds": 248433100,
-          "nanosecondsPerOperation": 14.222625537306318,
-          "operationsPerSecond": 70310506.12820916,
-          "checksum": 621615068
+          "operations": 14548917,
+          "elapsedNanoseconds": 256222500,
+          "nanosecondsPerOperation": 17.61110466160471,
+          "operationsPerSecond": 56782355.17958025,
+          "checksum": 1053278092
         },
         {
           "index": 2,
-          "operations": 17467457,
-          "elapsedNanoseconds": 247892500,
-          "nanosecondsPerOperation": 14.19167655600927,
-          "operationsPerSecond": 70463838.15565215,
-          "checksum": 621615068
+          "operations": 14548917,
+          "elapsedNanoseconds": 259015900,
+          "nanosecondsPerOperation": 17.803105207074864,
+          "operationsPerSecond": 56169976.437739916,
+          "checksum": 1053278092
         },
         {
           "index": 3,
-          "operations": 17467457,
-          "elapsedNanoseconds": 249079100,
-          "nanosecondsPerOperation": 14.259608596717886,
-          "operationsPerSecond": 70128152.06093164,
-          "checksum": 621615068
+          "operations": 14548917,
+          "elapsedNanoseconds": 257074600,
+          "nanosecondsPerOperation": 17.669672594874243,
+          "operationsPerSecond": 56594144.26785066,
+          "checksum": 1053278092
         },
         {
           "index": 4,
-          "operations": 17467457,
-          "elapsedNanoseconds": 248196400,
-          "nanosecondsPerOperation": 14.209074623741738,
-          "operationsPerSecond": 70377559.86791106,
-          "checksum": 621615068
+          "operations": 14548917,
+          "elapsedNanoseconds": 249685100,
+          "nanosecondsPerOperation": 17.16176537401375,
+          "operationsPerSecond": 58269063.71265245,
+          "checksum": 1053278092
         },
         {
           "index": 5,
-          "operations": 17467457,
-          "elapsedNanoseconds": 248336400,
-          "nanosecondsPerOperation": 14.217089528258178,
-          "operationsPerSecond": 70337884.41807161,
-          "checksum": 621615068
+          "operations": 14548917,
+          "elapsedNanoseconds": 249689900,
+          "nanosecondsPerOperation": 17.162095295478007,
+          "operationsPerSecond": 58267943.55718833,
+          "checksum": 1053278092
         },
         {
           "index": 6,
-          "operations": 17467457,
-          "elapsedNanoseconds": 248687000,
-          "nanosecondsPerOperation": 14.23716113914006,
-          "operationsPerSecond": 70238721.7667188,
-          "checksum": 621615068
+          "operations": 14548917,
+          "elapsedNanoseconds": 248629100,
+          "nanosecondsPerOperation": 17.089182651877113,
+          "operationsPerSecond": 58516549.350015745,
+          "checksum": 1053278092
         },
         {
           "index": 7,
-          "operations": 17467457,
-          "elapsedNanoseconds": 248129200,
-          "nanosecondsPerOperation": 14.205227469573849,
-          "operationsPerSecond": 70396619.98668435,
-          "checksum": 621615068
+          "operations": 14548917,
+          "elapsedNanoseconds": 249652600,
+          "nanosecondsPerOperation": 17.159531530766174,
+          "operationsPerSecond": 58276649.23177247,
+          "checksum": 1053278092
         }
       ],
       "summary": {
-        "medianNanosecondsPerOperation": 14.217089528258178,
-        "p25NanosecondsPerOperation": 14.207151046657794,
-        "p75NanosecondsPerOperation": 14.229893338223189,
-        "minNanosecondsPerOperation": 14.19167655600927,
-        "maxNanosecondsPerOperation": 14.259608596717886,
-        "medianOperationsPerSecond": 70337884.41807161
+        "medianNanosecondsPerOperation": 17.162095295478007,
+        "p25NanosecondsPerOperation": 17.160648452389964,
+        "p75NanosecondsPerOperation": 17.640388628239478,
+        "minNanosecondsPerOperation": 17.089182651877113,
+        "maxNanosecondsPerOperation": 17.803105207074864,
+        "medianOperationsPerSecond": 58267943.55718833
       }
     },
     {
@@ -213,68 +213,68 @@
       "samples": [
         {
           "index": 1,
-          "operations": 6056202,
-          "elapsedNanoseconds": 251767400,
-          "nanosecondsPerOperation": 41.57183000170734,
-          "operationsPerSecond": 24054750.53561343,
-          "checksum": 869178940
+          "operations": 5930242,
+          "elapsedNanoseconds": 250096100,
+          "nanosecondsPerOperation": 42.173000697104776,
+          "operationsPerSecond": 23711853.163643893,
+          "checksum": 739440140
         },
         {
           "index": 2,
-          "operations": 6056202,
-          "elapsedNanoseconds": 251079400,
-          "nanosecondsPerOperation": 41.458227450141194,
-          "operationsPerSecond": 24120664.618443407,
-          "checksum": 869178940
+          "operations": 5930242,
+          "elapsedNanoseconds": 249618000,
+          "nanosecondsPerOperation": 42.09238004115178,
+          "operationsPerSecond": 23757269.107195795,
+          "checksum": 739440140
         },
         {
           "index": 3,
-          "operations": 6056202,
-          "elapsedNanoseconds": 250204900,
-          "nanosecondsPerOperation": 41.31383002086126,
-          "operationsPerSecond": 24204969.606910177,
-          "checksum": 869178940
+          "operations": 5930242,
+          "elapsedNanoseconds": 249493200,
+          "nanosecondsPerOperation": 42.07133536877584,
+          "operationsPerSecond": 23769152.826610107,
+          "checksum": 739440140
         },
         {
           "index": 4,
-          "operations": 6056202,
-          "elapsedNanoseconds": 250999100,
-          "nanosecondsPerOperation": 41.44496831512555,
-          "operationsPerSecond": 24128381.336825512,
-          "checksum": 869178940
+          "operations": 5930242,
+          "elapsedNanoseconds": 252386000,
+          "nanosecondsPerOperation": 42.5591400823103,
+          "operationsPerSecond": 23496715.348711893,
+          "checksum": 739440140
         },
         {
           "index": 5,
-          "operations": 6056202,
-          "elapsedNanoseconds": 250658700,
-          "nanosecondsPerOperation": 41.388761471298345,
-          "operationsPerSecond": 24161148.206704974,
-          "checksum": 869178940
+          "operations": 5930242,
+          "elapsedNanoseconds": 251562400,
+          "nanosecondsPerOperation": 42.42025873480374,
+          "operationsPerSecond": 23573642.165919866,
+          "checksum": 739440140
         },
         {
           "index": 6,
-          "operations": 6056202,
-          "elapsedNanoseconds": 250521200,
-          "nanosecondsPerOperation": 41.36605747298389,
-          "operationsPerSecond": 24174409.19171711,
-          "checksum": 869178940
+          "operations": 5930242,
+          "elapsedNanoseconds": 250194300,
+          "nanosecondsPerOperation": 42.18955988642622,
+          "operationsPerSecond": 23702546.380952727,
+          "checksum": 739440140
         },
         {
           "index": 7,
-          "operations": 6056202,
-          "elapsedNanoseconds": 251291600,
-          "nanosecondsPerOperation": 41.493265911539936,
-          "operationsPerSecond": 24100296.229559604,
-          "checksum": 869178940
+          "operations": 5930242,
+          "elapsedNanoseconds": 248437300,
+          "nanosecondsPerOperation": 41.893281926774655,
+          "operationsPerSecond": 23870175.69422949,
+          "checksum": 739440140
         }
       ],
       "summary": {
-        "medianNanosecondsPerOperation": 41.44496831512555,
-        "p25NanosecondsPerOperation": 41.37740947214112,
-        "p75NanosecondsPerOperation": 41.475746680840565,
-        "minNanosecondsPerOperation": 41.31383002086126,
-        "maxNanosecondsPerOperation": 41.57183000170734,
-        "medianOperationsPerSecond": 24128381.336825512
+        "medianNanosecondsPerOperation": 42.173000697104776,
+        "p25NanosecondsPerOperation": 42.08185770496381,
+        "p75NanosecondsPerOperation": 42.304909310614974,
+        "minNanosecondsPerOperation": 41.893281926774655,
+        "maxNanosecondsPerOperation": 42.5591400823103,
+        "medianOperationsPerSecond": 23711853.163643893
       }
     },
     {
@@ -293,68 +293,68 @@
       "samples": [
         {
           "index": 1,
-          "operations": 10234573,
-          "elapsedNanoseconds": 249773800,
-          "nanosecondsPerOperation": 24.40490678018516,
-          "operationsPerSecond": 40975366.51161972,
-          "checksum": 585147343
+          "operations": 9337351,
+          "elapsedNanoseconds": 251258400,
+          "nanosecondsPerOperation": 26.908959511107593,
+          "operationsPerSecond": 37162343.627118535,
+          "checksum": 345589069
         },
         {
           "index": 2,
-          "operations": 10234573,
-          "elapsedNanoseconds": 249311700,
-          "nanosecondsPerOperation": 24.359755897974445,
-          "operationsPerSecond": 41051314.47902365,
-          "checksum": 585147343
+          "operations": 9337351,
+          "elapsedNanoseconds": 251231300,
+          "nanosecondsPerOperation": 26.906057189025024,
+          "operationsPerSecond": 37166352.28174196,
+          "checksum": 345589069
         },
         {
           "index": 3,
-          "operations": 10234573,
-          "elapsedNanoseconds": 247616200,
-          "nanosecondsPerOperation": 24.19409192743068,
-          "operationsPerSecond": 41332404.7457315,
-          "checksum": 585147343
+          "operations": 9337351,
+          "elapsedNanoseconds": 251450800,
+          "nanosecondsPerOperation": 26.929564926926275,
+          "operationsPerSecond": 37133908.50218015,
+          "checksum": 345589069
         },
         {
           "index": 4,
-          "operations": 10234573,
-          "elapsedNanoseconds": 248234000,
-          "nanosecondsPerOperation": 24.254455950433886,
-          "operationsPerSecond": 41229537.45256492,
-          "checksum": 585147343
+          "operations": 9337351,
+          "elapsedNanoseconds": 249852400,
+          "nanosecondsPerOperation": 26.7583814724326,
+          "operationsPerSecond": 37371468.114774965,
+          "checksum": 345589069
         },
         {
           "index": 5,
-          "operations": 10234573,
-          "elapsedNanoseconds": 246110200,
-          "nanosecondsPerOperation": 24.046943629206613,
-          "operationsPerSecond": 41585326.41068919,
-          "checksum": 585147343
+          "operations": 9337351,
+          "elapsedNanoseconds": 250734900,
+          "nanosecondsPerOperation": 26.852894359438775,
+          "operationsPerSecond": 37239933.491508365,
+          "checksum": 345589069
         },
         {
           "index": 6,
-          "operations": 10234573,
-          "elapsedNanoseconds": 247827900,
-          "nanosecondsPerOperation": 24.21477671809073,
-          "operationsPerSecond": 41297097.70368873,
-          "checksum": 585147343
+          "operations": 9337351,
+          "elapsedNanoseconds": 251961600,
+          "nanosecondsPerOperation": 26.984269949796253,
+          "operationsPerSecond": 37058627.187634945,
+          "checksum": 345589069
         },
         {
           "index": 7,
-          "operations": 10234573,
-          "elapsedNanoseconds": 247235700,
-          "nanosecondsPerOperation": 24.156914020741265,
-          "operationsPerSecond": 41396016.02842955,
-          "checksum": 585147343
+          "operations": 9337351,
+          "elapsedNanoseconds": 251677600,
+          "nanosecondsPerOperation": 26.953854471144975,
+          "operationsPerSecond": 37100445.17271303,
+          "checksum": 345589069
         }
       ],
       "summary": {
-        "medianNanosecondsPerOperation": 24.21477671809073,
-        "p25NanosecondsPerOperation": 24.175502974085973,
-        "p75NanosecondsPerOperation": 24.307105924204166,
-        "minNanosecondsPerOperation": 24.046943629206613,
-        "maxNanosecondsPerOperation": 24.40490678018516,
-        "medianOperationsPerSecond": 41297097.70368873
+        "medianNanosecondsPerOperation": 26.908959511107593,
+        "p25NanosecondsPerOperation": 26.8794757742319,
+        "p75NanosecondsPerOperation": 26.941709699035627,
+        "minNanosecondsPerOperation": 26.7583814724326,
+        "maxNanosecondsPerOperation": 26.984269949796253,
+        "medianOperationsPerSecond": 37162343.627118535
       }
     },
     {
@@ -373,68 +373,68 @@
       "samples": [
         {
           "index": 1,
-          "operations": 5369324,
-          "elapsedNanoseconds": 237736700,
-          "nanosecondsPerOperation": 44.276840064037856,
-          "operationsPerSecond": 22585170.905459695,
-          "checksum": 5369324
+          "operations": 4123277,
+          "elapsedNanoseconds": 239830100,
+          "nanosecondsPerOperation": 58.164925616202844,
+          "operationsPerSecond": 17192491.684738487,
+          "checksum": 4123277
         },
         {
           "index": 2,
-          "operations": 5369324,
-          "elapsedNanoseconds": 234195400,
-          "nanosecondsPerOperation": 43.61729707501354,
-          "operationsPerSecond": 22926684.29866684,
-          "checksum": 5369324
+          "operations": 4123277,
+          "elapsedNanoseconds": 288581600,
+          "nanosecondsPerOperation": 69.98840970422312,
+          "operationsPerSecond": 14288080.043911325,
+          "checksum": 4123277
         },
         {
           "index": 3,
-          "operations": 5369324,
-          "elapsedNanoseconds": 236084500,
-          "nanosecondsPerOperation": 43.96912907472151,
-          "operationsPerSecond": 22743229.64870629,
-          "checksum": 5369324
+          "operations": 4123277,
+          "elapsedNanoseconds": 261089600,
+          "nanosecondsPerOperation": 63.32089743182425,
+          "operationsPerSecond": 15792574.65636318,
+          "checksum": 4123277
         },
         {
           "index": 4,
-          "operations": 5369324,
-          "elapsedNanoseconds": 235831700,
-          "nanosecondsPerOperation": 43.92204679769744,
-          "operationsPerSecond": 22767609.273901682,
-          "checksum": 5369324
+          "operations": 4123277,
+          "elapsedNanoseconds": 243012800,
+          "nanosecondsPerOperation": 58.93681166703086,
+          "operationsPerSecond": 16967324.354931097,
+          "checksum": 4123277
         },
         {
           "index": 5,
-          "operations": 5369324,
-          "elapsedNanoseconds": 234046100,
-          "nanosecondsPerOperation": 43.589490967578044,
-          "operationsPerSecond": 22941309.42579261,
-          "checksum": 5369324
+          "operations": 4123277,
+          "elapsedNanoseconds": 242323900,
+          "nanosecondsPerOperation": 58.76973581934951,
+          "operationsPerSecond": 17015560.57821783,
+          "checksum": 4123277
         },
         {
           "index": 6,
-          "operations": 5369324,
-          "elapsedNanoseconds": 231088000,
-          "nanosecondsPerOperation": 43.03856500371369,
-          "operationsPerSecond": 23234975.420618985,
-          "checksum": 5369324
+          "operations": 4123277,
+          "elapsedNanoseconds": 240037400,
+          "nanosecondsPerOperation": 58.21520116160035,
+          "operationsPerSecond": 17177643.983812522,
+          "checksum": 4123277
         },
         {
           "index": 7,
-          "operations": 5369324,
-          "elapsedNanoseconds": 232485000,
-          "nanosecondsPerOperation": 43.29874673236333,
-          "operationsPerSecond": 23095356.689678904,
-          "checksum": 5369324
+          "operations": 4123277,
+          "elapsedNanoseconds": 235370000,
+          "nanosecondsPerOperation": 57.0832374346909,
+          "operationsPerSecond": 17518277.605472237,
+          "checksum": 4123277
         }
       ],
       "summary": {
-        "medianNanosecondsPerOperation": 43.61729707501354,
-        "p25NanosecondsPerOperation": 43.444118849970685,
-        "p75NanosecondsPerOperation": 43.94558793620948,
-        "minNanosecondsPerOperation": 43.03856500371369,
-        "maxNanosecondsPerOperation": 44.276840064037856,
-        "medianOperationsPerSecond": 22926684.29866684
+        "medianNanosecondsPerOperation": 58.76973581934951,
+        "p25NanosecondsPerOperation": 58.19006338890159,
+        "p75NanosecondsPerOperation": 61.12885454942756,
+        "minNanosecondsPerOperation": 57.0832374346909,
+        "maxNanosecondsPerOperation": 69.98840970422312,
+        "medianOperationsPerSecond": 17015560.57821783
       }
     },
     {
@@ -453,68 +453,68 @@
       "samples": [
         {
           "index": 1,
-          "operations": 5531916,
-          "elapsedNanoseconds": 253936400,
-          "nanosecondsPerOperation": 45.90387851153199,
-          "operationsPerSecond": 21784651.589925665,
-          "checksum": 5531916
+          "operations": 4112783,
+          "elapsedNanoseconds": 252226400,
+          "nanosecondsPerOperation": 61.32742719467572,
+          "operationsPerSecond": 16305918.01651215,
+          "checksum": 4112783
         },
         {
           "index": 2,
-          "operations": 5531916,
-          "elapsedNanoseconds": 248337500,
-          "nanosecondsPerOperation": 44.89176986779987,
-          "operationsPerSecond": 22275798.05707958,
-          "checksum": 5531916
+          "operations": 4112783,
+          "elapsedNanoseconds": 252755200,
+          "nanosecondsPerOperation": 61.45600193348397,
+          "operationsPerSecond": 16271803.705720002,
+          "checksum": 4112783
         },
         {
           "index": 3,
-          "operations": 5531916,
-          "elapsedNanoseconds": 251828900,
-          "nanosecondsPerOperation": 45.52290743388005,
-          "operationsPerSecond": 21966962.489213906,
-          "checksum": 5531916
+          "operations": 4112783,
+          "elapsedNanoseconds": 265571400,
+          "nanosecondsPerOperation": 64.57218871017508,
+          "operationsPerSecond": 15486543.355195627,
+          "checksum": 4112783
         },
         {
           "index": 4,
-          "operations": 5531916,
-          "elapsedNanoseconds": 253561300,
-          "nanosecondsPerOperation": 45.83607198663176,
-          "operationsPerSecond": 21816878.206571743,
-          "checksum": 5531916
+          "operations": 4112783,
+          "elapsedNanoseconds": 278779300,
+          "nanosecondsPerOperation": 67.78361513359688,
+          "operationsPerSecond": 14752827.774515541,
+          "checksum": 4112783
         },
         {
           "index": 5,
-          "operations": 5531916,
-          "elapsedNanoseconds": 259414800,
-          "nanosecondsPerOperation": 46.89420446731295,
-          "operationsPerSecond": 21324596.74621494,
-          "checksum": 5531916
+          "operations": 4112783,
+          "elapsedNanoseconds": 270601500,
+          "nanosecondsPerOperation": 65.79522916720867,
+          "operationsPerSecond": 15198670.369528625,
+          "checksum": 4112783
         },
         {
           "index": 6,
-          "operations": 5531916,
-          "elapsedNanoseconds": 254150300,
-          "nanosecondsPerOperation": 45.94254504226022,
-          "operationsPerSecond": 21766317.017922074,
-          "checksum": 5531916
+          "operations": 4112783,
+          "elapsedNanoseconds": 275403000,
+          "nanosecondsPerOperation": 66.96268682301012,
+          "operationsPerSecond": 14933689.901707679,
+          "checksum": 4112783
         },
         {
           "index": 7,
-          "operations": 5531916,
-          "elapsedNanoseconds": 253417200,
-          "nanosecondsPerOperation": 45.81002314568768,
-          "operationsPerSecond": 21829283.884440362,
-          "checksum": 5531916
+          "operations": 4112783,
+          "elapsedNanoseconds": 254716500,
+          "nanosecondsPerOperation": 61.932880971352,
+          "operationsPerSecond": 16146511.906374343,
+          "checksum": 4112783
         }
       ],
       "summary": {
-        "medianNanosecondsPerOperation": 45.83607198663176,
-        "p25NanosecondsPerOperation": 45.666465289783865,
-        "p75NanosecondsPerOperation": 45.92321177689611,
-        "minNanosecondsPerOperation": 44.89176986779987,
-        "maxNanosecondsPerOperation": 46.89420446731295,
-        "medianOperationsPerSecond": 21816878.206571743
+        "medianNanosecondsPerOperation": 64.57218871017508,
+        "p25NanosecondsPerOperation": 61.69444145241798,
+        "p75NanosecondsPerOperation": 66.3789579951094,
+        "minNanosecondsPerOperation": 61.32742719467572,
+        "maxNanosecondsPerOperation": 67.78361513359688,
+        "medianOperationsPerSecond": 15486543.355195627
       }
     },
     {
@@ -533,68 +533,68 @@
       "samples": [
         {
           "index": 1,
-          "operations": 4030867,
-          "elapsedNanoseconds": 244858300,
-          "nanosecondsPerOperation": 60.745814734150244,
-          "operationsPerSecond": 16462039.473442396,
-          "checksum": 20154335
+          "operations": 2558927,
+          "elapsedNanoseconds": 251684700,
+          "nanosecondsPerOperation": 98.35556074870443,
+          "operationsPerSecond": 10167193.31767088,
+          "checksum": 12794635
         },
         {
           "index": 2,
-          "operations": 4030867,
-          "elapsedNanoseconds": 248263300,
-          "nanosecondsPerOperation": 61.590546152974035,
-          "operationsPerSecond": 16236258.037333751,
-          "checksum": 20154335
+          "operations": 2558927,
+          "elapsedNanoseconds": 251956100,
+          "nanosecondsPerOperation": 98.46162082779227,
+          "operationsPerSecond": 10156241.503976287,
+          "checksum": 12794635
         },
         {
           "index": 3,
-          "operations": 4030867,
-          "elapsedNanoseconds": 247806800,
-          "nanosecondsPerOperation": 61.47729508316697,
-          "operationsPerSecond": 16266167.837202208,
-          "checksum": 20154335
+          "operations": 2558927,
+          "elapsedNanoseconds": 253663900,
+          "nanosecondsPerOperation": 99.12900993267881,
+          "operationsPerSecond": 10087864.296023203,
+          "checksum": 12794635
         },
         {
           "index": 4,
-          "operations": 4030867,
-          "elapsedNanoseconds": 248066400,
-          "nanosecondsPerOperation": 61.54169810117774,
-          "operationsPerSecond": 16249145.39010523,
-          "checksum": 20154335
+          "operations": 2558927,
+          "elapsedNanoseconds": 251220500,
+          "nanosecondsPerOperation": 98.17415658985192,
+          "operationsPerSecond": 10185980.045418268,
+          "checksum": 12794635
         },
         {
           "index": 5,
-          "operations": 4030867,
-          "elapsedNanoseconds": 244619300,
-          "nanosecondsPerOperation": 60.68652227920197,
-          "operationsPerSecond": 16478123.35330859,
-          "checksum": 20154335
+          "operations": 2558927,
+          "elapsedNanoseconds": 252544900,
+          "nanosecondsPerOperation": 98.69171727055911,
+          "operationsPerSecond": 10132562.566102106,
+          "checksum": 12794635
         },
         {
           "index": 6,
-          "operations": 4030867,
-          "elapsedNanoseconds": 244388800,
-          "nanosecondsPerOperation": 60.62933855173093,
-          "operationsPerSecond": 16493665.01247193,
-          "checksum": 20154335
+          "operations": 2558927,
+          "elapsedNanoseconds": 252354900,
+          "nanosecondsPerOperation": 98.61746739942171,
+          "operationsPerSecond": 10140191.452593153,
+          "checksum": 12794635
         },
         {
           "index": 7,
-          "operations": 4030867,
-          "elapsedNanoseconds": 243593400,
-          "nanosecondsPerOperation": 60.43201127697838,
-          "operationsPerSecond": 16547521.40246821,
-          "checksum": 20154335
+          "operations": 2558927,
+          "elapsedNanoseconds": 250403600,
+          "nanosecondsPerOperation": 97.85492122284067,
+          "operationsPerSecond": 10219210.10720293,
+          "checksum": 12794635
         }
       ],
       "summary": {
-        "medianNanosecondsPerOperation": 60.745814734150244,
-        "p25NanosecondsPerOperation": 60.65793041546645,
-        "p75NanosecondsPerOperation": 61.509496592172354,
-        "minNanosecondsPerOperation": 60.43201127697838,
-        "maxNanosecondsPerOperation": 61.590546152974035,
-        "medianOperationsPerSecond": 16462039.473442396
+        "medianNanosecondsPerOperation": 98.46162082779227,
+        "p25NanosecondsPerOperation": 98.26485866927817,
+        "p75NanosecondsPerOperation": 98.65459233499041,
+        "minNanosecondsPerOperation": 97.85492122284067,
+        "maxNanosecondsPerOperation": 99.12900993267881,
+        "medianOperationsPerSecond": 10156241.503976287
       }
     },
     {
@@ -613,68 +613,68 @@
       "samples": [
         {
           "index": 1,
-          "operations": 2805531,
-          "elapsedNanoseconds": 247673300,
-          "nanosecondsPerOperation": 88.28036475091524,
-          "operationsPerSecond": 11327547.216433907,
-          "checksum": 2805531
+          "operations": 5258785,
+          "elapsedNanoseconds": 246766000,
+          "nanosecondsPerOperation": 46.924527243460226,
+          "operationsPerSecond": 21310816.725156628,
+          "checksum": 5258785
         },
         {
           "index": 2,
-          "operations": 2805531,
-          "elapsedNanoseconds": 250089200,
-          "nanosecondsPerOperation": 89.14148515913743,
-          "operationsPerSecond": 11218121.374293651,
-          "checksum": 2805531
+          "operations": 5258785,
+          "elapsedNanoseconds": 255164400,
+          "nanosecondsPerOperation": 48.52155012992545,
+          "operationsPerSecond": 20609399.273566373,
+          "checksum": 5258785
         },
         {
           "index": 3,
-          "operations": 2805531,
-          "elapsedNanoseconds": 251161200,
-          "nanosecondsPerOperation": 89.52358751337982,
-          "operationsPerSecond": 11170240.467078513,
-          "checksum": 2805531
+          "operations": 5258785,
+          "elapsedNanoseconds": 267276000,
+          "nanosecondsPerOperation": 50.82466767513789,
+          "operationsPerSecond": 19675485.26616681,
+          "checksum": 5258785
         },
         {
           "index": 4,
-          "operations": 2805531,
-          "elapsedNanoseconds": 250018000,
-          "nanosecondsPerOperation": 89.11610671919148,
-          "operationsPerSecond": 11221316.065243304,
-          "checksum": 2805531
+          "operations": 5258785,
+          "elapsedNanoseconds": 308613800,
+          "nanosecondsPerOperation": 58.68538074859497,
+          "operationsPerSecond": 17040018.949249838,
+          "checksum": 5258785
         },
         {
           "index": 5,
-          "operations": 2805531,
-          "elapsedNanoseconds": 250425000,
-          "nanosecondsPerOperation": 89.26117729584881,
-          "operationsPerSecond": 11203078.766097633,
-          "checksum": 2805531
+          "operations": 5258785,
+          "elapsedNanoseconds": 290416600,
+          "nanosecondsPerOperation": 55.225037722591814,
+          "operationsPerSecond": 18107728.690439872,
+          "checksum": 5258785
         },
         {
           "index": 6,
-          "operations": 2805531,
-          "elapsedNanoseconds": 251689300,
-          "nanosecondsPerOperation": 89.71182282427105,
-          "operationsPerSecond": 11146802.823957952,
-          "checksum": 2805531
+          "operations": 5258785,
+          "elapsedNanoseconds": 299324800,
+          "nanosecondsPerOperation": 56.91900315377031,
+          "operationsPerSecond": 17568824.90191257,
+          "checksum": 5258785
         },
         {
           "index": 7,
-          "operations": 2805531,
-          "elapsedNanoseconds": 249795400,
-          "nanosecondsPerOperation": 89.03676345048406,
-          "operationsPerSecond": 11231315.708776062,
-          "checksum": 2805531
+          "operations": 5258785,
+          "elapsedNanoseconds": 259812400,
+          "nanosecondsPerOperation": 49.40540448031247,
+          "operationsPerSecond": 20240700.59781596,
+          "checksum": 5258785
         }
       ],
       "summary": {
-        "medianNanosecondsPerOperation": 89.14148515913743,
-        "p25NanosecondsPerOperation": 89.07643508483777,
-        "p75NanosecondsPerOperation": 89.39238240461432,
-        "minNanosecondsPerOperation": 88.28036475091524,
-        "maxNanosecondsPerOperation": 89.71182282427105,
-        "medianOperationsPerSecond": 11218121.374293651
+        "medianNanosecondsPerOperation": 50.82466767513789,
+        "p25NanosecondsPerOperation": 48.96347730511896,
+        "p75NanosecondsPerOperation": 56.07202043818106,
+        "minNanosecondsPerOperation": 46.924527243460226,
+        "maxNanosecondsPerOperation": 58.68538074859497,
+        "medianOperationsPerSecond": 19675485.26616681
       }
     }
   ]
