@@ -1,11 +1,11 @@
 # Migrating from event-pubsub 5.x to 6.x
 
-Version 6 preserves the public method names and synchronous wildcard-first model while formalizing previously inconsistent edge behavior. The prepared 6.1.0 source on `main` restores the original delegated validation and package layout while adding shared-source CommonJS consumption.
+Version 6 preserves the public method names and synchronous wildcard-first model while formalizing previously inconsistent edge behavior. The 6.1.0 npm release restores the original delegated validation and package layout while adding shared-source CommonJS consumption.
 
 ## Requirements
 
 - Use Node.js 22.12.0 or newer for production and repository development.
-- Install the 6.x package when it is available from your configured registry:
+- Install the current 6.x package from your configured registry:
 
   ```sh
   npm install event-pubsub@6
@@ -55,7 +55,7 @@ Each `list` access creates a null-prototype object with copied handler arrays. M
 
 ### Browser package imports
 
-The prepared 6.1.0 source restores `strong-type` 2.0.0 as the sole production dependency and preserves the deliberate `../strong-type/index.js` include shim. Node installs both packages as siblings. For an unbundled browser, serve the same sibling directories and map the public `event-pubsub` name to its `index.js`; the relative validator import then resolves without a second package-name mapping. npm latest remains 5.0.3 until a separate registry publication.
+The 6.1.0 release restores `strong-type` 2.0.0 as the sole production dependency and preserves the deliberate `../strong-type/index.js` include shim. Node installs both packages as siblings. For an unbundled browser, serve the same sibling directories and map the public `event-pubsub` name to its `index.js`; the relative validator import then resolves without a second package-name mapping.
 
 ## Tooling cleanup
 

@@ -4,12 +4,11 @@
 
 | Version | Supported |
 | --- | --- |
-| 6.1.0 on `main` | Next minor source prepared; npm pending |
-| 6.0.0 | GitHub source release |
-| 5.0.3 on npm | Current registry line |
-| 5.x and older after 6.x publication | No planned security fixes |
+| 6.1.0 on npm | Current supported release |
+| 6.0.0 | Superseded GitHub source release |
+| 5.x and older | No planned security fixes |
 
-Version 6.0.0 is available as a GitHub source release; `main` prepares the 6.1.0 source. Neither is published to npm yet, so registry users remain on 5.0.3. After publication, use the latest available 6.x release and a supported Node.js release.
+Version 6.1.0 is the current npm release and requires Node.js 22.12 or newer. Version 6.0.0 remains available as the earlier GitHub source release, but users should install the latest available 6.x release.
 
 ## Reporting a vulnerability
 

@@ -24,7 +24,7 @@
 
 Small, synchronous, extensible publish/subscribe events for modern Node.js and browsers.
 
-> **Release status:** `6.0.0` remains the published GitHub source release. `main` prepares `6.1.0` with shared-source ESM and CommonJS consumption; npm still resolves `5.0.3` until a separate registry publication.
+> **Release status:** `6.1.0` is the current npm release and the verified source on `main`. `6.0.0` remains the most recent separately tagged GitHub source release.
 
 ![event-pubsub signal fan-out](https://riaevangelist.github.io/event-pubsub/og.png)
 
@@ -98,7 +98,7 @@ Only the exact public string `*` maps to the internal wildcard Symbol. The ordin
 
 ### Browser import map
 
-The prepared 6.1.0 runtime imports `strong-type` 2.0.0 through `../strong-type/index.js`. This preserves the original package-shaped Node/browser layout: serve `event-pubsub` and `strong-type` as sibling package directories, then map only the public package name:
+The 6.1.0 runtime imports `strong-type` 2.0.0 through `../strong-type/index.js`. This preserves the original package-shaped Node/browser layout: serve `event-pubsub` and `strong-type` as sibling package directories, then map only the public package name:
 
 ```html
 <script type="importmap">

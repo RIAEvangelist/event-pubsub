@@ -1,6 +1,8 @@
 # Changelog
 
-## 6.1.0 — Unreleased
+## 6.1.0 — 2026-08-21
+
+Published to npm as the current registry release from the verified `main` source. No separate 6.1.0 GitHub tag or release was created.
 
 - Added direct CommonJS `require('event-pubsub')` support while keeping one native ESM implementation for both module systems.
 
@@ -15,7 +17,7 @@
 
 ## 6.0.0 — 2026-08-21
 
-Published as the GitHub source release after complete `main` verification. npm publication remains a separate release action; npm latest is still 5.0.3.
+Published as the GitHub source release after complete `main` verification. At that milestone npm latest remained 5.0.3; 6.1.0 later became the registry release.
 
 ### Runtime
 

@@ -119,7 +119,7 @@ assert.match(htmlByPage.get('migration.html'), /5\.x → 6\.x/);
 assert.match(htmlByPage.get('security.html'), /security\/advisories\/new/);
 assert.match(htmlByPage.get('changelog.html'), /6\.0\.0 · 2026-08-21/);
 assert.match(htmlByPage.get('changelog.html'), /5\.0\.3 · 2020-11-26/);
-assert.match(htmlByPage.get('index.html'), /npm latest remains 5\.0\.3 until publication/);
+assert.match(htmlByPage.get('index.html'), /6\.1\.0 is the current npm release/);
 
 const status = createStatus();
 assert.equal(status.version, '6.1.0');
