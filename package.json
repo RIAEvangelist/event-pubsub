@@ -13,6 +13,7 @@
     "test:unit": "npm run stage && node ./test-runtime/event-pubsub/test/node.js unit",
     "test:functional": "npm run stage && node ./test-runtime/event-pubsub/test/node.js functional",
     "test:integration": "npm run stage && node ./test-runtime/event-pubsub/test/node.js integration",
+    "test:behavioral": "npm run stage && node ./test-runtime/event-pubsub/test/node.js behavioral",
     "test:regression": "npm run stage && node ./test-runtime/event-pubsub/test/node.js regression",
     "test:interface": "npm run stage && node ./test-runtime/event-pubsub/test/node.js interface",
     "coverage": "npm run stage && vanilla-test coverage all",

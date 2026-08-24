@@ -115,28 +115,29 @@ The 6.1.0 runtime imports `strong-type` 2.0.0 through `../strong-type/index.js`.
 
 ## Complete verification summary
 
-The shared host-neutral registry contains **119 unique checks**. `vanilla-test` 2.1.1 executes the same inventory in Node and real Google Chrome.
+The shared host-neutral registry contains **131 unique checks**. `vanilla-test` 2.1.1 executes the same inventory in Node and real Google Chrome.
 
 | Suite | Cases | Focus |
 | --- | ---: | --- |
 | Unit | 16 | Exports, state, fluent identity, validation, and list shape |
 | Functional | 26 | Registration, dispatch, wildcard, once, removal, reset, and chaining |
 | Integration | 14 | Subclassing, routing, isolation, namespaces, lifecycle, and errors |
+| Behavioral | 12 | Given/When/Then workflows, lifecycle boundaries, routing, failures, async effects, and live membership |
 | Regression | 43 | Mutation, reentrancy, snapshots, safe names, throws, and registration-local once state |
 | Interface | 20 | Playground parsing, safe display, bounded state, benchmark evidence, units, and chart scaling |
-| **Total** | **119** | One registry used by direct tests and both coverage runtimes |
+| **Total** | **131** | One registry used by direct tests and both coverage runtimes |
 
 ### Runtime and CI matrix
 
 | Verification | Runtime | Hosts | Result requirement |
 | --- | --- | --- | --- |
-| Direct shared suite | Node 22.12.0 and Node 24 | Ubuntu, macOS, Windows | 119/119 on every matrix job |
-| Node coverage | Node 24.18.0 | Ubuntu | 119/119 and every native V8 gate at 100% |
-| Browser coverage | Google Chrome Stable | Ubuntu | 119/119 and every native V8 gate at 100% |
+| Direct shared suite | Node 22.12.0 and Node 24 | Ubuntu, macOS, Windows | 131/131 on every matrix job |
+| Node coverage | Node 24.18.0 | Ubuntu | 131/131 and every native V8 gate at 100% |
+| Browser coverage | Google Chrome Stable | Ubuntu | 131/131 and every native V8 gate at 100% |
 | Packed consumer | Node 24 | Ubuntu | Exact tarball contents, ESM exports, behavior, and the sole `strong-type` dependency |
 | Shared-source package smoke | Node 22.12.0 | Ubuntu | The same packed `index.js` through ESM `import` and direct CommonJS `require()` |
 | Execution benchmark | Node 24.18.0 | Ubuntu | Eight validated scenarios with execution-only timing boundaries |
-| GitHub Pages | Node 24 | Ubuntu | 21 pages, both runtime reports, badges, benchmark JSON, scripts, links, and licenses |
+| GitHub Pages | Node 24 | Ubuntu | 22 pages, both runtime reports, badges, benchmark JSON, scripts, links, and licenses |
 
 ### Coverage gates
 
@@ -151,13 +152,14 @@ These are native V8 executable/block/function range and executable-line totals f
 
 | Command | Purpose |
 | --- | --- |
-| `npm test` | Stage the sibling packages and run all 119 checks in Node. |
+| `npm test` | Stage the sibling packages and run all 131 checks in Node. |
 | `npm run test:unit` | Run the 16 Unit cases. |
 | `npm run test:functional` | Run the 26 Functional cases. |
 | `npm run test:integration` | Run the 14 Integration cases. |
+| `npm run test:behavioral` | Run the 12 Behavioral scenarios. |
 | `npm run test:regression` | Run the 43 Regression cases. |
 | `npm run test:interface` | Run the 20 Interface cases. |
-| `npm run coverage` | Run all 119 checks independently in Node and real Chrome with 100% gates. |
+| `npm run coverage` | Run all 131 checks independently in Node and real Chrome with 100% gates. |
 | `npm run coverage:node` | Generate only the Node native V8 report. |
 | `npm run coverage:chrome` | Generate only the real-Chrome native V8 report. |
 | `npm run benchmark` | Record seven fixed-count latency samples for eight scenarios. |
@@ -169,7 +171,7 @@ These are native V8 executable/block/function range and executable-line totals f
 ### Published evidence
 
 - [Testing strategy and suite totals](https://riaevangelist.github.io/event-pubsub/testing.html)
-- [Live execution of all 119 checks](https://riaevangelist.github.io/event-pubsub/live.html)
+- [Live execution of all 131 checks](https://riaevangelist.github.io/event-pubsub/live.html)
 - [Node test-result JSON](https://riaevangelist.github.io/event-pubsub/reports/node/test-results.json)
 - [Chrome test-result JSON](https://riaevangelist.github.io/event-pubsub/reports/chrome/test-results.json)
 - [Node HTML coverage](https://riaevangelist.github.io/event-pubsub/reports/node/)
@@ -253,6 +255,24 @@ Every test name below is sourced from the shared registry. The focused Pages sit
 12. async handlers are invoked without delaying synchronous peers
 13. synchronous handler exceptions propagate to the publisher
 14. list supports operational introspection without exposing records
+
+</details>
+
+<details>
+<summary><strong>Behavioral — 12 scenarios</strong></summary>
+
+1. given an audited order retry with one-time reservation and persistent projection, when the same order is published twice, then the audit leads both deliveries while reservation happens once
+2. given an order handler that publishes the next workflow stage, when an order is created, then the nested fulfillment stage completes before outer delivery continues
+3. given a one-time readiness gate that reenters its own topic, when the outer readiness signal arrives, then the gate is consumed before the nested signal
+4. given a mounted subscriber that observes application updates, when the subscriber unmounts, then later updates no longer reach it
+5. given listeners from an authenticated session, when logout resets the event hub and a new session starts, then only the new session observes later activity
+6. given a bridge that forwards only public topics to another hub, when private and public messages are published, then only public messages cross the boundary
+7. given a request carrying a reply callback, when a subscriber handles the request, then the caller receives the reply before publish returns
+8. given a wildcard normalizer and a typed consumer sharing a payload, when the payload is published, then the consumer and caller observe the normalized object
+9. given a one-time preflight followed by a failing persistent subscriber, when delivery is retried after the failure, then preflight stays consumed and the exact failure keeps reaching the publisher
+10. given an asynchronous side effect beside a synchronous projection, when the event is published, then publish returns after starting both without awaiting the side effect
+11. given subscriber membership that changes during a notification, when the current delivery adds one subscriber and removes another, then the added subscriber joins immediately and the removed one is skipped
+12. given two tenant hubs with the same topic names, when each tenant publishes an update, then each update stays within its originating tenant
 
 </details>
 
@@ -343,7 +363,7 @@ The benchmark reports median **execution latency**—nanoseconds per named opera
 - [Examples](https://riaevangelist.github.io/event-pubsub/examples.html)
 - [Event console playground](https://riaevangelist.github.io/event-pubsub/playground.html)
 - [Mutation playground scenarios](https://riaevangelist.github.io/event-pubsub/playground-scenarios.html)
-- [All 119 tests](https://riaevangelist.github.io/event-pubsub/testing.html)
+- [All 131 tests](https://riaevangelist.github.io/event-pubsub/testing.html)
 - [Node and Chrome coverage](https://riaevangelist.github.io/event-pubsub/coverage.html)
 - [Benchmark overview](https://riaevangelist.github.io/event-pubsub/benchmarks.html)
 - [Dispatch latency chart](https://riaevangelist.github.io/event-pubsub/benchmarks-dispatch.html)

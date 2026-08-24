@@ -86,7 +86,10 @@ export function assembleSite(outputPath = resolve(projectRoot, '_site')) {
 
     copyFile(resolve(projectRoot, 'index.js'), resolve(output, 'module', 'index.js'));
     copyFile(resolve(projectRoot, 'licence'), resolve(output, 'licence'));
-    for (const name of ['CI.js', 'assertions.js', 'unit.js', 'functional.js', 'integration.js', 'regression.js', 'interface.js']) {
+    for (const name of [
+        'CI.js', 'assertions.js', 'unit.js', 'functional.js', 'integration.js',
+        'behavioral.js', 'regression.js', 'interface.js'
+    ]) {
         copyFile(resolve(projectRoot, 'test', name), resolve(output, 'module', 'test', name));
     }
     for (const name of ['playground-core.js', 'benchmark-data.js']) {

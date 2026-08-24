@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="The 12 event-pubsub Behavioral checks for audited workflows, lifecycle boundaries, routing, failure, async work, and subscriber changes.">
+    <meta name="theme-color" content="#050914"><link rel="canonical" href="https://riaevangelist.github.io/event-pubsub/tests-behavioral.html">
+    <meta property="og:title" content="Behavioral tests · event-pubsub"><meta property="og:description" content="All 12 Behavioral Given/When/Then scenarios, named and inspectable.">
+    <meta property="og:image" content="https://riaevangelist.github.io/event-pubsub/og.png"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image">
+    <title>Behavioral tests · event-pubsub</title><link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header"><div class="shell header-row"><a class="brand" href="./index.html"><span class="brand-mark" aria-hidden="true">●</span><span>event-pubsub</span></a><nav class="site-nav" aria-label="Primary navigation"><ul>
+        <li><a href="./index.html">Overview</a></li><li><a href="./guide.html">Guide</a></li><li><a href="./api.html">API</a></li><li><a href="./examples.html">Examples</a></li><li><a href="./playground.html">Playground</a></li><li><a class="section-current" href="./testing.html">Tests</a></li><li><a href="./coverage.html">Coverage</a></li><li><a href="./benchmarks.html">Benchmarks</a></li>
+    </ul></nav></div></header>
+    <main id="main" class="shell">
+        <header class="page-hero"><div><p class="eyebrow">Behavioral suite · 12 scenarios</p><h1>Consumer stories with <span class="accent">observable outcomes.</span></h1><p class="lede">Given/When/Then scenarios exercise audited domain flows, nested workflows, lifecycle teardown, routing boundaries, synchronous replies, shared payloads, failures, async side effects, and live membership.</p></div></header>
+        <section class="section result-panel"><div class="result-head"><h2>Complete Behavioral inventory</h2><span class="score">12</span></div><ol class="case-list" data-suite="Behavioral">
+            <li>given an audited order retry with one-time reservation and persistent projection, when the same order is published twice, then the audit leads both deliveries while reservation happens once</li><li>given an order handler that publishes the next workflow stage, when an order is created, then the nested fulfillment stage completes before outer delivery continues</li><li>given a one-time readiness gate that reenters its own topic, when the outer readiness signal arrives, then the gate is consumed before the nested signal</li><li>given a mounted subscriber that observes application updates, when the subscriber unmounts, then later updates no longer reach it</li><li>given listeners from an authenticated session, when logout resets the event hub and a new session starts, then only the new session observes later activity</li><li>given a bridge that forwards only public topics to another hub, when private and public messages are published, then only public messages cross the boundary</li><li>given a request carrying a reply callback, when a subscriber handles the request, then the caller receives the reply before publish returns</li><li>given a wildcard normalizer and a typed consumer sharing a payload, when the payload is published, then the consumer and caller observe the normalized object</li><li>given a one-time preflight followed by a failing persistent subscriber, when delivery is retried after the failure, then preflight stays consumed and the exact failure keeps reaching the publisher</li><li>given an asynchronous side effect beside a synchronous projection, when the event is published, then publish returns after starting both without awaiting the side effect</li><li>given subscriber membership that changes during a notification, when the current delivery adds one subscriber and removes another, then the added subscriber joins immediately and the removed one is skipped</li><li>given two tenant hubs with the same topic names, when each tenant publishes an update, then each update stays within its originating tenant</li>
+        </ol></section>
+        <section class="section"><div class="actions"><a class="button" href="./tests-integration.html">Previous: Integration</a><a class="button" href="./testing.html">All suites</a><a class="button" href="./tests-regression.html">Next: Regression</a><a class="button primary" href="./live.html">Run in this browser</a></div></section>
+    </main>
+    <footer class="site-footer"><div class="shell footer-row"><span>Behavioral · 12 observable scenarios</span><nav class="footer-links" aria-label="Resource navigation"><a href="./tests-unit.html">Unit</a><a href="./tests-functional.html">Functional</a><a href="./tests-integration.html">Integration</a><a href="./tests-regression.html">Regression</a><a href="./coverage.html">Coverage</a><a href="./licence">License</a></nav></div></footer>
+    <script src="./script.js"></script>
+</body>
+</html>

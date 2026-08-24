@@ -13,7 +13,8 @@ assert.ok(
 const pages = [
     'index.html', 'guide.html', 'api.html', 'examples.html', 'playground.html', 'playground-scenarios.html',
     'testing.html', 'tests-unit.html', 'tests-functional.html', 'tests-integration.html',
-    'tests-regression.html', 'tests-interface.html', 'live.html', 'coverage.html', 'benchmarks.html',
+    'tests-behavioral.html', 'tests-regression.html', 'tests-interface.html', 'live.html',
+    'coverage.html', 'benchmarks.html',
     'benchmarks-dispatch.html', 'benchmarks-lifecycle.html', 'benchmarks-methodology.html',
     'security.html', 'migration.html', 'changelog.html'
 ];
@@ -24,7 +25,7 @@ const required = [
     'benchmark-summary.svg', 'og.png',
     'module/index.js', 'module/test/CI.js', 'module/test/assertions.js',
     'module/test/unit.js', 'module/test/functional.js', 'module/test/integration.js',
-    'module/test/regression.js', 'module/test/interface.js',
+    'module/test/behavioral.js', 'module/test/regression.js', 'module/test/interface.js',
     'module/site/playground-core.js', 'module/site/benchmark-data.js', 'strong-type/index.js',
     'strong-type/licence', 'vendor/vanilla-test/index.js',
     'vendor/vanilla-test/licence', 'vendor/ansi-colors-es6/index.js',
@@ -49,7 +50,7 @@ for (const file of required) {
 
 const status = JSON.parse(readFileSync(resolve(output, 'data/status.json'), 'utf8'));
 assert.equal(status.generated, true);
-assert.equal(status.tests.total, 119);
+assert.equal(status.tests.total, 131);
 const expectedBenchmark = {name: 'event-pubsub', version: status.version};
 if (process.env.GITHUB_SHA) expectedBenchmark.commit = process.env.GITHUB_SHA;
 validateBenchmark(
@@ -58,7 +59,7 @@ validateBenchmark(
 );
 for (const runtime of ['node', 'chrome']) {
     assert.equal(status.tests[runtime].ok, true, `${runtime} tests must pass`);
-    assert.equal(status.tests[runtime].total, 119, `${runtime} must run every test`);
+    assert.equal(status.tests[runtime].total, 131, `${runtime} must run every test`);
     assert.equal(status.tests[runtime].failureCount, 0, `${runtime} must have no failures`);
     for (const metric of ['statements', 'branches', 'functions', 'lines']) {
         assert.equal(status.coverage[runtime][metric], 100, `${runtime} ${metric} coverage must be 100%`);
@@ -72,4 +73,4 @@ assert.equal(status.dependencies.runtime, 1);
 assert.equal(status.dependencies.strongType, '2.0.0');
 assert.equal(status.dependencies.vanillaTest, '2.1.1');
 
-process.stdout.write(`Validated deployment: ${pages.length} pages, two 119-test runtime reports, 100% coverage, and benchmark evidence.\n`);
+process.stdout.write(`Validated deployment: ${pages.length} pages, two 131-test runtime reports, 100% coverage, and benchmark evidence.\n`);

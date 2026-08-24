@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Added a 12-scenario Behavioral suite with Given/When/Then consumer workflows for audited delivery, nested events, lifecycle teardown, routing, synchronous replies, shared payloads, failure propagation, asynchronous side effects, live subscriber changes, and hub isolation.
+- Expanded the shared host-neutral Node/Chrome registry to 131 checks and added the focused `npm run test:behavioral` command.
+- Added a focused Behavioral inventory page and carried the 131-check total through CI, coverage, status, and deployment validation without adding a test dependency.
+
 ## 6.1.0 — 2026-08-21
 
 Published to npm and GitHub from the same verified source commit as the current release.

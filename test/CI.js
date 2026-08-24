@@ -2,10 +2,11 @@ import VanillaTest from 'vanilla-test';
 import unit from './unit.js';
 import functional from './functional.js';
 import integration from './integration.js';
+import behavioral from './behavioral.js';
 import regression from './regression.js';
 import interfaceSuite from './interface.js';
 
-const categories = Object.freeze([unit, functional, integration, regression, interfaceSuite]);
+const categories = Object.freeze([unit, functional, integration, behavioral, regression, interfaceSuite]);
 
 function selectCategories(category) {
     if (category === undefined) return categories;

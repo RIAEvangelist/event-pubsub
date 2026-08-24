@@ -11,7 +11,8 @@ const projectRoot = resolve(siteRoot, '..');
 const pages = [
     'index.html', 'guide.html', 'api.html', 'examples.html', 'playground.html', 'playground-scenarios.html',
     'testing.html', 'tests-unit.html', 'tests-functional.html', 'tests-integration.html',
-    'tests-regression.html', 'tests-interface.html', 'live.html', 'coverage.html', 'benchmarks.html',
+    'tests-behavioral.html', 'tests-regression.html', 'tests-interface.html', 'live.html',
+    'coverage.html', 'benchmarks.html',
     'benchmarks-dispatch.html', 'benchmarks-lifecycle.html', 'benchmarks-methodology.html',
     'security.html', 'migration.html', 'changelog.html'
 ];
@@ -81,11 +82,11 @@ assert.deepEqual([...reachable].sort(), [...pages].sort(), 'Every documentation 
 
 const suitePages = new Map([
     ['Unit', 'tests-unit.html'], ['Functional', 'tests-functional.html'],
-    ['Integration', 'tests-integration.html'], ['Regression', 'tests-regression.html'],
-    ['Interface', 'tests-interface.html']
+    ['Integration', 'tests-integration.html'], ['Behavioral', 'tests-behavioral.html'],
+    ['Regression', 'tests-regression.html'], ['Interface', 'tests-interface.html']
 ]);
 const totalCases = categories.reduce((total, category) => total + category.tests.length, 0);
-assert.equal(totalCases, 119);
+assert.equal(totalCases, 131);
 
 for (const category of categories) {
     const html = htmlByPage.get(suitePages.get(category.name));
@@ -96,10 +97,27 @@ for (const category of categories) {
 }
 
 const testing = htmlByPage.get('testing.html');
-assert.match(testing, /119 unique checks/i);
+assert.match(testing, /131 unique checks/i);
 for (const category of categories) {
     assert.match(testing, new RegExp(`${category.name} · ${category.tests.length}`));
 }
+
+const readme = readFileSync(resolve(projectRoot, 'README.md'), 'utf8');
+assert.match(readme, /131 unique checks/i);
+for (const category of categories) {
+    const details = readme.match(new RegExp(
+        `<summary><strong>${category.name} — ${category.tests.length} (?:cases|scenarios)<\\/strong><\\/summary>\\s*([\\s\\S]*?)<\\/details>`
+    ));
+    assert.ok(details, `README needs the ${category.name} inventory`);
+    const names = [...details[1].matchAll(/^\d+\. (.+)$/gm)]
+        .map((match) => match[1].replaceAll('`', ''));
+    assert.deepEqual(
+        names,
+        category.tests.map((test) => test.name),
+        `README must show every exact ${category.name} test`
+    );
+}
+
 assert.match(htmlByPage.get('coverage.html'), /Node coverage/);
 assert.match(htmlByPage.get('coverage.html'), /Chrome coverage/);
 assert.match(htmlByPage.get('benchmarks.html'), /execution latency/i);

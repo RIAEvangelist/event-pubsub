@@ -4,7 +4,7 @@ import {dirname, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const expectedTestTotal = 119;
+const expectedTestTotal = 131;
 
 function readJson(path) {
     if (!existsSync(path)) return null;
