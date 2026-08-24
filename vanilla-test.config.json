@@ -17,7 +17,9 @@
     "include": [
       "test-runtime/event-pubsub/index.js"
     ],
-    "imports": {},
+    "imports": {
+      "strong-type": "./test-runtime/event-pubsub/node_modules/strong-type/index.js"
+    },
     "headless": true,
     "executablePath": null
   }

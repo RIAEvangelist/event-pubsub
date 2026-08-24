@@ -1,7 +1,11 @@
 # Changelog
 
-## Unreleased
+## Unreleased — 6.1.1 candidate
 
+- Replaced the consumer-root-relative `../strong-type/index.js` import with the bare `strong-type` package name so Node selects event-pubsub's declared nested exact dependency under a root version conflict.
+- Declared the shared `index.js` source as the explicit browser entry and documented normal and conflict-scoped import maps for unbundled browsers.
+- Added a packed-consumer regression that installs `strong-type` 1.1.0 at the consumer root, poisons that copy, instruments event-pubsub's nested 2.0.0, and proves both ESM and CommonJS execute the nested validator.
+- Staged the exact validator beneath event-pubsub and mapped that same copy explicitly for real-Chrome coverage.
 - Added a 12-scenario Behavioral suite with Given/When/Then consumer workflows for audited delivery, nested events, lifecycle teardown, routing, synchronous replies, shared payloads, failure propagation, asynchronous side effects, live subscriber changes, and hub isolation.
 - Expanded the shared host-neutral Node/Chrome registry to 131 checks and added the focused `npm run test:behavioral` command.
 - Added a focused Behavioral inventory page and carried the 131-check total through CI, coverage, status, and deployment validation without adding a test dependency.

@@ -4,7 +4,7 @@
     <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="event-pubsub release history, modernization details, test expansion, coverage, benchmarks, and Pages changes.">
     <meta name="theme-color" content="#050914"><link rel="canonical" href="https://riaevangelist.github.io/event-pubsub/changelog.html">
-    <meta property="og:title" content="Changelog · event-pubsub"><meta property="og:description" content="What shipped in event-pubsub 6.1.0 and earlier releases.">
+    <meta property="og:title" content="Changelog · event-pubsub"><meta property="og:description" content="The prepared event-pubsub 6.1.1 correction and earlier releases.">
     <meta property="og:image" content="https://riaevangelist.github.io/event-pubsub/og.png"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image">
     <title>Changelog · event-pubsub</title><link rel="stylesheet" href="./styles.css">
 </head>
@@ -15,9 +15,9 @@
     </ul></nav></div></header>
     <main id="main" class="shell">
         <header class="page-hero"><div><p class="eyebrow">Changelog</p><h1>A smaller core with <span class="accent">stronger evidence.</span></h1><p class="lede">Release notes keep GitHub source and npm registry milestones explicit while migration guidance stays on its own focused page.</p></div></header>
-        <section class="section"><article class="card"><p class="eyebrow">Unreleased</p><h2>Add consumer-facing behavioral evidence</h2><p>The shared host-neutral registry now includes explicit Given/When/Then workflow scenarios.</p><div class="grid two">
-            <div><h3>Behavioral coverage</h3><ul><li>Audited and nested domain workflows.</li><li>Unmount, reset, routing, and tenant boundaries.</li><li>Synchronous replies, shared payloads, failures, async effects, and live membership.</li></ul></div>
-            <div><h3>Evidence</h3><ul><li>131 unique checks across six focused suites.</li><li>A focused Behavioral command and inventory page.</li><li>The same suite remains shared by Node and real Chrome with no new dependency.</li></ul></div>
+        <section class="section"><article class="card"><p class="eyebrow">Unreleased · 6.1.1 candidate</p><h2>Honor the declared validator dependency under consumer conflicts</h2><p>The prepared package resolves <code>strong-type</code> through the package boundary while preserving one Node/browser source.</p><div class="grid two">
+            <div><h3>Resolution</h3><ul><li>Bare <code>strong-type</code> import selects event-pubsub's nested exact 2.0.0 before a conflicting consumer root.</li><li>The shared source is declared as the explicit browser entry.</li><li>Unbundled browser pages map the validator explicitly, with scoped conflict guidance in the README.</li></ul></div>
+            <div><h3>Evidence</h3><ul><li>A packed consumer poisons root <code>strong-type</code> 1.1.0 and proves nested 2.0.0 executes through ESM and CommonJS.</li><li>131 unique checks across six focused suites, including 12 Given/When/Then workflows.</li><li>Node and real Chrome exercise the same staged exact validator with no new dependency.</li></ul></div>
         </div></article></section>
         <section class="section"><article class="card"><p class="eyebrow">6.1.0 · 2026-08-21</p><h2>Restore the original package contract and share one source across module systems</h2><p>Published to npm and GitHub from the same verified source commit as the current release.</p><div class="grid two">
             <div><h3>Runtime</h3><ul><li>Direct CommonJS <code>require()</code> and ESM <code>import</code> load the same source on Node 22.12+.</li><li><code>strong-type</code> 2.0.0 restored as the sole production dependency.</li><li>Original sibling-package <code>../strong-type/index.js</code> shim preserved.</li><li>One unified null-prototype registry with its wildcard under the real Symbol key.</li><li>Per-registration <code>{handler, once}</code> state without mutating user functions.</li><li>Live dispatch arrays, linear duplicate removal, and constant-time reset.</li><li>Delegated validation restored; invalid-input <code>TypeError</code> text can differ from 6.0.0.</li></ul></div>

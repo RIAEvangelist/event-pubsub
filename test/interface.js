@@ -22,7 +22,7 @@ function benchmarkFixture() {
         schemaVersion: 2,
         package: {
             name: 'event-pubsub',
-            version: '6.1.0',
+            version: '6.1.1',
             commit: '0123456789abcdef0123456789abcdef01234567'
         },
         methodology: {sampleCount: 7},

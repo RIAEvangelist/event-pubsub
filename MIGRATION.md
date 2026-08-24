@@ -1,6 +1,6 @@
 # Migrating from event-pubsub 5.x to 6.x
 
-Version 6 preserves the public method names and synchronous wildcard-first model while formalizing previously inconsistent edge behavior. The 6.1.0 npm release restores the original delegated validation and package layout while adding shared-source CommonJS consumption.
+Version 6 preserves the public method names and synchronous wildcard-first model while formalizing previously inconsistent edge behavior. The 6.1.0 npm release restored delegated validation and shared-source CommonJS consumption. The prepared 6.1.1 correction makes Node resolve that validator through event-pubsub's declared dependency boundary.
 
 ## Requirements
 
@@ -23,7 +23,7 @@ Version 6 preserves the public method names and synchronous wildcard-first model
 
 ### Package layout
 
-The package keeps its historical ESM entry at `event-pubsub/index.js` without a restrictive export map. Applications should normally import `event-pubsub`; repository-only paths are not part of the supported API.
+The package keeps its historical ESM entry at `event-pubsub/index.js` without a restrictive export map and declares that same source as its browser entry. Applications should normally import `event-pubsub`; repository-only paths are not part of the supported API.
 
 ## Behavior to review
 
@@ -53,15 +53,17 @@ Public argument checks again come from `strong-type` 2.0.0. Invalid inputs still
 
 Each `list` access creates a null-prototype object with copied handler arrays. Mutating or deleting snapshot values no longer mutates the live registry. Use `Object.hasOwn(snapshot, type)` instead of calling `snapshot.hasOwnProperty(...)`. The wildcard entry remains available through `Symbol.for('event-pubsub-all')`.
 
-### Browser package imports
+### Package dependency resolution
 
-The 6.1.0 release restores `strong-type` 2.0.0 as the sole production dependency and preserves the deliberate `../strong-type/index.js` include shim. Node installs both packages as siblings. For an unbundled browser, serve the same sibling directories and map the public `event-pubsub` name to its `index.js`; the relative validator import then resolves without a second package-name mapping.
+The 6.1.0 entry reached `strong-type` through `../strong-type/index.js`. In a consumer with an incompatible root validator and event-pubsub's exact 2.0.0 nested beneath it, that relative path could execute the root package. The prepared 6.1.1 entry uses the bare `strong-type` name, so Node and bundlers resolve from event-pubsub outward and select its nested declared dependency first.
+
+Unbundled browsers must map both `event-pubsub` and `strong-type`. When npm nests event-pubsub's validator because the root version conflicts, add an import-map scope for `./node_modules/event-pubsub/` that maps `strong-type` to `./node_modules/event-pubsub/node_modules/strong-type/index.js`. The README contains complete hoisted and conflicting-layout examples.
 
 ## Tooling cleanup
 
 - `vanilla-test` is now pinned exactly at 2.1.1.
 - Native Node and Chrome coverage replaces c8.
-- The old `copyfiles` dependency is gone; a dependency-free staging script now verifies the package-shaped Node/browser layout.
+- The old `copyfiles` dependency is gone; a dependency-free staging script now verifies the nested exact dependency in Node and maps that same copy for browser coverage.
 - `copyfiles`, `c8`, and the test-only `node-http-server` dependency are removed.
 - Production installs contain exactly one dependency: `strong-type` 2.0.0. They do not install `copyfiles` or the development-only `vanilla-test`.
 

@@ -48,6 +48,14 @@ for (const file of required) {
     assert.ok(existsSync(resolve(output, file)), `Missing deployment file: ${file}`);
 }
 
+for (const page of ['playground.html', 'playground-scenarios.html', 'live.html']) {
+    assert.match(
+        readFileSync(resolve(output, page), 'utf8'),
+        /<script type="importmap">[^<]*"strong-type":"\.\/strong-type\/index\.js"[^<]*<\/script>/,
+        `${page} must map the bare strong-type browser dependency`
+    );
+}
+
 const status = JSON.parse(readFileSync(resolve(output, 'data/status.json'), 'utf8'));
 assert.equal(status.generated, true);
 assert.equal(status.tests.total, 131);

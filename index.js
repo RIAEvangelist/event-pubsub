@@ -1,5 +1,5 @@
-// Shim allowing the same module path to run in Node and an unbundled browser.
-import Is from '../strong-type/index.js';
+// Preserve the package manager's dependency boundary instead of reaching for a consumer-root sibling.
+import Is from 'strong-type';
 
 const is = new Is();
 const ALL_EVENTS = Symbol.for('event-pubsub-all');

@@ -6,7 +6,7 @@ import {fileURLToPath} from 'node:url';
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const stageRoot = resolve(projectRoot, 'test-runtime');
 const eventPackage = resolve(stageRoot, 'event-pubsub');
-const strongTypePackage = resolve(stageRoot, 'strong-type');
+const strongTypePackage = resolve(eventPackage, 'node_modules', 'strong-type');
 
 assert.equal(relative(projectRoot, stageRoot), 'test-runtime');
 rmSync(stageRoot, {recursive: true, force: true});
@@ -37,4 +37,4 @@ assert.equal(
     'The staged production dependency must be strong-type 2.0.0.'
 );
 
-process.stdout.write('Staged event-pubsub and strong-type as sibling packages.\n');
+process.stdout.write('Staged event-pubsub with its exact nested strong-type dependency.\n');

@@ -1,9 +1,10 @@
 {
   "name": "event-pubsub",
-  "version": "6.1.0",
+  "version": "6.1.1",
   "description": "Small, synchronous, extensible publish/subscribe events for modern Node.js and browsers.",
   "type": "module",
   "main": "./index.js",
+  "browser": "./index.js",
   "engines": {
     "node": ">=22.12.0"
   },

@@ -118,6 +118,14 @@ for (const category of categories) {
     );
 }
 
+for (const page of ['playground.html', 'playground-scenarios.html', 'live.html']) {
+    assert.match(
+        htmlByPage.get(page),
+        /<script type="importmap">[^<]*"strong-type":"\.\/strong-type\/index\.js"[^<]*<\/script>/,
+        `${page} must map the bare strong-type browser dependency`
+    );
+}
+
 assert.match(htmlByPage.get('coverage.html'), /Node coverage/);
 assert.match(htmlByPage.get('coverage.html'), /Chrome coverage/);
 assert.match(htmlByPage.get('benchmarks.html'), /execution latency/i);
@@ -137,10 +145,10 @@ assert.match(htmlByPage.get('migration.html'), /5\.x → 6\.x/);
 assert.match(htmlByPage.get('security.html'), /security\/advisories\/new/);
 assert.match(htmlByPage.get('changelog.html'), /6\.0\.0 · 2026-08-21/);
 assert.match(htmlByPage.get('changelog.html'), /5\.0\.3 · 2020-11-26/);
-assert.match(htmlByPage.get('index.html'), /6\.1\.0 is the current npm release/);
+assert.match(htmlByPage.get('index.html'), /6\.1\.0 remains the current npm and GitHub release/);
 
 const status = createStatus();
-assert.equal(status.version, '6.1.0');
+assert.equal(status.version, '6.1.1');
 assert.equal(status.tests.total, totalCases);
 assert.ok(statSync(resolve(siteRoot, 'og.png')).size > 100_000, 'Social image must be a substantive raster asset');
 assert.ok(statSync(resolve(siteRoot, 'benchmark-summary.svg')).size > 5_000, 'Benchmark summary must be a substantive generated chart.');

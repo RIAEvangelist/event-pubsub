@@ -24,7 +24,7 @@
 
 Small, synchronous, extensible publish/subscribe events for modern Node.js and browsers.
 
-> **Release status:** `6.1.0` is the current npm release and the current GitHub release, built from the same verified source commit. `6.0.0` remains the earlier GitHub source release.
+> **Release status:** `6.1.0` remains the current npm and GitHub release. `main` prepares the `6.1.1` corrective package; immutable publication is pending an authenticated npm publisher session.
 
 ![event-pubsub signal fan-out](https://riaevangelist.github.io/event-pubsub/og.png)
 
@@ -65,7 +65,7 @@ Bars show median nanoseconds per emit, whiskers show p25–p75, and dots show al
 - Safe event names, including `__proto__`, `constructor`, and `toString`.
 - Isolated `list` snapshots that cannot mutate the live registry.
 - One native ESM source for browser imports plus Node.js `import` and `require()`, without transpilation or a duplicate CommonJS build.
-- One explicit production validator: `strong-type` 2.0.0, loaded through the original Node/browser relative shim.
+- One explicit production validator: `strong-type` 2.0.0, resolved through the package dependency boundary with an explicit browser entry and import map.
 
 ## API
 
@@ -98,13 +98,14 @@ Only the exact public string `*` maps to the internal wildcard Symbol. The ordin
 
 ### Browser import map
 
-The 6.1.0 runtime imports `strong-type` 2.0.0 through `../strong-type/index.js`. This preserves the original package-shaped Node/browser layout: serve `event-pubsub` and `strong-type` as sibling package directories, then map only the public package name:
+The prepared 6.1.1 package declares `index.js` as its explicit browser entry and imports `strong-type` by package name. Bundlers resolve that dependency normally. Unbundled browsers need both bare names in an import map; for the usual hoisted install:
 
 ```html
 <script type="importmap">
 {
   "imports": {
-    "event-pubsub": "./node_modules/event-pubsub/index.js"
+    "event-pubsub": "./node_modules/event-pubsub/index.js",
+    "strong-type": "./node_modules/strong-type/index.js"
   }
 }
 </script>
@@ -112,6 +113,26 @@ The 6.1.0 runtime imports `strong-type` 2.0.0 through `../strong-type/index.js`.
   import EventPubSub from 'event-pubsub';
 </script>
 ```
+
+If the application intentionally installs an incompatible `strong-type` at its root, npm keeps event-pubsub's exact 2.0.0 dependency nested. Scope the validator mapping to the event-pubsub referrer so the browser preserves that same dependency boundary:
+
+```html
+<script type="importmap">
+{
+  "imports": {
+    "event-pubsub": "./node_modules/event-pubsub/index.js",
+    "strong-type": "./node_modules/strong-type/index.js"
+  },
+  "scopes": {
+    "./node_modules/event-pubsub/": {
+      "strong-type": "./node_modules/event-pubsub/node_modules/strong-type/index.js"
+    }
+  }
+}
+</script>
+```
+
+Adjust the URLs to the package layout exposed by your static server.
 
 ## Complete verification summary
 
@@ -134,7 +155,7 @@ The shared host-neutral registry contains **131 unique checks**. `vanilla-test` 
 | Direct shared suite | Node 22.12.0 and Node 24 | Ubuntu, macOS, Windows | 131/131 on every matrix job |
 | Node coverage | Node 24.18.0 | Ubuntu | 131/131 and every native V8 gate at 100% |
 | Browser coverage | Google Chrome Stable | Ubuntu | 131/131 and every native V8 gate at 100% |
-| Packed consumer | Node 24 | Ubuntu | Exact tarball contents, ESM exports, behavior, and the sole `strong-type` dependency |
+| Packed consumer | Node 24 | Ubuntu | Exact tarball contents plus ESM/CommonJS execution of nested `strong-type` 2.0.0 under a poisoned root conflict |
 | Shared-source package smoke | Node 22.12.0 | Ubuntu | The same packed `index.js` through ESM `import` and direct CommonJS `require()` |
 | Execution benchmark | Node 24.18.0 | Ubuntu | Eight validated scenarios with execution-only timing boundaries |
 | GitHub Pages | Node 24 | Ubuntu | 22 pages, both runtime reports, badges, benchmark JSON, scripts, links, and licenses |
@@ -152,7 +173,7 @@ These are native V8 executable/block/function range and executable-line totals f
 
 | Command | Purpose |
 | --- | --- |
-| `npm test` | Stage the sibling packages and run all 131 checks in Node. |
+| `npm test` | Stage event-pubsub with its nested exact validator and run all 131 checks in Node. |
 | `npm run test:unit` | Run the 16 Unit cases. |
 | `npm run test:functional` | Run the 26 Functional cases. |
 | `npm run test:integration` | Run the 14 Integration cases. |
@@ -376,7 +397,7 @@ The benchmark reports median **execution latency**—nanoseconds per named opera
 ## Runtime support
 
 - Node.js 22.12.0 or newer for production, development, and direct CommonJS `require()` of the native ESM source.
-- Modern browsers with native modules, private class fields, and `Symbol`. Unbundled use must serve the sibling `event-pubsub` and `strong-type` package directories.
+- Modern browsers with native modules, private class fields, `Symbol`, and import maps. Unbundled use must map both `event-pubsub` and its bare `strong-type` dependency, with a scoped mapping when the validator is nested.
 
 ## License
 
