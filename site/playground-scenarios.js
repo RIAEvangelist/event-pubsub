@@ -1,4 +1,4 @@
-import EventPubSub from './module/index.js';
+import EventPubSub from 'event-pubsub';
 
 const scenarios = Object.freeze({
     'wildcard-first'() {

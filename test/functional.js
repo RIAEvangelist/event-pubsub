@@ -1,4 +1,4 @@
-import EventPubSub from '../index.js';
+import EventPubSub from './package-entry.js';
 import {arrayEqual, assert, equal} from './assertions.js';
 
 const wildcard = Symbol.for('event-pubsub-all');

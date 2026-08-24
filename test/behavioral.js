@@ -1,4 +1,4 @@
-import EventPubSub from '../index.js';
+import EventPubSub from './package-entry.js';
 import {arrayEqual, equal, throws} from './assertions.js';
 
 function scenario({given, when, then, run}) {

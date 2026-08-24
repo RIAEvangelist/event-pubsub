@@ -70,7 +70,11 @@ try {
     assert.equal(installedManifest.browser, './index.js');
     assert.equal(installedManifest.engines.node, '>=22.12.0');
     assert.deepEqual(installedManifest.dependencies, {'strong-type': '2.0.0'});
-    assert.deepEqual(installedManifest.devDependencies, {'vanilla-test': '2.1.1'});
+    assert.deepEqual(installedManifest.devDependencies, {
+        '@rollup/plugin-node-resolve': '16.0.3',
+        'rollup': '4.62.5',
+        'vanilla-test': '2.1.1'
+    });
 
     const rootStrongType = join(consumer, 'node_modules', 'strong-type');
     const nestedStrongType = join(installed, 'node_modules', 'strong-type');
@@ -78,6 +82,8 @@ try {
     assert.equal(JSON.parse(readFileSync(join(nestedStrongType, 'package.json'), 'utf8')).version, '2.0.0');
     assert.notEqual(realpathSync(rootStrongType), realpathSync(nestedStrongType));
     assert.equal(existsSync(join(consumer, 'node_modules', 'vanilla-test')), false);
+    assert.equal(existsSync(join(consumer, 'node_modules', 'rollup')), false);
+    assert.equal(existsSync(join(consumer, 'node_modules', '@rollup', 'plugin-node-resolve')), false);
     for (const repositoryOnly of ['site', 'test', 'scripts', 'benchmark', 'coverage', '.github']) {
         assert.equal(existsSync(join(installed, repositoryOnly)), false);
     }

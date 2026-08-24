@@ -80,6 +80,11 @@ jobs:
           CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
         run: npm run coverage -- --chrome-path "$CHROME_PATH"
 
+      - name: Exercise packed bundled and unbundled browser consumers
+        env:
+          CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
+        run: npm run test:browser-consumer
+
       - name: Upload independent runtime reports
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

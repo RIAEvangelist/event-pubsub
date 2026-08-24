@@ -22,7 +22,9 @@
 [![Chrome function ranges](https://img.shields.io/endpoint?url=https://riaevangelist.github.io/event-pubsub/badges/chrome-functions.json)](https://riaevangelist.github.io/event-pubsub/reports/chrome/)
 [![Chrome executable lines](https://img.shields.io/endpoint?url=https://riaevangelist.github.io/event-pubsub/badges/chrome-lines.json)](https://riaevangelist.github.io/event-pubsub/reports/chrome/)
 
-Small, synchronous, extensible publish/subscribe events for modern Node.js and browsers.
+Small, synchronous, extensible publish/subscribe events for Node.js plus bundled and unbundled browsers.
+
+**It works with bundlers and without a bundler.** Both paths execute the same native ESM source; direct browser use needs only a standard import map, not a build or transpilation step.
 
 > **Release status:** `6.1.0` remains the current npm and GitHub release. `main` prepares the `6.1.1` corrective package; immutable publication is pending an authenticated npm publisher session.
 
@@ -44,6 +46,8 @@ events.on('ready', (payload) => {
 events.emit('ready', {fast: true});
 ```
 
+That bare import is also the bundler entry. In a native browser application with no bundler, keep the same import and add the complete [import map shown below](#browser-use-bundled-and-unbundled).
+
 The same source is available directly to CommonJS on Node.js 22.12 or newer:
 
 ```js
@@ -64,7 +68,7 @@ Bars show median nanoseconds per emit, whiskers show p25–p75, and dots show al
 - Subscriber arrays remain live during an emit: additions can run in that emit, and specifically removed handlers are skipped before their turn. Removing a whole bucket or resetting the registry detaches it from future lookup while an already-active array finishes.
 - Safe event names, including `__proto__`, `constructor`, and `toString`.
 - Isolated `list` snapshots that cannot mutate the live registry.
-- One native ESM source for browser imports plus Node.js `import` and `require()`, without transpilation or a duplicate CommonJS build.
+- One native ESM source for Node.js `import`/`require()`, bundled browser applications, and unbundled browser modules, without transpilation or a duplicate build.
 - One explicit production validator: `strong-type` 2.0.0, resolved through the package dependency boundary with an explicit browser entry and import map.
 
 ## API
@@ -96,9 +100,12 @@ The wildcard list entry is exposed at `Symbol.for('event-pubsub-all')`.
 
 Only the exact public string `*` maps to the internal wildcard Symbol. The ordinary string `Symbol(event-pubsub-all)` remains an exact typed event name and never aliases wildcard removal.
 
-### Browser import map
+### Browser use: bundled and unbundled
 
-The prepared 6.1.1 package declares `index.js` as its explicit browser entry and imports `strong-type` by package name. Bundlers resolve that dependency normally. Unbundled browsers need both bare names in an import map; for the usual hoisted install:
+The prepared 6.1.1 package imports `strong-type` by package name. Bundlers may use its explicit `browser` entry; native browsers do not read npm package metadata, so the import map selects `index.js` directly.
+
+- With a standards-compatible bundler, both package names resolve normally. The release gate bundles and executes a packed conflicting-dependency consumer with Rollup 4.62.5 and node-resolve 16.0.3, configured only for JavaScript.
+- Without a bundler, a modern browser runs the same files directly through native ESM. Put this import map before the first module script that starts the graph and serve the directory over HTTP(S):
 
 ```html
 <script type="importmap">
@@ -113,6 +120,10 @@ The prepared 6.1.1 package declares `index.js` as its explicit browser entry and
   import EventPubSub from 'event-pubsub';
 </script>
 ```
+
+That example is non-bundled browser code: the browser fetches both files from the mapped URLs and executes them directly. The paths are relative to the HTML document, so the static server must expose the shown `node_modules` files. Open the application through HTTP(S), not `file://`.
+
+If the application uses a strict Content Security Policy, configure it to authorize the inline import-map and module scripts—for example, with an allowed nonce or hash.
 
 If the application intentionally installs an incompatible `strong-type` at its root, npm keeps event-pubsub's exact 2.0.0 dependency nested. Scope the validator mapping to the event-pubsub referrer so the browser preserves that same dependency boundary:
 
@@ -132,7 +143,7 @@ If the application intentionally installs an incompatible `strong-type` at its r
 </script>
 ```
 
-Adjust the URLs to the package layout exposed by your static server.
+Adjust the URLs to the package layout exposed by your static server. The release gate installs the packed tarball twice and executes both maps in real Chrome; the conflict fixture poisons the root validator so the scoped nested mapping cannot pass accidentally.
 
 ## Complete verification summary
 
@@ -156,6 +167,8 @@ The shared host-neutral registry contains **131 unique checks**. `vanilla-test` 
 | Node coverage | Node 24.18.0 | Ubuntu | 131/131 and every native V8 gate at 100% |
 | Browser coverage | Google Chrome Stable | Ubuntu | 131/131 and every native V8 gate at 100% |
 | Packed consumer | Node 24 | Ubuntu | Exact tarball contents plus ESM/CommonJS execution of nested `strong-type` 2.0.0 under a poisoned root conflict |
+| Packed unbundled browser | Chrome Stable | Ubuntu and local release host | Normal and scoped-conflict import maps execute the tarball directly over HTTP |
+| Packed bundled browser | Rollup 4.62.5 + Chrome Stable | Ubuntu and local release host | A bundle resolves nested `strong-type` 2.0.0 and runs representative behavior under a poisoned root conflict |
 | Shared-source package smoke | Node 22.12.0 | Ubuntu | The same packed `index.js` through ESM `import` and direct CommonJS `require()` |
 | Execution benchmark | Node 24.18.0 | Ubuntu | Eight validated scenarios with execution-only timing boundaries |
 | GitHub Pages | Node 24 | Ubuntu | 22 pages, both runtime reports, badges, benchmark JSON, scripts, links, and licenses |
@@ -186,6 +199,7 @@ These are native V8 executable/block/function range and executable-line totals f
 | `npm run benchmark` | Record seven fixed-count latency samples for eight scenarios. |
 | `npm run benchmark:smoke` | Validate the benchmark quickly without replacing published results. |
 | `npm run test:package` | Pack, inspect, install, and exercise a clean consumer. |
+| `npm run test:browser-consumer` | Pack and execute normal-map, scoped-conflict-map, and Rollup browser consumers in real Chrome. |
 | `npm run site:check` | Validate all focused pages, exact test inventories, scripts, links, forms, and assets. |
 | `npm run verify` | Run the complete local release gate. |
 
@@ -397,7 +411,8 @@ The benchmark reports median **execution latency**—nanoseconds per named opera
 ## Runtime support
 
 - Node.js 22.12.0 or newer for production, development, and direct CommonJS `require()` of the native ESM source.
-- Modern browsers with native modules, private class fields, `Symbol`, and import maps. Unbundled use must map both `event-pubsub` and its bare `strong-type` dependency, with a scoped mapping when the validator is nested.
+- Bundled browser applications; the bundler resolves `event-pubsub` and `strong-type` from package metadata normally.
+- Unbundled modern browsers with native modules, private class fields, `Symbol`, and import maps; no build step is required. Map both package names, with a scoped validator mapping when npm nests it.
 
 ## License
 

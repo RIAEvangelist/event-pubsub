@@ -15,6 +15,10 @@
     </ul></nav></div></header>
     <main id="main" class="shell">
         <header class="page-hero"><div><p class="eyebrow">Examples</p><h1>Small patterns.<br><span class="accent">Clear ownership.</span></h1><p class="lede">Each example isolates one practical behavior. Combine them only where the application boundary calls for it.</p></div></header>
+        <section class="section"><div class="callout"><strong>Load once, with a bundler or without one.</strong><p>A bundler resolves the bare import normally. For a non-bundled app, serve the installed files over HTTP(S) and put this map before the first module script:</p><pre><code>&lt;script type="importmap"&gt;
+{"imports":{"event-pubsub":"./node_modules/event-pubsub/index.js","strong-type":"./node_modules/strong-type/index.js"}}
+&lt;/script&gt;
+&lt;script type="module"&gt;import EventPubSub from 'event-pubsub';&lt;/script&gt;</code></pre><p>If the app uses a strict CSP, authorize the inline import-map and module scripts with an allowed nonce or hash.</p></div></section>
         <section class="section"><div class="grid two">
             <article class="code-card"><h2>Typed event</h2><pre><code>const events = new EventPubSub();
 

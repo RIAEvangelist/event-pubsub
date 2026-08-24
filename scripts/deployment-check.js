@@ -23,7 +23,7 @@ const required = [
     '.nojekyll', 'licence', 'styles.css', 'script.js', 'playground.js', 'playground-core.js',
     'playground-scenarios.js', 'live.js', 'benchmark-data.js', 'benchmark-charts.js',
     'benchmark-summary.svg', 'og.png',
-    'module/index.js', 'module/test/CI.js', 'module/test/assertions.js',
+    'module/index.js', 'module/test/CI.js', 'module/test/assertions.js', 'module/test/package-entry.js',
     'module/test/unit.js', 'module/test/functional.js', 'module/test/integration.js',
     'module/test/behavioral.js', 'module/test/regression.js', 'module/test/interface.js',
     'module/site/playground-core.js', 'module/site/benchmark-data.js', 'strong-type/index.js',
@@ -51,9 +51,17 @@ for (const file of required) {
 for (const page of ['playground.html', 'playground-scenarios.html', 'live.html']) {
     assert.match(
         readFileSync(resolve(output, page), 'utf8'),
-        /<script type="importmap">[^<]*"strong-type":"\.\/strong-type\/index\.js"[^<]*<\/script>/,
-        `${page} must map the bare strong-type browser dependency`
+        /<script type="importmap">[^<]*"event-pubsub":"\.\/module\/index\.js","strong-type":"\.\/strong-type\/index\.js"[^<]*<\/script>/,
+        `${page} must map the bare event-pubsub entry and strong-type dependency`
     );
+}
+
+const visibleBrowserContract = /&lt;script type="importmap"&gt;\s*\{"imports":\{"event-pubsub":"\.\/node_modules\/event-pubsub\/index\.js","strong-type":"\.\/node_modules\/strong-type\/index\.js"\}\}\s*&lt;\/script&gt;/;
+for (const page of [
+    'index.html', 'guide.html', 'examples.html', 'playground.html', 'playground-scenarios.html',
+    'testing.html', 'live.html', 'coverage.html', 'migration.html'
+]) {
+    assert.match(readFileSync(resolve(output, page), 'utf8'), visibleBrowserContract, `${page} must visibly document the non-bundled import-map script`);
 }
 
 const status = JSON.parse(readFileSync(resolve(output, 'data/status.json'), 'utf8'));

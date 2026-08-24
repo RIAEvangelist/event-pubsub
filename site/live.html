@@ -7,7 +7,7 @@
     <meta property="og:title" content="Live browser test · event-pubsub"><meta property="og:description" content="Run the same 131 checks used by Node and Chrome coverage.">
     <meta property="og:image" content="https://riaevangelist.github.io/event-pubsub/og.png"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image">
     <title>Live browser test · event-pubsub</title><link rel="stylesheet" href="./styles.css">
-    <script type="importmap">{"imports":{"strong-type":"./strong-type/index.js","vanilla-test":"./vendor/vanilla-test/index.js","ansi-colors-es6":"./vendor/ansi-colors-es6/index.js"}}</script>
+    <script type="importmap">{"imports":{"event-pubsub":"./module/index.js","strong-type":"./strong-type/index.js","vanilla-test":"./vendor/vanilla-test/index.js","ansi-colors-es6":"./vendor/ansi-colors-es6/index.js"}}</script>
 </head>
 <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -18,7 +18,9 @@
         <header class="page-hero"><div><p class="eyebrow">Live browser verification</p><h1 id="live-title">Running all <span class="accent">131 checks…</span></h1><p class="lede">This page imports the repository source and the same host-neutral registry used by Node and Chrome coverage. Open DevTools to inspect the vanilla-test report.</p></div></header>
         <section class="section result-panel" aria-live="polite"><div class="result-head"><div><p class="eyebrow">Current browser result</p><h2>Shared-suite score</h2></div><span class="score" id="live-score">—</span></div></section>
         <section class="section"><div class="grid three" id="live-categories"><article class="card"><h2>Loading</h2><p>The shared suite is executing sequentially.</p></article></div></section>
-        <section class="section"><div class="callout"><strong>A live run is evidence, not the published CI record.</strong><p>The coverage page links gated Node and Chrome result artifacts rebuilt by each successful Pages deployment. This page confirms the deployed source in your current browser.</p></div><div class="actions"><a class="button" href="./testing.html">Test strategy</a><a class="button primary" href="./coverage.html">Published coverage</a></div></section>
+        <section class="section"><div class="callout"><strong>This suite resolves the public bare name without a bundler.</strong><p>The page head maps <code>event-pubsub</code> plus its browser-reachable dependencies. A normal installed app needs this two-entry map before the first module script:</p><pre><code>&lt;script type="importmap"&gt;
+{"imports":{"event-pubsub":"./node_modules/event-pubsub/index.js","strong-type":"./node_modules/strong-type/index.js"}}
+&lt;/script&gt;</code></pre><p>If the app uses a strict CSP, authorize the inline import-map script with an allowed nonce or hash.</p><p>The coverage page links gated Node and Chrome artifacts; this page confirms the deployed source in your current browser.</p></div><div class="actions"><a class="button" href="./testing.html">Test strategy</a><a class="button primary" href="./coverage.html">Published coverage</a></div></section>
     </main>
     <footer class="site-footer"><div class="shell footer-row"><span>Shared registry · real browser execution</span><nav class="footer-links" aria-label="Resource navigation"><a href="./tests-unit.html">Unit</a><a href="./tests-functional.html">Functional</a><a href="./tests-integration.html">Integration</a><a href="./tests-behavioral.html">Behavioral</a><a href="./tests-regression.html">Regression</a><a href="./tests-interface.html">Interface</a><a href="./licence">License</a></nav></div></footer>
     <script src="./script.js"></script><script type="module" src="./live.js"></script>

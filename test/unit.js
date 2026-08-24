@@ -1,4 +1,4 @@
-import EventPubSub, {EventPubSub as NamedEventPubSub} from '../index.js';
+import EventPubSub, {EventPubSub as NamedEventPubSub} from './package-entry.js';
 import {assert, equal, throws} from './assertions.js';
 
 const noop = () => {};

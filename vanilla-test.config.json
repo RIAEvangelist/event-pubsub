@@ -18,6 +18,7 @@
       "test-runtime/event-pubsub/index.js"
     ],
     "imports": {
+      "event-pubsub": "./test-runtime/event-pubsub/index.js",
       "strong-type": "./test-runtime/event-pubsub/node_modules/strong-type/index.js"
     },
     "headless": true,

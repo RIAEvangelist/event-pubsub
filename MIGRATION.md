@@ -57,11 +57,12 @@ Each `list` access creates a null-prototype object with copied handler arrays. M
 
 The 6.1.0 entry reached `strong-type` through `../strong-type/index.js`. In a consumer with an incompatible root validator and event-pubsub's exact 2.0.0 nested beneath it, that relative path could execute the root package. The prepared 6.1.1 entry uses the bare `strong-type` name, so Node and bundlers resolve from event-pubsub outward and select its nested declared dependency first.
 
-Unbundled browsers must map both `event-pubsub` and `strong-type`. When npm nests event-pubsub's validator because the root version conflicts, add an import-map scope for `./node_modules/event-pubsub/` that maps `strong-type` to `./node_modules/event-pubsub/node_modules/strong-type/index.js`. The README contains complete hoisted and conflicting-layout examples.
+Browser support is explicit in both modes: bundlers resolve both package names normally, while unbundled native ESM runs the same source directly with an import map and no build step. Native browsers do not read the npm `browser` field. Put the map before the first module script, serve the app over HTTP(S), and map both `event-pubsub` and `strong-type`. When npm nests event-pubsub's validator because the root version conflicts, add an import-map scope for `./node_modules/event-pubsub/` that maps `strong-type` to `./node_modules/event-pubsub/node_modules/strong-type/index.js`. The README contains complete hoisted and conflicting-layout examples, both exercised from a packed install in real Chrome.
 
 ## Tooling cleanup
 
 - `vanilla-test` is now pinned exactly at 2.1.1.
+- Rollup 4.62.5 with node-resolve 16.0.3 is exact-pinned and configured only for JavaScript as the bundled-browser conformance probe.
 - Native Node and Chrome coverage replaces c8.
 - The old `copyfiles` dependency is gone; a dependency-free staging script now verifies the nested exact dependency in Node and maps that same copy for browser coverage.
 - `copyfiles`, `c8`, and the test-only `node-http-server` dependency are removed.

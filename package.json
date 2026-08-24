@@ -1,7 +1,7 @@
 {
   "name": "event-pubsub",
   "version": "6.1.1",
-  "description": "Small, synchronous, extensible publish/subscribe events for modern Node.js and browsers.",
+  "description": "Small, synchronous publish/subscribe events for Node.js plus bundled and unbundled browsers.",
   "type": "module",
   "main": "./index.js",
   "browser": "./index.js",
@@ -25,11 +25,12 @@
     "benchmark:chart": "node ./scripts/benchmark-chart.js",
     "benchmark:chart:check": "node ./scripts/benchmark-chart.js --check",
     "test:package": "node ./scripts/package-smoke.js",
+    "test:browser-consumer": "node ./scripts/browser-consumer-smoke.js",
     "site:check": "npm run stage && npm run benchmark:chart:check && node ./scripts/site-check.js",
     "site:assemble": "node ./scripts/assemble-site.js _site",
     "site:deployment-check": "node ./scripts/deployment-check.js _site",
     "start": "node ./scripts/serve.js",
-    "verify": "npm test && npm run coverage && npm run benchmark:smoke && npm run test:package && npm run site:check && npm run site:assemble && npm run site:deployment-check"
+    "verify": "npm test && npm run coverage && npm run benchmark:smoke && npm run test:package && npm run test:browser-consumer && npm run site:check && npm run site:assemble && npm run site:deployment-check"
   },
   "repository": {
     "type": "git",
@@ -48,7 +49,9 @@
     "event-emitter",
     "node",
     "browser",
-    "esm"
+    "esm",
+    "import-map",
+    "unbundled"
   ],
   "author": "Brandon Nozaki Miller",
   "license": "MIT",
@@ -56,6 +59,8 @@
     "strong-type": "2.0.0"
   },
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "16.0.3",
+    "rollup": "4.62.5",
     "vanilla-test": "2.1.1"
   }
 }

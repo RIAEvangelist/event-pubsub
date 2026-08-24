@@ -4,6 +4,7 @@ import {existsSync, readFileSync, readdirSync, statSync} from 'node:fs';
 import {extname, resolve} from 'node:path';
 import {categories} from '../test-runtime/event-pubsub/test/CI.js';
 import {validateBenchmark} from '../site/benchmark-data.js';
+import {conflictConsumerImportMap, normalConsumerImportMap} from './browser-contract.js';
 import {createStatus} from './site-data.js';
 
 const siteRoot = resolve(import.meta.dirname, '../site');
@@ -104,6 +105,14 @@ for (const category of categories) {
 
 const readme = readFileSync(resolve(projectRoot, 'README.md'), 'utf8');
 assert.match(readme, /131 unique checks/i);
+assert.match(readme, /works with bundlers and without a bundler/i);
+assert.match(readme, /That example is non-bundled browser code/i);
+assert.match(readme, /before the first module script/i);
+assert.match(readme, /native browsers do not read npm package metadata/i);
+assert.match(readme, /strict Content Security Policy[\s\S]*nonce or hash/i);
+const documentedImportMaps = [...readme.matchAll(/<script type="importmap">\s*([\s\S]*?)\s*<\/script>/g)]
+    .map((match) => JSON.parse(match[1]));
+assert.deepEqual(documentedImportMaps.slice(0, 2), [normalConsumerImportMap, conflictConsumerImportMap]);
 for (const category of categories) {
     const details = readme.match(new RegExp(
         `<summary><strong>${category.name} — ${category.tests.length} (?:cases|scenarios)<\\/strong><\\/summary>\\s*([\\s\\S]*?)<\\/details>`
@@ -121,10 +130,22 @@ for (const category of categories) {
 for (const page of ['playground.html', 'playground-scenarios.html', 'live.html']) {
     assert.match(
         htmlByPage.get(page),
-        /<script type="importmap">[^<]*"strong-type":"\.\/strong-type\/index\.js"[^<]*<\/script>/,
-        `${page} must map the bare strong-type browser dependency`
+        /<script type="importmap">[^<]*"event-pubsub":"\.\/module\/index\.js","strong-type":"\.\/strong-type\/index\.js"[^<]*<\/script>/,
+        `${page} must map the bare event-pubsub entry and strong-type dependency`
     );
 }
+
+const visibleBrowserContract = /&lt;script type="importmap"&gt;\s*\{"imports":\{"event-pubsub":"\.\/node_modules\/event-pubsub\/index\.js","strong-type":"\.\/node_modules\/strong-type\/index\.js"\}\}\s*&lt;\/script&gt;/;
+for (const page of [
+    'index.html', 'guide.html', 'examples.html', 'playground.html', 'playground-scenarios.html',
+    'testing.html', 'live.html', 'coverage.html', 'migration.html'
+]) {
+    assert.match(htmlByPage.get(page), visibleBrowserContract, `${page} must visibly document the non-bundled import-map script`);
+    assert.match(htmlByPage.get(page), /strict CSP[\s\S]*nonce or hash/i, `${page} must explain strict-CSP authorization for inline browser scripts`);
+}
+assert.match(readFileSync(resolve(siteRoot, 'playground.js'), 'utf8'), /from 'event-pubsub'/);
+assert.match(readFileSync(resolve(siteRoot, 'playground-scenarios.js'), 'utf8'), /from 'event-pubsub'/);
+assert.match(readFileSync(resolve(projectRoot, 'test', 'package-entry.js'), 'utf8'), /: 'event-pubsub'/);
 
 assert.match(htmlByPage.get('coverage.html'), /Node coverage/);
 assert.match(htmlByPage.get('coverage.html'), /Chrome coverage/);
@@ -142,6 +163,8 @@ assert.match(playground, /role="log"/);
 assert.match(playground, /role="status"/);
 assert.doesNotMatch(playground, /\son[a-z]+=/i, 'playground.html must not use inline event handlers');
 assert.match(htmlByPage.get('migration.html'), /5\.x → 6\.x/);
+assert.match(htmlByPage.get('index.html'), /bundled browser applications, and unbundled native ESM/i);
+assert.match(htmlByPage.get('guide.html'), /works with a bundler and without one/i);
 assert.match(htmlByPage.get('security.html'), /security\/advisories\/new/);
 assert.match(htmlByPage.get('changelog.html'), /6\.0\.0 · 2026-08-21/);
 assert.match(htmlByPage.get('changelog.html'), /5\.0\.3 · 2020-11-26/);

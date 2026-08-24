@@ -7,7 +7,7 @@
     <meta property="og:title" content="Playground scenarios · event-pubsub"><meta property="og:description" content="Inspect expected and actual event order for difficult synchronous dispatch cases.">
     <meta property="og:image" content="https://riaevangelist.github.io/event-pubsub/og.png"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image">
     <title>Playground scenarios · event-pubsub</title><link rel="stylesheet" href="./styles.css">
-    <script type="importmap">{"imports":{"strong-type":"./strong-type/index.js"}}</script>
+    <script type="importmap">{"imports":{"event-pubsub":"./module/index.js","strong-type":"./strong-type/index.js"}}</script>
 </head>
 <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -24,6 +24,9 @@
             <article class="scenario-card" data-scenario="reset-during"><h2>Reset during dispatch</h2><p>Reset replaces the registry. The active wildcard array finishes, then the old typed bucket is no longer found.</p><p><strong>Expected:</strong> <code>wildcard-reset → late-wildcard</code></p><button class="button primary" type="button" data-run-scenario>Run</button><output aria-live="polite">Not run.</output></article>
             <article class="scenario-card" data-scenario="sync-throw"><h2>Synchronous throw</h2><p>A synchronous handler error propagates and stops later handlers.</p><p><strong>Expected:</strong> <code>first → caught:expected</code></p><button class="button primary" type="button" data-run-scenario>Run</button><output aria-live="polite">Not run.</output></article>
         </section>
+        <section class="section"><div class="callout"><strong>These scenarios run without a bundler.</strong><p>The page resolves the same bare package names through an import map. For an installed app, put this map before the first module script and serve the mapped files over HTTP(S):</p><pre><code>&lt;script type="importmap"&gt;
+{"imports":{"event-pubsub":"./node_modules/event-pubsub/index.js","strong-type":"./node_modules/strong-type/index.js"}}
+&lt;/script&gt;</code></pre><p>If the app uses a strict CSP, authorize the inline import-map script with an allowed nonce or hash.</p></div></section>
         <section class="section"><div class="actions"><button class="button" id="run-all-scenarios" type="button">Run every scenario</button><a class="button primary" href="./playground.html">Open event console</a><a class="button" href="./tests-regression.html">Regression inventory</a></div></section>
     </main>
     <footer class="site-footer"><div class="shell footer-row"><span>Fresh emitter per run · expected versus actual</span><nav class="footer-links" aria-label="Resource navigation"><a href="./playground.html">Event console</a><a href="./testing.html">Tests</a><a href="./tests-regression.html">Regression</a><a href="./coverage.html">Coverage</a><a href="./licence">License</a></nav></div></footer>

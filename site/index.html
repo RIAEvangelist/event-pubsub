@@ -28,9 +28,9 @@
     <main id="main">
         <section class="shell hero">
             <div>
-                <p class="eyebrow">One native module · import + require · synchronous</p>
+                <p class="eyebrow">Node · bundled + unbundled browser · synchronous</p>
                 <h1>Fast events.<br><span class="accent">No ceremony.</span></h1>
-                <p class="lede">One small publish/subscribe class for Node.js and the browser, with predictable wildcard ordering, fluent methods, and no build step.</p>
+                <p class="lede">One small publish/subscribe class for Node.js, bundled browser applications, and unbundled native ESM—with predictable wildcard ordering, fluent methods, and no required build step.</p>
                 <div class="command"><code id="install-command">npm install event-pubsub</code><button class="button copy-button" type="button" data-copy="#install-command">Copy</button></div>
                 <p class="release-note"><strong>Release status:</strong> 6.1.0 remains the current npm and GitHub release. The 6.1.1 corrective package is prepared on <code>main</code> and awaits an authenticated npm publisher session.</p>
                 <div class="actions"><a class="button primary" href="./guide.html">Start with the guide</a><a class="button" href="./playground.html">Try the live playground</a></div>
@@ -57,7 +57,11 @@
         </section>
         <section class="shell section">
             <div class="grid two">
-                <div class="code-card"><pre><code>import EventPubSub from 'event-pubsub';
+                <div class="code-card"><h2>Without a bundler</h2><p>The prepared 6.1.1 source runs directly as native browser ESM. Put the map before the first module script and serve the installed files over HTTP(S).</p><pre><code>&lt;script type="importmap"&gt;
+{"imports":{"event-pubsub":"./node_modules/event-pubsub/index.js","strong-type":"./node_modules/strong-type/index.js"}}
+&lt;/script&gt;
+&lt;script type="module"&gt;
+import EventPubSub from 'event-pubsub';
 
 const events = new EventPubSub();
 
@@ -65,7 +69,8 @@ events.on('ready', (payload) =&gt; {
     console.log(payload);
 });
 
-events.emit('ready', { fast: true });</code></pre></div>
+events.emit('ready', { fast: true });
+&lt;/script&gt;</code></pre><p>If the app uses a strict CSP, authorize the inline import-map and module scripts with an allowed nonce or hash.</p></div>
                 <div><p class="eyebrow">Quality is inspectable</p><h2>Tests, coverage, and speed are public artifacts.</h2><p class="lede">The same shared suite runs in Node and real Chrome. Independent coverage reports, normalized results, package smoke tests, and execution-latency charts ship with the Pages deployment.</p><div class="actions"><a class="button" href="./testing.html">Explore 131 checks</a><a class="button" href="./coverage.html">Open coverage</a><a class="button" href="./benchmarks.html">Review latency</a></div></div>
             </div>
         </section>
