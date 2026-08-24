@@ -32,7 +32,7 @@
                 <h1>Fast events.<br><span class="accent">No ceremony.</span></h1>
                 <p class="lede">One small publish/subscribe class for Node.js, bundled browser applications, and unbundled native ESM—with predictable wildcard ordering, fluent methods, and no required build step.</p>
                 <div class="command"><code id="install-command">npm install event-pubsub</code><button class="button copy-button" type="button" data-copy="#install-command">Copy</button></div>
-                <p class="release-note"><strong>Release status:</strong> 6.1.0 remains the current npm and GitHub release. The 6.1.1 corrective package is prepared on <code>main</code> and awaits an authenticated npm publisher session.</p>
+                <p class="release-note"><strong>Release status:</strong> 6.1.1 is the current npm and GitHub release.</p>
                 <div class="actions"><a class="button primary" href="./guide.html">Start with the guide</a><a class="button" href="./playground.html">Try the live playground</a></div>
             </div>
             <div class="signal-card" role="img" aria-label="One published event fans out to several subscribers">
@@ -57,7 +57,7 @@
         </section>
         <section class="shell section">
             <div class="grid two">
-                <div class="code-card"><h2>Without a bundler</h2><p>The prepared 6.1.1 source runs directly as native browser ESM. Put the map before the first module script and serve the installed files over HTTP(S).</p><pre><code>&lt;script type="importmap"&gt;
+                <div class="code-card"><h2>Without a bundler</h2><p>The 6.1.1 source runs directly as native browser ESM. Put the map before the first module script and serve the installed files over HTTP(S).</p><pre><code>&lt;script type="importmap"&gt;
 {"imports":{"event-pubsub":"./node_modules/event-pubsub/index.js","strong-type":"./node_modules/strong-type/index.js"}}
 &lt;/script&gt;
 &lt;script type="module"&gt;

@@ -26,7 +26,7 @@ Small, synchronous, extensible publish/subscribe events for Node.js plus bundled
 
 **It works with bundlers and without a bundler.** Both paths execute the same native ESM source; direct browser use needs only a standard import map, not a build or transpilation step.
 
-> **Release status:** `6.1.0` remains the current npm and GitHub release. `main` prepares the `6.1.1` corrective package; immutable publication is pending an authenticated npm publisher session.
+> **Release status:** `6.1.1` is the current npm and GitHub release.
 
 ![event-pubsub signal fan-out](https://riaevangelist.github.io/event-pubsub/og.png)
 
@@ -102,7 +102,7 @@ Only the exact public string `*` maps to the internal wildcard Symbol. The ordin
 
 ### Browser use: bundled and unbundled
 
-The prepared 6.1.1 package imports `strong-type` by package name. Bundlers may use its explicit `browser` entry; native browsers do not read npm package metadata, so the import map selects `index.js` directly.
+The 6.1.1 package imports `strong-type` by package name. Bundlers may use its explicit `browser` entry; native browsers do not read npm package metadata, so the import map selects `index.js` directly.
 
 - With a standards-compatible bundler, both package names resolve normally. The release gate bundles and executes a packed conflicting-dependency consumer with Rollup 4.62.5 and node-resolve 16.0.3, configured only for JavaScript.
 - Without a bundler, a modern browser runs the same files directly through native ESM. Put this import map before the first module script that starts the graph and serve the directory over HTTP(S):

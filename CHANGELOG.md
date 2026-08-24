@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased — 6.1.1 candidate
+## 6.1.1 — 2026-08-23
 
 - Replaced the consumer-root-relative `../strong-type/index.js` import with the bare `strong-type` package name so Node selects event-pubsub's declared nested exact dependency under a root version conflict.
 - Declared the shared `index.js` source as the explicit browser entry and made bundled plus no-build unbundled support explicit, including normal and conflict-scoped import maps.
@@ -13,7 +13,7 @@
 
 ## 6.1.0 — 2026-08-21
 
-Published to npm and GitHub from the same verified source commit as the current release.
+Published to npm and GitHub from the same verified source commit.
 
 - Added direct CommonJS `require('event-pubsub')` support while keeping one native ESM implementation for both module systems.
 

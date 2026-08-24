@@ -4,7 +4,7 @@
     <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="event-pubsub release history, modernization details, test expansion, coverage, benchmarks, and Pages changes.">
     <meta name="theme-color" content="#050914"><link rel="canonical" href="https://riaevangelist.github.io/event-pubsub/changelog.html">
-    <meta property="og:title" content="Changelog · event-pubsub"><meta property="og:description" content="The prepared event-pubsub 6.1.1 correction and earlier releases.">
+    <meta property="og:title" content="Changelog · event-pubsub"><meta property="og:description" content="The event-pubsub 6.1.1 correction and earlier releases.">
     <meta property="og:image" content="https://riaevangelist.github.io/event-pubsub/og.png"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image">
     <title>Changelog · event-pubsub</title><link rel="stylesheet" href="./styles.css">
 </head>
@@ -15,11 +15,11 @@
     </ul></nav></div></header>
     <main id="main" class="shell">
         <header class="page-hero"><div><p class="eyebrow">Changelog</p><h1>A smaller core with <span class="accent">stronger evidence.</span></h1><p class="lede">Release notes keep GitHub source and npm registry milestones explicit while migration guidance stays on its own focused page.</p></div></header>
-        <section class="section"><article class="card"><p class="eyebrow">Unreleased · 6.1.1 candidate</p><h2>Honor the declared validator dependency under consumer conflicts</h2><p>The prepared package resolves <code>strong-type</code> through the package boundary while preserving one Node/browser source.</p><div class="grid two">
+        <section class="section"><article class="card"><p class="eyebrow">6.1.1 · 2026-08-23</p><h2>Honor the declared validator dependency under consumer conflicts</h2><p>The release resolves <code>strong-type</code> through the package boundary while preserving one Node/browser source.</p><div class="grid two">
             <div><h3>Resolution</h3><ul><li>Bare <code>strong-type</code> import selects event-pubsub's nested exact 2.0.0 before a conflicting consumer root.</li><li>Bundlers may use the explicit browser entry; native browsers select the same source through an import map.</li><li>Unbundled native ESM requires no build step, with normal and scoped-conflict maps documented.</li></ul></div>
             <div><h3>Evidence</h3><ul><li>Packed Node consumers poison root <code>strong-type</code> 1.1.0 and prove nested 2.0.0 executes through ESM and CommonJS.</li><li>Packed real-Chrome consumers execute both maps, and Rollup 4.62.5 with node-resolve 16.0.3 bundles the same conflict fixture.</li><li>131 shared checks include 12 Given/When/Then workflows resolved through the bare package map in Chrome.</li></ul></div>
         </div></article></section>
-        <section class="section"><article class="card"><p class="eyebrow">6.1.0 · 2026-08-21</p><h2>Restore the original package contract and share one source across module systems</h2><p>Published to npm and GitHub from the same verified source commit as the current release.</p><div class="grid two">
+        <section class="section"><article class="card"><p class="eyebrow">6.1.0 · 2026-08-21</p><h2>Restore the original package contract and share one source across module systems</h2><p>Published to npm and GitHub from the same verified source commit.</p><div class="grid two">
             <div><h3>Runtime</h3><ul><li>Direct CommonJS <code>require()</code> and ESM <code>import</code> load the same source on Node 22.12+.</li><li><code>strong-type</code> 2.0.0 restored as the sole production dependency.</li><li>Original sibling-package <code>../strong-type/index.js</code> shim preserved.</li><li>One unified null-prototype registry with its wildcard under the real Symbol key.</li><li>Per-registration <code>{handler, once}</code> state without mutating user functions.</li><li>Live dispatch arrays, linear duplicate removal, and constant-time reset.</li><li>Delegated validation restored; invalid-input <code>TypeError</code> text can differ from 6.0.0.</li></ul></div>
             <div><h3>Evidence</h3><ul><li>119 unique checks across five focused suites.</li><li>Node and real-Chrome execution from a package-shaped staged tree.</li><li>Packed ESM/CommonJS parity smoke at the exact Node 22.12.0 floor.</li><li><code>copyfiles</code> remains absent.</li></ul></div>
         </div></article></section>

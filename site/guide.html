@@ -16,7 +16,7 @@
     <main id="main" class="shell">
         <header class="page-hero"><div><p class="eyebrow">Guide</p><h1>From install to <span class="accent">event flow.</span></h1><p class="lede">The runtime is intentionally small. This page covers the complete mental model; detailed signatures live on the API page.</p></div></header>
         <section class="section"><ol class="steps">
-            <li><h2>Install</h2><div class="command"><code id="guide-install">npm install event-pubsub</code><button class="button copy-button" type="button" data-copy="#guide-install">Copy</button></div><p>This installs the current npm release, 6.1.0, on Node.js 22.12 or newer.</p></li>
+            <li><h2>Install</h2><div class="command"><code id="guide-install">npm install event-pubsub</code><button class="button copy-button" type="button" data-copy="#guide-install">Copy</button></div><p>This installs the current npm release, 6.1.1, on Node.js 22.12 or newer.</p></li>
             <li><h2>Create one event hub per boundary</h2><pre><code>import EventPubSub from 'event-pubsub';
 const events = new EventPubSub();</code></pre><p>CommonJS on Node.js 22.12 or newer loads the same source with <code>const EventPubSub = require('event-pubsub');</code>.</p></li>
             <li><h2>Register before publishing</h2><pre><code>events.on('message.received', handleMessage);
@@ -30,7 +30,7 @@ events.reset();</code></pre></li>
             <article class="card"><h3>Live iteration</h3><p>Subscribers appended to the active array can run in the same emit. Specifically removed handlers are skipped before their turn; removing a whole bucket detaches it from future lookup while an already-active array finishes.</p></article>
             <article class="card"><h3>Once before call</h3><p>One-shot records are removed before invocation, preventing repeat calls during reentrant emits or after a thrown error.</p></article>
         </div></section>
-        <section class="section"><div class="callout"><strong>The prepared 6.1.1 package works with a bundler and without one.</strong><p>Bundlers resolve both package names normally and may use the package's browser entry. Native browsers do not read that field; without a bundler, they execute the same ESM files directly—no build or transpilation step—when this import map appears before the first module script:</p><pre><code>&lt;script type="importmap"&gt;
+        <section class="section"><div class="callout"><strong>The 6.1.1 package works with a bundler and without one.</strong><p>Bundlers resolve both package names normally and may use the package's browser entry. Native browsers do not read that field; without a bundler, they execute the same ESM files directly—no build or transpilation step—when this import map appears before the first module script:</p><pre><code>&lt;script type="importmap"&gt;
 {"imports":{"event-pubsub":"./node_modules/event-pubsub/index.js","strong-type":"./node_modules/strong-type/index.js"}}
 &lt;/script&gt;
 &lt;script type="module"&gt;import EventPubSub from 'event-pubsub';&lt;/script&gt;</code></pre><p>Serve the files over HTTP(S), not <code>file://</code>, and expose the mapped <code>node_modules</code> files. When npm nests the validator under event-pubsub, use the <a href="https://github.com/RIAEvangelist/event-pubsub#browser-use-bundled-and-unbundled">scoped conflict map in the README</a>.</p><p>If the app uses a strict CSP, authorize the inline import-map and module scripts with an allowed nonce or hash.</p></div></section>

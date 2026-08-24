@@ -168,7 +168,8 @@ assert.match(htmlByPage.get('guide.html'), /works with a bundler and without one
 assert.match(htmlByPage.get('security.html'), /security\/advisories\/new/);
 assert.match(htmlByPage.get('changelog.html'), /6\.0\.0 · 2026-08-21/);
 assert.match(htmlByPage.get('changelog.html'), /5\.0\.3 · 2020-11-26/);
-assert.match(htmlByPage.get('index.html'), /6\.1\.0 remains the current npm and GitHub release/);
+assert.match(htmlByPage.get('changelog.html'), /6\.1\.1 · 2026-08-23/);
+assert.match(htmlByPage.get('index.html'), /6\.1\.1 is the current npm and GitHub release/);
 
 const status = createStatus();
 assert.equal(status.version, '6.1.1');
