@@ -1,19 +1,18 @@
 import assert from 'node:assert/strict';
-import {execFile, execFileSync} from 'node:child_process';
+import {execFileSync} from 'node:child_process';
 import {createReadStream, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync} from 'node:fs';
 import {createServer} from 'node:http';
 import {tmpdir} from 'node:os';
-import {basename, delimiter, extname, isAbsolute, join, relative, resolve, sep} from 'node:path';
-import {promisify} from 'node:util';
+import {basename, extname, isAbsolute, join, relative, resolve, sep} from 'node:path';
 import {nodeResolve} from '@rollup/plugin-node-resolve';
 import {rollup} from 'rollup';
+import {launchChrome} from '../node_modules/vanilla-test/lib/coverage/chrome-session.js';
 import {
     conflictConsumerImportMap,
     importMapScript,
     normalConsumerImportMap
 } from './browser-contract.js';
 
-const execFileAsync = promisify(execFile);
 const projectRoot = resolve(import.meta.dirname, '..');
 const temporaryPrefix = 'event-pubsub-browser-consumer-';
 const temporaryRoot = mkdtempSync(join(tmpdir(), temporaryPrefix));
@@ -105,33 +104,6 @@ ${importMapScript(importMap)}
 </html>`;
 }
 
-function chromeCandidates() {
-    const candidates = process.env.CHROME_PATH ? [process.env.CHROME_PATH] : [];
-    if (process.platform === 'win32') {
-        for (const root of [process.env.LOCALAPPDATA, process.env.PROGRAMFILES, process.env['PROGRAMFILES(X86)']]) {
-            if (root) candidates.push(join(root, 'Google', 'Chrome', 'Application', 'chrome.exe'));
-        }
-        for (const directory of (process.env.PATH ?? '').split(delimiter)) {
-            if (directory) candidates.push(join(directory, 'chrome.exe'));
-        }
-    } else if (process.platform === 'darwin') {
-        candidates.push('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome');
-    } else {
-        candidates.push('/usr/bin/google-chrome-stable', '/usr/bin/google-chrome', '/opt/google/chrome/google-chrome');
-        for (const directory of (process.env.PATH ?? '').split(delimiter)) {
-            if (directory) candidates.push(join(directory, 'google-chrome-stable'), join(directory, 'google-chrome'));
-        }
-    }
-    return [...new Set(candidates.map((candidate) => resolve(candidate)))];
-}
-
-function findChrome() {
-    const candidates = chromeCandidates();
-    const executable = candidates.find((candidate) => existsSync(candidate) && statSync(candidate).isFile());
-    if (executable) return executable;
-    throw new Error(`Google Chrome Stable was not found. Set CHROME_PATH.\nSearched:\n${candidates.map((candidate) => `  - ${candidate}`).join('\n')}`);
-}
-
 function startFixtureServer(root) {
     const mimeTypes = new Map([
         ['.html', 'text/html; charset=utf-8'],
@@ -173,28 +145,39 @@ function startFixtureServer(root) {
     });
 }
 
-async function runChrome(chrome, server, pagePath, expectedResult) {
+async function runChrome(browser, server, pagePath, expectedResult) {
     const {port} = server.address();
-    const profile = join(temporaryRoot, `chrome-${expectedResult}`);
-    const args = [
-        '--headless=new', '--disable-background-networking', '--disable-component-update',
-        '--disable-default-apps', '--disable-extensions', '--disable-gpu', '--disable-sync',
-        '--metrics-recording-only', '--no-default-browser-check', '--no-first-run',
-        `--user-data-dir=${profile}`, '--virtual-time-budget=5000', '--dump-dom'
-    ];
-    if (process.env.VANILLA_TEST_CHROME_NO_SANDBOX === '1') args.push('--no-sandbox');
-    args.push(`http://127.0.0.1:${port}/${pagePath}`);
-    const {stdout} = await execFileAsync(chrome, args, {
-        cwd: temporaryRoot,
-        encoding: 'utf8',
-        maxBuffer: 10 * 1024 * 1024,
-        timeout: 30_000,
-        windowsHide: true
-    });
-    assert.match(stdout, new RegExp(`data-result=["']${expectedResult}["']`));
+    let page;
+    const exceptions = [];
+    try {
+        page = await browser.createPage({
+            viewport: {width: 1280, height: 720, deviceScaleFactor: 1},
+            timeoutMs: 30_000
+        });
+        page.on('Runtime.exceptionThrown', ({exceptionDetails}) => {
+            exceptions.push(exceptionDetails?.exception?.description ?? exceptionDetails?.text ?? 'Unknown browser exception');
+        });
+        await page.goto(`http://127.0.0.1:${port}/${pagePath}`, {
+            waitUntil: 'load',
+            timeoutMs: 30_000
+        });
+        await page.waitForFunction(
+            "document.body.dataset.result !== 'pending'",
+            {timeoutMs: 30_000}
+        );
+        const outcome = await page.evaluate(`({
+            result: document.body.dataset.result,
+            detail: document.querySelector('output')?.textContent ?? ''
+        })`);
+        assert.equal(outcome.result, expectedResult, outcome.detail);
+        assert.deepEqual(exceptions, []);
+    } finally {
+        await page?.close().catch(() => {});
+    }
 }
 
 let server;
+let browser;
 try {
     const packed = JSON.parse(runNpm(['pack', '--json', '--pack-destination', temporaryRoot]));
     assert.equal(packed.length, 1);
@@ -244,16 +227,21 @@ try {
     await bundle.close();
     writeFileSync(join(conflict, 'bundle.html'), '<!doctype html><body data-result="pending"><output>pending</output><script type="module" src="./bundle.js"></script>');
 
-    const chrome = findChrome();
     server = await startFixtureServer(temporaryRoot);
-    await runChrome(chrome, server, 'normal/index.html', 'normal-passed');
-    await runChrome(chrome, server, 'conflict/index.html', 'conflict-passed');
-    await runChrome(chrome, server, 'conflict/bundle.html', 'bundle-passed');
+    browser = await launchChrome({
+        executablePath: process.env.CHROME_PATH ?? null,
+        headless: true,
+        timeoutMs: 30_000
+    });
+    await runChrome(browser, server, 'normal/index.html', 'normal-passed');
+    await runChrome(browser, server, 'conflict/index.html', 'conflict-passed');
+    await runChrome(browser, server, 'conflict/bundle.html', 'bundle-passed');
 
     process.stdout.write(
         `Packed browser consumers passed: normal import map, scoped conflict map, and Rollup ${sourceManifest.devDependencies.rollup} bundle; ${packed[0].integrity}\n`
     );
 } finally {
+    await browser?.close({force: true}).catch(() => {});
     if (server) await new Promise((resolveClose) => server.close(resolveClose));
     removeTemporaryRoot(temporaryRoot);
 }
